@@ -302,3 +302,4 @@ __pycache__/
 
 # End of https://www.gitignore.io/api/visualstudio
 mge_v18_student_version/_vs2015/mge_paths.props
+*.db
