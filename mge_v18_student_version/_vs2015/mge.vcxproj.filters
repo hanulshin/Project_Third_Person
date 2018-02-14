@@ -20,6 +20,9 @@
     <Filter Include="MGE Source files\mge\util">
       <UniqueIdentifier>{7d824c34-4bb6-43a4-a48a-0d68b7aad6e5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MGE Source files\mge\behaviours\LuaScripts">
+      <UniqueIdentifier>{559cc420-4628-44bb-b17a-8ce470c28c5b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\glm.hpp">
@@ -79,6 +82,15 @@
     <ClInclude Include="..\src\mge\core\Light.hpp">
       <Filter>MGE Source files\mge\core</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\mge\DodgerGame.hpp">
+      <Filter>MGE Source files\mge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\mge\behaviours\LuaScripts\LuaMove.hpp">
+      <Filter>MGE Source files\mge\behaviours\LuaScripts</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\mge\behaviours\LuaScripts\LuaScript.hpp">
+      <Filter>MGE Source files\mge\behaviours\LuaScripts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp">
@@ -134,6 +146,15 @@
     </ClCompile>
     <ClCompile Include="..\src\mge\core\Light.cpp">
       <Filter>MGE Source files\mge\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\mge\DodgerGame.cpp">
+      <Filter>MGE Source files\mge</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\mge\behaviours\LuaScripts\LuaMove.cpp">
+      <Filter>MGE Source files\mge\behaviours\LuaScripts</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\mge\behaviours\LuaScripts\LuaScript.cpp">
+      <Filter>MGE Source files\mge\behaviours\LuaScripts</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

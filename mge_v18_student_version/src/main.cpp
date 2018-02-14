@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "mge/core/AbstractGame.hpp"
+#include "mge/DodgerGame.hpp"
 #include "mge/MGEDemo.hpp"
 
 /**
@@ -22,7 +23,8 @@ int main()
 {
     std::cout << "Starting Game" << std::endl;
 
-    AbstractGame* game = new MGEDemo();
+    //AbstractGame* game = new MGEDemo();
+	AbstractGame* game = new DodgerGame();
     game->initialize();
     game->run();
 
