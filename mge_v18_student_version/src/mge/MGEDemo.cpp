@@ -17,7 +17,7 @@
 #include "mge/materials/TextureMaterial.hpp"
 
 #include "mge/behaviours/RotatingBehaviour.hpp"
-#include "mge/behaviours/KeysBehaviour.hpp"
+#include "mge/behaviours/PlayerBehaviour.hpp"
 
 #include "mge/util/DebugHud.hpp"
 
@@ -89,7 +89,7 @@ void MGEDemo::_initializeScene()
     light->scale(glm::vec3(0.1f, 0.1f, 0.1f));
     light->setMesh(cubeMeshF);
     light->setMaterial(lightMaterial);
-    light->setBehaviour(new KeysBehaviour(25));
+    light->setBehaviour(new PlayerBehaviour(25));
     _world->add(light);
 
 }

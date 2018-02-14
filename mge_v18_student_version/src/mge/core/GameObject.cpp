@@ -77,6 +77,7 @@ void GameObject::setBehaviour(AbstractBehaviour* pBehaviour)
 {
 	_behaviour = pBehaviour;
 	_behaviour->setOwner(this);
+	_behaviour->start();
 }
 
 AbstractBehaviour* GameObject::getBehaviour() const

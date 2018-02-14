@@ -1,35 +1,44 @@
-#include "mge/behaviours/KeysBehaviour.hpp"
+#include "mge/behaviours/PlayerBehaviour.hpp"
 #include "mge/core/GameObject.hpp"
 #include <SFML/Window/Keyboard.hpp>
 #include "glm.hpp"
 
-KeysBehaviour::KeysBehaviour(float pMoveX, float pMoveY): AbstractBehaviour(), _moveX(pMoveX), _moveY(pMoveY)
+PlayerBehaviour::PlayerBehaviour(float speed): AbstractBehaviour(), _moveX(speed)
 {
 }
 
-KeysBehaviour::~KeysBehaviour()
+PlayerBehaviour::~PlayerBehaviour()
 {
 }
 
-void KeysBehaviour::update( float pStep )
+void PlayerBehaviour::start() 
 {
-	float deltaX = 0;
-	float deltaY = 0;
+
+}
+
+void PlayerBehaviour::update( float pStep )
+{
+
+	glm::vec2 delta = glm::vec2(0, 0);
 
 	if ( sf::Keyboard::isKeyPressed( sf::Keyboard::Up )) {
-		deltaY += _moveY;
+		_aim.y = 1;
 	}
 	if ( sf::Keyboard::isKeyPressed( sf::Keyboard::Down )) {
-		deltaY -= _moveY;
+		_aim.y = -1;
 	}
 	if ( sf::Keyboard::isKeyPressed( sf::Keyboard::Right )) {
-		deltaX += _moveX;
+		delta.x += _moveX;
+		_facing = 1;
 	}
 	if ( sf::Keyboard::isKeyPressed( sf::Keyboard::Left )) {
-		deltaX -= _moveX;
+		delta.x -= _moveX;
+		_facing = -1;
 	}
-	//translate the object in its own local space
-	_owner->translate( glm::vec3(deltaX * pStep, 0.0f, 0.0f) );
+	_aim.x = _facing;
+	_aim = glm::normalize(_aim);
+
+	_owner->translate( glm::vec3(delta.x * pStep, 0.0f, 0.0f) );
 
 	//we can also translate directly, basically we take the z axis from the matrix
 	//which is normalized and multiply it by moveSpeed*step, then we add it to the

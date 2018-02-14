@@ -11,6 +11,11 @@ RotatingBehaviour::~RotatingBehaviour()
 	//dtor
 }
 
+void RotatingBehaviour::start() 
+{
+
+}
+
 void RotatingBehaviour::update(float pStep)
 {
     //rotates 45° per second

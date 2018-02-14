@@ -13,7 +13,7 @@ class RotatingBehaviour : public AbstractBehaviour
 		virtual ~RotatingBehaviour();
 
 		virtual void update(float pStep);
-
+		virtual void start();
 };
 
 #endif // ROTATINGBEHAVIOUR_HPP

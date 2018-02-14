@@ -1,3 +1,9 @@
-﻿  DodgerGame.cpp
-  mge.vcxproj -> C:\Users\Alex\Desktop\Programing\Projects\ProjectCpp\Project_Third_Person\mge_v18_student_version\_vs2015\debug_dynamic_exe/mge.exe
-  mge.vcxproj -> debug_dynamic_exe/mge.pdb (Partial PDB)
+﻿  LuaScript.cpp
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  LuaMove.cpp
+  DodgerGame.cpp
+LuaScript.obj : error LNK2019: unresolved external symbol _lua_pcall referenced in function "public: virtual void __thiscall LuaScript::start(void)" (?start@LuaScript@@UAEXXZ)
+LuaScript.obj : error LNK2019: unresolved external symbol _luaL_loadstring referenced in function "public: virtual void __thiscall LuaScript::start(void)" (?start@LuaScript@@UAEXXZ)
+LuaScript.obj : error LNK2019: unresolved external symbol _luaL_newstate referenced in function "public: virtual void __thiscall LuaScript::start(void)" (?start@LuaScript@@UAEXXZ)
+debug_dynamic_exe/mge.exe : fatal error LNK1120: 3 unresolved externals

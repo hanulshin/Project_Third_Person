@@ -21,6 +21,7 @@ class AbstractBehaviour
         virtual void setOwner (GameObject* pGameObject);
 
         //behaviour should be able to update itself every step and MUST be implemented
+		virtual void start() = 0;
 		virtual void update(float pStep) = 0;
 
     protected:

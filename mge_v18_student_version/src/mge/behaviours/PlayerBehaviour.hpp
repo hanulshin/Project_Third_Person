@@ -1,23 +1,26 @@
-#ifndef KEYSBEHAVIOUR_HPP
-#define KEYSBEHAVIOUR_HPP
+#ifndef PLAYERBEHAVIOUR_HPP
+#define PLAYERBEHAVIOUR_HPP
 
 #include "mge/behaviours/AbstractBehaviour.hpp"
+#include "glm.hpp"
 
 /**
  * KeysBehaviour allows you to move an object using the keyboard in its own local space.
  * Left right turns, forward back moves.
  */
-class KeysBehaviour : public AbstractBehaviour
+class PlayerBehaviour : public AbstractBehaviour
 {
 	public:
 	    //move speed is in units per second, turnspeed in degrees per second
-		KeysBehaviour(float pMoveX = 5, float pMoveY = 45);
-		virtual ~KeysBehaviour();
+		PlayerBehaviour(float speed = 5);
+		virtual ~PlayerBehaviour();
 		virtual void update( float pStep );
+		virtual void start();
 
     private:
+		glm::vec2 _aim;
         float _moveX;
-        float _moveY;
+		int _facing = 1;
 };
 
-#endif // KEYSBEHAVIOUR_HPP
+#endif // PLAYERBEHAVIOUR_HPP

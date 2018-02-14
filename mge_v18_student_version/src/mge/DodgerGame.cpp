@@ -18,7 +18,8 @@
 #include "mge/materials/TextureMaterial.hpp"
 
 #include "mge/behaviours/RotatingBehaviour.hpp"
-#include "mge/behaviours/KeysBehaviour.hpp"
+#include "mge/behaviours/PlayerBehaviour.hpp"
+#include "mge/behaviours/LuaScripts/LuaMove.hpp"
 
 #include "mge/util/DebugHud.hpp"
 
@@ -48,15 +49,16 @@ void DodgerGame::_initializeScene()
 	Mesh* cubeMesh = Mesh::load(config::MGE_MODEL_PATH + "cube_flat.obj");
 	Mesh* sphereMesh = Mesh::load(config::MGE_MODEL_PATH + "sphere_smooth.obj");
 
-	AbstractMaterial* playerMaterial = new ColorMaterial(glm::vec3(0, 0, 1));
+	AbstractMaterial* playerMaterial = new ColorMaterial(glm::vec3(0, 0.5f, 1));
 	AbstractMaterial* runicStoneMaterial = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "runicfloor.png"));
+	AbstractMaterial* luaCubeMaterial = new ColorMaterial(glm::vec3(1, 0.5f, 0));
 
 
 	GameObject* player = new GameObject("Player", glm::vec3(0, 1, 0));
 	player->scale(glm::vec3(0.8f, 1, 0.8f));
 	player->setMesh(sphereMesh);
 	player->setMaterial(playerMaterial);
-	player->setBehaviour(new KeysBehaviour(5, 5));
+	player->setBehaviour(new PlayerBehaviour(5));
 	_world->add(player);
 
 	Camera* camera = new Camera("camera", glm::vec3(0, 1.5f, 15));
@@ -71,6 +73,13 @@ void DodgerGame::_initializeScene()
 		floor[a]->setMaterial(runicStoneMaterial);
 		_world->add(floor[a]);
 	}
+
+	GameObject* luaBlock = new GameObject("luaBlock", glm::vec3(0, 4.5f, 0));
+	luaBlock->setMesh(cubeMesh);
+	luaBlock->scale(glm::vec3(0.5f, 0.5f, 0.5f));
+	luaBlock->setMaterial(luaCubeMaterial);
+	luaBlock->setBehaviour(new LuaMove());
+	_world->add(luaBlock);
 }
 
 void DodgerGame::_render() {

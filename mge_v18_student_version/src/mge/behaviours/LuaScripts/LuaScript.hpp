@@ -8,14 +8,14 @@
 class LuaScript : public AbstractBehaviour 
 {
 	public:
-		LuaScript(std::string luaFile);
-		virtual ~LuaScript() = 0;
+		LuaScript(std::string pLuaFile);
 
-		virtual void update(float pStep);
-
+		virtual void start();
+		virtual void _register() = 0;
 	protected:
 		lua_State * state;
 	private:
+		std::string _luaFile;
 };
 
 #endif // LUASCRIPT_HPP
