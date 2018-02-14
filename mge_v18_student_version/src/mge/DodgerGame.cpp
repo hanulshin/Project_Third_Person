@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 
 #include "glm.hpp"
 
@@ -50,21 +51,26 @@ void DodgerGame::_initializeScene()
 	AbstractMaterial* playerMaterial = new ColorMaterial(glm::vec3(0, 0, 1));
 	AbstractMaterial* runicStoneMaterial = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "runicfloor.png"));
 
-	Camera* camera = new Camera("camera", glm::vec3(0, 6, 7));
-	camera->rotate(glm::radians(-40.0f), glm::vec3(1, 0, 0));
-	_world->add(camera);
-	_world->setMainCamera(camera);
 
-	GameObject* player = new GameObject("Player", glm::vec3(0, 0, 0));
+	GameObject* player = new GameObject("Player", glm::vec3(0, 1, 0));
+	player->scale(glm::vec3(0.8f, 1, 0.8f));
 	player->setMesh(sphereMesh);
 	player->setMaterial(playerMaterial);
-	player->setBehaviour(new KeysBehaviour(25, 25));
+	player->setBehaviour(new KeysBehaviour(5, 5));
 	_world->add(player);
 
-	GameObject* floor = new GameObject("Floor", glm::vec3(0, -1, 0));
-	floor->setMesh(cubeMesh);
-	floor->setMaterial(runicStoneMaterial);
-	_world->add(floor);
+	Camera* camera = new Camera("camera", glm::vec3(0, 1.5f, 15));
+	camera->rotate(glm::radians(-5.0f), glm::vec3(1, 0, 0));
+	player->add(camera);
+	_world->setMainCamera(camera);
+
+	std::vector<GameObject*> floor;
+	for (int a = 0; a < 9; a++) {
+		floor.push_back(new GameObject("Floor", glm::vec3(-8 + (a * 2), -2, 0)));
+		floor[a]->setMesh(cubeMesh);
+		floor[a]->setMaterial(runicStoneMaterial);
+		_world->add(floor[a]);
+	}
 }
 
 void DodgerGame::_render() {

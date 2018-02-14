@@ -1,8 +1,9 @@
 #include "mge/behaviours/KeysBehaviour.hpp"
 #include "mge/core/GameObject.hpp"
 #include <SFML/Window/Keyboard.hpp>
+#include "glm.hpp"
 
-KeysBehaviour::KeysBehaviour(float pMoveSpeed, float pTurnSpeed): AbstractBehaviour(), _moveSpeed(pMoveSpeed), _turnSpeed(pTurnSpeed)
+KeysBehaviour::KeysBehaviour(float pMoveX, float pMoveY): AbstractBehaviour(), _moveX(pMoveX), _moveY(pMoveY)
 {
 }
 
@@ -12,23 +13,23 @@ KeysBehaviour::~KeysBehaviour()
 
 void KeysBehaviour::update( float pStep )
 {
-	float moveSpeed = 0.0f; //default if no keys
-	float turnSpeed = 0.0f;
+	float deltaX = 0;
+	float deltaY = 0;
 
 	if ( sf::Keyboard::isKeyPressed( sf::Keyboard::Up )) {
-		moveSpeed = _moveSpeed;
+		deltaY += _moveY;
 	}
 	if ( sf::Keyboard::isKeyPressed( sf::Keyboard::Down )) {
-		moveSpeed = -_moveSpeed;
+		deltaY -= _moveY;
 	}
 	if ( sf::Keyboard::isKeyPressed( sf::Keyboard::Right )) {
-		turnSpeed = -_turnSpeed;
+		deltaX += _moveX;
 	}
 	if ( sf::Keyboard::isKeyPressed( sf::Keyboard::Left )) {
-		turnSpeed = +_turnSpeed;
+		deltaX -= _moveX;
 	}
 	//translate the object in its own local space
-	_owner->translate( glm::vec3(0.0f, 0.0f, moveSpeed*pStep ) );
+	_owner->translate( glm::vec3(deltaX * pStep, 0.0f, 0.0f) );
 
 	//we can also translate directly, basically we take the z axis from the matrix
 	//which is normalized and multiply it by moveSpeed*step, then we add it to the
@@ -38,7 +39,7 @@ void KeysBehaviour::update( float pStep )
 	//_owner->setTransform(transform);
 
 	//rotate the object in its own local space
-	_owner->rotate( glm::radians(turnSpeed*pStep), glm::vec3(0.0f, 1.0f, 0.0f ) );
+	//_owner->rotate( glm::radians(turnSpeed*pStep), glm::vec3(0.0f, 1.0f, 0.0f ) );
 
 	//NOTE:
 	//The reason the above happens in the local space of the object and not in the world space
