@@ -1,2 +1,20 @@
-﻿  MGEDemo.cpp
+﻿  DebugHud.cpp
+  MGEDemo.cpp
+  TextureMaterial.cpp
+  ColorMaterial.cpp
+  AbstractMaterial.cpp
+  World.cpp
+  Texture.cpp
+  ShaderProgram.cpp
+  Renderer.cpp
+  Mesh.cpp
+  Light.cpp
+  GameObject.cpp
+  Camera.cpp
+  AbstractGame.cpp
+  RotatingBehaviour.cpp
+  KeysBehaviour.cpp
+  AbstractBehaviour.cpp
+  main.cpp
+  Generating Code...
   mge.vcxproj -> C:\Users\hanul\Desktop\Project Third person\Project_Third_Person\mge_v18_student_version\_vs2015\debug_dynamic_exe/mge.exe
