@@ -1,20 +1,9 @@
-﻿  DebugHud.cpp
-  TextureMaterial.cpp
-  ColorMaterial.cpp
-  Renderer.cpp
-  GameObject.cpp
-  Camera.cpp
-  RotatingBehaviour.cpp
-  LuaScript.cpp
+﻿  LuaScript.cpp
   LuaMove.cpp
   KeysBehaviour.cpp
-  AbstractBehaviour.cpp
   MGEDemo.cpp
   DodgerGame.cpp
+  main.cpp
   Generating Code...
-  Skipping... (no relevant changes detected)
-  World.cpp
-  Light.cpp
-  AbstractGame.cpp
   LINK : debug_dynamic_exe/mge.exe not found or not built by the last incremental link; performing full link
   mge.vcxproj -> E:\Saxion\Year2\Quartile3\Project_Third_Person\mge_v18_student_version\_vs2015\debug_dynamic_exe/mge.exe
