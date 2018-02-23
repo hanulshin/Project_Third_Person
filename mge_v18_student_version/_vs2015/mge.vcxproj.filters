@@ -91,6 +91,12 @@
     <ClInclude Include="..\src\mge\behaviours\PlayerBehaviour.hpp">
       <Filter>MGE Source files\mge\behaviours</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\mge\LoadDodgerScene.hpp">
+      <Filter>MGE Source files\mge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\mge\behaviours\CameraMovementBehaviour.h">
+      <Filter>MGE Source files\mge\behaviours</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp">
@@ -156,5 +162,16 @@
     <ClCompile Include="..\src\mge\behaviours\PlayerBehaviour.cpp">
       <Filter>MGE Source files\mge\behaviours</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\mge\LoadDodgerScene.cpp">
+      <Filter>MGE Source files\mge</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\mge\behaviours\CameraMovementBehaviour.cpp">
+      <Filter>MGE Source files\mge\behaviours</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\src\mge\scene.xml">
+      <Filter>MGE Source files\mge</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

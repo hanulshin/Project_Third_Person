@@ -47,10 +47,12 @@ void DodgerGame::initialize() {
 void DodgerGame::_initializeScene()
 {
 	Mesh* cubeMesh = Mesh::load(config::MGE_MODEL_PATH + "cube_flat.obj");
+	Mesh* crateMesh = Mesh::load(config::MGE_MODEL_PATH + "MainCharacterNOgun.obj");
 	Mesh* sphereMesh = Mesh::load(config::MGE_MODEL_PATH + "sphere_smooth.obj");
 
 	AbstractMaterial* playerMaterial = new ColorMaterial(glm::vec3(0, 0.5f, 1));
 	AbstractMaterial* runicStoneMaterial = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "runicfloor.png"));
+	AbstractMaterial* crateMaterial = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "runicfloor.png"));
 	AbstractMaterial* luaCubeMaterial = new ColorMaterial(glm::vec3(1, 0.5f, 0));
 
 
@@ -73,6 +75,14 @@ void DodgerGame::_initializeScene()
 		floor[a]->setMaterial(runicStoneMaterial);
 		_world->add(floor[a]);
 	}
+
+	GameObject* crateBlock = new GameObject("crateBlock",glm::vec3(0,2,0));
+	crateBlock->setMesh(crateMesh);
+	crateBlock->scale(glm::vec3(0.01f, 0.01f, 0.01f));
+	crateBlock->setMaterial(playerMaterial);
+	_world->add(crateBlock);
+
+
 
 	GameObject* luaBlock = new GameObject("luaBlock", glm::vec3(0, 4.5f, 0));
 	luaBlock->setMesh(cubeMesh);
