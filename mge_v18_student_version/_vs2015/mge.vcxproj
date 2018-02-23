@@ -101,17 +101,14 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)/vs_extended/include;$(SolutionDir)/vs_extended/rapidxml-1.13;../src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\hanul\Desktop\Project Third person\Project_Third_Person\mge_v18_student_version\_vs2015\vs_extended\LuaJIT-2.0.5;$(SolutionDir)/vs_extended/include;$(SolutionDir)/vs_extended/rapidxml-1.13;../src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-<<<<<<< HEAD
       <AdditionalDependencies>lua51.lib;luajit.lib;glew32d.lib;opengl32.lib;sfml-graphics-d.lib;sfml-system-d.lib;sfml-window-d.lib;sfml-audio-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
-=======
-      <AdditionalDependencies>glew32d.lib;opengl32.lib;sfml-graphics-d.lib;sfml-system-d.lib;sfml-window-d.lib;sfml-audio-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)/vs_extended/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
->>>>>>> Development
+      <AdditionalDependencies>glew32d.lib;lua51.lib;luajit.lib;opengl32.lib;sfml-graphics-d.lib;sfml-system-d.lib;sfml-window-d.lib;sfml-audio-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\vs_extended\include\LuaJIT-2.0.5\src;$(SolutionDir)\vs_extended\lib;$(SolutionDir)\vs_extended\include;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Static|Win32'">

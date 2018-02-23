@@ -22,7 +22,7 @@
 
 #include "mge/behaviours/RotatingBehaviour.hpp"
 #include "mge/behaviours/PlayerBehaviour.hpp"
-#include "mge/behaviours/LuaScripts/LuaMove.hpp"
+#include "mge/behaviours/LuaScripts/LuaPlayer.hpp"
 
 #include "mge/util/DebugHud.hpp"
 

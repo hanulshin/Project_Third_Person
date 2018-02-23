@@ -1,10 +1,9 @@
 #ifndef LUASCRIPT_HPP
 #define LUASCRIPT_HPP
 
-#include <LuaJIT-2.0.5\src\lua.hpp>
 #include <string>
 #include "mge/behaviours/AbstractBehaviour.hpp"
-
+#include<LuaJIT-2.0.5\src\lua.hpp>
 using namespace std;
 
 class LuaScript : public AbstractBehaviour 
