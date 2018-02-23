@@ -82,14 +82,14 @@
     <ClInclude Include="..\src\mge\DodgerGame.hpp">
       <Filter>MGE Source files\mge</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\mge\behaviours\LuaScripts\LuaMove.hpp">
-      <Filter>MGE Source files\mge\behaviours\LuaScripts</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\mge\behaviours\LuaScripts\LuaScript.hpp">
       <Filter>MGE Source files\mge\behaviours\LuaScripts</Filter>
     </ClInclude>
     <ClInclude Include="..\src\mge\behaviours\PlayerBehaviour.hpp">
       <Filter>MGE Source files\mge\behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\mge\behaviours\LuaScripts\LuaPlayer.hpp">
+      <Filter>MGE Source files\mge\behaviours\LuaScripts</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -147,14 +147,14 @@
     <ClCompile Include="..\src\mge\DodgerGame.cpp">
       <Filter>MGE Source files\mge</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\mge\behaviours\LuaScripts\LuaMove.cpp">
-      <Filter>MGE Source files\mge\behaviours\LuaScripts</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\mge\behaviours\LuaScripts\LuaScript.cpp">
       <Filter>MGE Source files\mge\behaviours\LuaScripts</Filter>
     </ClCompile>
     <ClCompile Include="..\src\mge\behaviours\PlayerBehaviour.cpp">
       <Filter>MGE Source files\mge\behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\mge\behaviours\LuaScripts\LuaPlayer.cpp">
+      <Filter>MGE Source files\mge\behaviours\LuaScripts</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

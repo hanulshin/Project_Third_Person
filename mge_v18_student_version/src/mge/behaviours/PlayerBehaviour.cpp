@@ -20,7 +20,7 @@ void PlayerBehaviour::update( float pStep )
 {
 
 	glm::vec2 delta = glm::vec2(0, 0);
-
+ 
 	if ( sf::Keyboard::isKeyPressed( sf::Keyboard::Up )) {
 		_aim.y = 1;
 	}

@@ -19,7 +19,7 @@
 
 #include "mge/behaviours/RotatingBehaviour.hpp"
 #include "mge/behaviours/PlayerBehaviour.hpp"
-#include "mge/behaviours/LuaScripts/LuaMove.hpp"
+#include "mge/behaviours/LuaScripts/LuaPlayer.hpp"
 
 #include "mge/util/DebugHud.hpp"
 
@@ -52,7 +52,7 @@ void DodgerGame::_initializeScene()
 	AbstractMaterial* playerMaterial = new ColorMaterial(glm::vec3(0, 0.5f, 1));
 	AbstractMaterial* runicStoneMaterial = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "runicfloor.png"));
 	AbstractMaterial* luaCubeMaterial = new ColorMaterial(glm::vec3(1, 0.5f, 0));
-
+	AbstractMaterial* tintedGlass = new ColorMaterial(glm::vec4(0.5f, 1, 0.5f, 0.5f));
 
 	GameObject* player = new GameObject("Player", glm::vec3(0, 1, 0));
 	player->scale(glm::vec3(0.8f, 1, 0.8f));
@@ -74,11 +74,13 @@ void DodgerGame::_initializeScene()
 		_world->add(floor[a]);
 	}
 
+	//GameObject*
+
 	GameObject* luaBlock = new GameObject("luaBlock", glm::vec3(0, 4.5f, 0));
 	luaBlock->setMesh(cubeMesh);
 	luaBlock->scale(glm::vec3(0.5f, 0.5f, 0.5f));
 	luaBlock->setMaterial(luaCubeMaterial);
-	luaBlock->setBehaviour(new LuaMove());
+	luaBlock->setBehaviour(new LuaPlayer());
 	_world->add(luaBlock);
 }
 
