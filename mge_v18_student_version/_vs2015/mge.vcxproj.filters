@@ -88,8 +88,16 @@
     <ClInclude Include="..\src\mge\behaviours\PlayerBehaviour.hpp">
       <Filter>MGE Source files\mge\behaviours</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="..\src\mge\behaviours\LuaScripts\LuaPlayer.hpp">
       <Filter>MGE Source files\mge\behaviours\LuaScripts</Filter>
+=======
+    <ClInclude Include="..\src\mge\LoadDodgerScene.hpp">
+      <Filter>MGE Source files\mge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\mge\behaviours\CameraMovementBehaviour.h">
+      <Filter>MGE Source files\mge\behaviours</Filter>
+>>>>>>> Development
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -153,8 +161,22 @@
     <ClCompile Include="..\src\mge\behaviours\PlayerBehaviour.cpp">
       <Filter>MGE Source files\mge\behaviours</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="..\src\mge\behaviours\LuaScripts\LuaPlayer.cpp">
       <Filter>MGE Source files\mge\behaviours\LuaScripts</Filter>
     </ClCompile>
+=======
+    <ClCompile Include="..\src\mge\LoadDodgerScene.cpp">
+      <Filter>MGE Source files\mge</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\mge\behaviours\CameraMovementBehaviour.cpp">
+      <Filter>MGE Source files\mge\behaviours</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\src\mge\scene.xml">
+      <Filter>MGE Source files\mge</Filter>
+    </Xml>
+>>>>>>> Development
   </ItemGroup>
 </Project>
