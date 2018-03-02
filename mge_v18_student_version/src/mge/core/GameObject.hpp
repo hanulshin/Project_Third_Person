@@ -4,7 +4,7 @@
 #include <vector>
 #include "glm.hpp"
 
-class AbstractCollider;
+class BoxCollider;
 class AbstractBehaviour;
 class AbstractMaterial;
 class World;
@@ -16,7 +16,8 @@ class Mesh;
 class GameObject
 {
 	public:
-		GameObject(const std::string& pName = nullptr, const glm::vec3& pPosition = glm::vec3( 0.0f, 0.0f, 0.0f ));
+		GameObject(const std::string& pName = nullptr, const glm::vec3& pPosition = glm::vec3(0.0f, 0.0f, 0.0f));
+		//GameObject(const BoxCollider&, const std::string& pName = nullptr, const glm::vec3& pPosition = glm::vec3( 0.0f, 0.0f, 0.0f ));
 		virtual ~GameObject();
 
         void setName (const std::string& pName);
@@ -51,6 +52,9 @@ class GameObject
 		void setBehaviour(AbstractBehaviour* pBehaviour);
 		AbstractBehaviour* getBehaviour() const;
 
+		void setBoxCollider(BoxCollider* pBoxCollider);
+		BoxCollider* getBoxCollider() const;
+
 		virtual void update(float pStep);
 
         //child management, note that add/remove and setParent are closely coupled.
@@ -79,6 +83,8 @@ class GameObject
 		AbstractBehaviour* _behaviour;
 		AbstractMaterial* _material;
 		World* _world;
+		BoxCollider* _boxCollider;
+
 
         //update children list administration
         void _innerAdd (GameObject* pChild);

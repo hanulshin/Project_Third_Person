@@ -23,11 +23,11 @@
     <Filter Include="MGE Source files\mge\behaviours\LuaScripts">
       <UniqueIdentifier>{559cc420-4628-44bb-b17a-8ce470c28c5b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MGE Source files\Collision">
+      <UniqueIdentifier>{b3478d31-546e-4141-9bdc-5a6176a7d864}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\glm.hpp">
-      <Filter>MGE Source files</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\mge\behaviours\AbstractBehaviour.hpp">
       <Filter>MGE Source files\mge\behaviours</Filter>
     </ClInclude>
@@ -90,6 +90,12 @@
     </ClInclude>
     <ClInclude Include="..\src\mge\behaviours\LuaScripts\LuaScript.hpp">
       <Filter>MGE Source files\mge\behaviours\LuaScripts</Filter>
+    </ClInclude>
+    <ClInclude Include="custom\BoxCollider.h">
+      <Filter>MGE Source files\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\glm.hpp">
+      <Filter>MGE Source files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -155,6 +161,9 @@
     </ClCompile>
     <ClCompile Include="..\src\mge\behaviours\LuaScripts\LuaScript.cpp">
       <Filter>MGE Source files\mge\behaviours\LuaScripts</Filter>
+    </ClCompile>
+    <ClCompile Include="custom\BoxCollider.cpp">
+      <Filter>MGE Source files\Collision</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

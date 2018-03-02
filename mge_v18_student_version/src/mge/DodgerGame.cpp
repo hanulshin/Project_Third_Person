@@ -12,6 +12,7 @@
 #include "mge/core/Light.hpp"
 #include "mge/core/Camera.hpp"
 #include "mge/core/GameObject.hpp"
+#include "../_vs2015/custom/BoxCollider.h"
 
 #include "mge/materials/AbstractMaterial.hpp"
 #include "mge/materials/ColorMaterial.hpp"
@@ -25,7 +26,8 @@
 #include "mge/config.hpp"
 #include "DodgerGame.hpp"
 
-
+GameObject* player = nullptr;
+GameObject* player2 = nullptr;
 
 //construct the game class into _window, _renderer and hud (other parts are initialized by build)
 DodgerGame::DodgerGame() :AbstractGame(), _hud(0)
@@ -51,13 +53,27 @@ void DodgerGame::_initializeScene()
 	AbstractMaterial* playerMaterial = new ColorMaterial(glm::vec3(0, 0, 1));
 	AbstractMaterial* runicStoneMaterial = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "runicfloor.png"));
 
-
-	GameObject* player = new GameObject("Player", glm::vec3(0, 1, 0));
+	player = new GameObject("Player", glm::vec3(0, 1, 0));
 	player->scale(glm::vec3(0.8f, 1, 0.8f));
 	player->setMesh(sphereMesh);
 	player->setMaterial(playerMaterial);
 	player->setBehaviour(new KeysBehaviour(5, 5));
 	_world->add(player);
+	BoxCollider* box = new BoxCollider(1.5f, 2.0f, player->getWorldPosition());
+	player->add(box);
+	player->setBoxCollider(box);
+
+	player2 = new GameObject("Player2", glm::vec3(5, 1, 0));
+	player2->scale(glm::vec3(0.8f, 1, 0.8f));
+	player2->setMesh(sphereMesh);
+	player2->setMaterial(playerMaterial);
+	//player2->setBehaviour(new KeysBehaviour(5, 5));
+	_world->add(player2);
+	BoxCollider* box2 = new BoxCollider(1.5f,2.0f, player2->getWorldPosition());
+	box2->setMesh(cubeMesh);
+	box2->setMaterial(new ColorMaterial(glm::vec3(0.5f,0.5f,0.5f)));
+	player2->add(box2);
+	player2->setBoxCollider(box2);
 
 	Camera* camera = new Camera("camera", glm::vec3(0, 1.5f, 15));
 	camera->rotate(glm::radians(-5.0f), glm::vec3(1, 0, 0));
@@ -74,6 +90,19 @@ void DodgerGame::_initializeScene()
 }
 
 void DodgerGame::_render() {
+	//AbstractMaterial* playerMaterial = new ColorMaterial(glm::vec3(0, 0, 1));
+	//AbstractMaterial* collisionMaterial = new ColorMaterial(glm::vec3(1, 0, 0));
+	
+	if (player->getBoxCollider()->IsOverlapping(*player2->getBoxCollider()))
+	{
+		player->setMaterial(new ColorMaterial(glm::vec3(1.0f, 0.0f, 0.0f)));
+		std::cout << "Collision! " << player->getLocalPosition() << std::endl;
+	}
+	else
+	{
+		player->setMaterial(new ColorMaterial(glm::vec3(0.0f, 0.0f, 1.0f)));
+	}
+
 	AbstractGame::_render();
 	_updateHud();
 }

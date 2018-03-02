@@ -3,7 +3,7 @@
 #include <SFML/Window/Keyboard.hpp>
 #include "glm.hpp"
 
-KeysBehaviour::KeysBehaviour(float pMoveX, float pMoveY): AbstractBehaviour(), _moveX(pMoveX), _moveY(pMoveY)
+KeysBehaviour::KeysBehaviour(float pMoveX, float pMoveY) : AbstractBehaviour(), _moveX(pMoveX), _moveY(pMoveY)
 {
 }
 
@@ -11,25 +11,25 @@ KeysBehaviour::~KeysBehaviour()
 {
 }
 
-void KeysBehaviour::update( float pStep )
+void KeysBehaviour::update(float pStep)
 {
 	float deltaX = 0;
 	float deltaY = 0;
 
-	if ( sf::Keyboard::isKeyPressed( sf::Keyboard::Up )) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
 		deltaY += _moveY;
 	}
-	if ( sf::Keyboard::isKeyPressed( sf::Keyboard::Down )) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
 		deltaY -= _moveY;
 	}
-	if ( sf::Keyboard::isKeyPressed( sf::Keyboard::Right )) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 		deltaX += _moveX;
 	}
-	if ( sf::Keyboard::isKeyPressed( sf::Keyboard::Left )) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 		deltaX -= _moveX;
 	}
 	//translate the object in its own local space
-	_owner->translate( glm::vec3(deltaX * pStep, 0.0f, 0.0f) );
+	_owner->translate(glm::vec3(deltaX * pStep, deltaY *pStep, 0.0f));
 
 	//we can also translate directly, basically we take the z axis from the matrix
 	//which is normalized and multiply it by moveSpeed*step, then we add it to the

@@ -1,9 +1,2 @@
-﻿  LuaScript.cpp
-  LuaMove.cpp
-  KeysBehaviour.cpp
-  MGEDemo.cpp
-  DodgerGame.cpp
-  main.cpp
-  Generating Code...
-  LINK : debug_dynamic_exe/mge.exe not found or not built by the last incremental link; performing full link
+﻿  DodgerGame.cpp
   mge.vcxproj -> E:\Saxion\Year2\Quartile3\Project_Third_Person\mge_v18_student_version\_vs2015\debug_dynamic_exe/mge.exe
