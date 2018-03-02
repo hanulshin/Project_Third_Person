@@ -3,7 +3,11 @@
 #include <SFML/Window/Keyboard.hpp>
 #include "glm.hpp"
 
+<<<<<<< HEAD:mge_v18_student_version/src/mge/behaviours/PlayerBehaviour.cpp
 PlayerBehaviour::PlayerBehaviour(float speed): AbstractBehaviour(), _moveX(speed)
+=======
+KeysBehaviour::KeysBehaviour(float pMoveX, float pMoveY) : AbstractBehaviour(), _moveX(pMoveX), _moveY(pMoveY)
+>>>>>>> Collisions:mge_v18_student_version/src/mge/behaviours/KeysBehaviour.cpp
 {
 }
 
@@ -11,9 +15,14 @@ PlayerBehaviour::~PlayerBehaviour()
 {
 }
 
+<<<<<<< HEAD:mge_v18_student_version/src/mge/behaviours/PlayerBehaviour.cpp
 void PlayerBehaviour::start() 
+=======
+void KeysBehaviour::update(float pStep)
+>>>>>>> Collisions:mge_v18_student_version/src/mge/behaviours/KeysBehaviour.cpp
 {
 
+<<<<<<< HEAD:mge_v18_student_version/src/mge/behaviours/PlayerBehaviour.cpp
 }
 
 void PlayerBehaviour::update( float pStep )
@@ -39,6 +48,22 @@ void PlayerBehaviour::update( float pStep )
 	_aim = glm::normalize(_aim);
 
 	_owner->translate( glm::vec3(delta.x * pStep, 0.0f, 0.0f) );
+=======
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+		deltaY += _moveY;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+		deltaY -= _moveY;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+		deltaX += _moveX;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+		deltaX -= _moveX;
+	}
+	//translate the object in its own local space
+	_owner->translate(glm::vec3(deltaX * pStep, deltaY *pStep, 0.0f));
+>>>>>>> Collisions:mge_v18_student_version/src/mge/behaviours/KeysBehaviour.cpp
 
 	//we can also translate directly, basically we take the z axis from the matrix
 	//which is normalized and multiply it by moveSpeed*step, then we add it to the
