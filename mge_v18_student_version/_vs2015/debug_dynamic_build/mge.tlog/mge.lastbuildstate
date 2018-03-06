@@ -1,2 +1,6 @@
 #TargetFrameworkVersion=v4.0:PlatformToolSet=v141:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit:WindowsTargetPlatformVersion=10.0.16299.0
+<<<<<<< Updated upstream
 Debug Dynamic|Win32|C:\Users\hanul\Desktop\Project Third person\Project_Third_Person\mge_v18_student_version\_vs2015\|
+=======
+Debug Dynamic|Win32|C:\Users\Alex\Desktop\Programing\Projects\ProjectCpp\Project_Third_Person\mge_v18_student_version\_vs2015\|
+>>>>>>> Stashed changes
