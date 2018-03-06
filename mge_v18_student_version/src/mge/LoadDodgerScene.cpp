@@ -1,6 +1,5 @@
 #include "LoadDodgerScene.hpp"
 
-
 LoadDodgerScene::LoadDodgerScene() :AbstractGame(), _hud(0)
 {
 }
@@ -32,11 +31,11 @@ void LoadDodgerScene::_initializeScene()
 	player->scale(glm::vec3(0.8f, 1, 0.8f));
 	player->setMesh(sphereMesh);
 	player->setMaterial(playerMaterial);
-	player->setBehaviour(new PlayerBehaviour(5));
+	player->setBehaviour(new LuaPlayer());
 	_world->add(player);
 
-	Camera* camera = new Camera("camera", glm::vec3(23.1, 8.0, 0.0));
-	camera->rotate(glm::radians(90.0f), glm::vec3(0.0, 1.0, 0.0));
+	Camera* camera = new Camera("camera", glm::vec3(0, 10.9, 23.5));
+	camera->rotate(glm::radians(0.0f), glm::vec3(0.0, -1.0, 0.0));
 	//camera->setBehaviour(new CameraMovementBehaviour());
 	
 
@@ -46,7 +45,7 @@ void LoadDodgerScene::_initializeScene()
 
 	
 	//read the file as char vector
-	std::ifstream myXml("C:/Users/hanul/Desktop/Project Third person/Project_Third_Person/mge_v18_student_version/src/mge/scene.xml");
+	std::ifstream myXml(config::MGE_SCENE_PATH+"scene.xml");
 	std::vector<char> buffer((std::istreambuf_iterator<char>(myXml)), std::istreambuf_iterator<char>());
 	buffer.push_back('\0');
 

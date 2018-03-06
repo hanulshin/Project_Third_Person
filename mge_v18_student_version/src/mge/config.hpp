@@ -1,3 +1,4 @@
+#pragma once
 namespace config {
     #include <string>
     const std::string MGE_MODEL_PATH ("mge/models/");
@@ -6,4 +7,5 @@ namespace config {
     const std::string MGE_FONT_PATH ("mge/fonts/");
 	const std::string MGE_SCRIPTS_PATH("mge/scripts/");
 	const std::string MGE_MUSIC_PATH("mge/music/");
+	const std::string MGE_SCENE_PATH("mge/scenes/");
 }
