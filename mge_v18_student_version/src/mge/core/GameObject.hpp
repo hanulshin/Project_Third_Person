@@ -52,12 +52,9 @@ class GameObject
 		void setBehaviour(AbstractBehaviour* pBehaviour);
 		AbstractBehaviour* getBehaviour() const;
 
-<<<<<<< HEAD
-
-=======
 		void setBoxCollider(BoxCollider* pBoxCollider);
 		BoxCollider* getBoxCollider() const;
->>>>>>> Collisions
+
 
 		virtual void update(float pStep);
 
