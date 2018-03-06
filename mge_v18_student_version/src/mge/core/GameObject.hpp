@@ -1,6 +1,7 @@
 #ifndef GAMEOBJECT_HPP
 #define GAMEOBJECT_HPP
 
+#include <map>
 #include <vector>
 #include "glm.hpp"
 
@@ -73,6 +74,10 @@ class GameObject
         int getChildCount() const;
         GameObject* getChildAt (int pIndex) const;
 
+		void setActor();
+		void removeActor();
+		static GameObject* getActor(std::string index);
+
 	protected:
 		std::string _name;
 		glm::mat4 _transform;
@@ -94,7 +99,12 @@ class GameObject
 		//used to pass on pointer to the world to a gameobject
 		virtual void _setWorldRecursively (World* pWorld);
 
+		
+
     private:
+		bool actor;
+		static std::map<std::string, GameObject*> actors;
+
         GameObject (const GameObject&);
 		GameObject& operator= (const GameObject&);
 };

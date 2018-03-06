@@ -1,4 +1,6 @@
 #include <iostream>
+#include <map>
+#include <vector>
 #include "GameObject.hpp"
 #include "mge/behaviours/AbstractBehaviour.hpp"
 #include "../_vs2015/custom/BoxCollider.h"
@@ -213,4 +215,6 @@ int GameObject::getChildCount() const {
 GameObject* GameObject::getChildAt(int pIndex) const {
 	return _children[pIndex];
 }
+
+//std::map<std::string, GameObject*> GameObject::actors = std::map<std::string, GameObject*>()
 

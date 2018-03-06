@@ -1,44 +1,57 @@
 #ifndef LUASCRIPT_HPP
 #define LUASCRIPT_HPP
 
+#include <LuaJIT-2.0.5\src\lua.hpp>
 #include <string>
+#include <map>
 #include "mge/behaviours/AbstractBehaviour.hpp"
-#include<LuaJIT-2.0.5\src\lua.hpp>
+
 using namespace std;
 
-class LuaScript : public AbstractBehaviour 
+class LuaScript : public AbstractBehaviour
 {
-	public:
-		LuaScript(string fileName);
-		~LuaScript();
+public:
+	LuaScript(string fileName);
+	virtual ~LuaScript();
 
-		virtual void start();
-		virtual void luaStart() = 0;
+	virtual void start();
+	virtual void luaStart() = 0;
 
-		std::string getFile() { return _file; }
+	std::string getFile() { return _file; }
 
-	protected:
-		lua_State * state;
+protected:
+	lua_State * state;
 
-		void openFile(string fileName);
-		void settupFunction(string funcName);
+	void openFile(string fileName);
+	void settupFunction(string funcName);
 
-		void callLuaUpdate(string pName, float pStep);
+	void callLuaUpdate(string pName, float pStep);
 
-		void callFunction(int args = 0, int results = 0);
+	void callFunction(int args = 0, int results = 0);
 
-		void pushInt(int num);
-		void pushNumber(float num);
-		void pushBool(bool b);
-		void pushString(string str);
-		void pushObject(void* obj);
+	void pushInt(int num);
+	void pushNumber(float num);
+	void pushBool(bool b);
+	void pushString(string str);
+	void pushObject(void* obj);
 
-		int getInt();
-		float getNumber();
-		bool getBool();
-		string getString();
-	private:
-		std::string _file;
+	int getInt(int i = -1);
+	float getNumber(int i = -1);
+	bool getBool(int i = -1);
+	string getString(int i = -1);
+	void remove(int i = -1);
+	int getIndex(int i);
+
+	void registerFunction(string name, lua_CFunction func);
+private:
+	std::string _file;
+
+	static map<string, GameObject*> quickFind;
+
+	//For Lua
+	static int spawnObject(lua_State* state);
 };
+
+
 
 #endif // LUASCRIPT_HPP
