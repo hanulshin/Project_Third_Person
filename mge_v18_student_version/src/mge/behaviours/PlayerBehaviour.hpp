@@ -16,6 +16,7 @@ class PlayerBehaviour : public AbstractBehaviour
 		virtual ~PlayerBehaviour();
 		virtual void update( float pStep );
 		virtual void start();
+		virtual AbstractBehaviour* copy();
 
     private:
 		glm::vec2 _aim;

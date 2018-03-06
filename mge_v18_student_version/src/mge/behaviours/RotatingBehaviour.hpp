@@ -1,6 +1,7 @@
 #ifndef ROTATINGBEHAVIOUR_HPP
 #define ROTATINGBEHAVIOUR_HPP
 
+#include "glm.hpp"
 #include "mge/behaviours/AbstractBehaviour.hpp"
 
 /**
@@ -9,11 +10,15 @@
 class RotatingBehaviour : public AbstractBehaviour
 {
 	public:
-		RotatingBehaviour();
+		RotatingBehaviour(float pRPM, glm::vec3 pAxis);
 		virtual ~RotatingBehaviour();
 
 		virtual void update(float pStep);
 		virtual void start();
+		virtual AbstractBehaviour* copy();
+	private:
+		glm::vec3 _axis;
+		float _rpm;
 };
 
 #endif // ROTATINGBEHAVIOUR_HPP

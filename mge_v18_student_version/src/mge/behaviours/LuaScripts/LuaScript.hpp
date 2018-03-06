@@ -3,6 +3,7 @@
 
 #include <LuaJIT-2.0.5\src\lua.hpp>
 #include <string>
+#include <map>
 #include "mge/behaviours/AbstractBehaviour.hpp"
 
 using namespace std;
@@ -11,7 +12,7 @@ class LuaScript : public AbstractBehaviour
 {
 	public:
 		LuaScript(string fileName);
-		~LuaScript();
+		virtual ~LuaScript();
 
 		virtual void start();
 		virtual void luaStart() = 0;
@@ -34,12 +35,23 @@ class LuaScript : public AbstractBehaviour
 		void pushString(string str);
 		void pushObject(void* obj);
 
-		int getInt();
-		float getNumber();
-		bool getBool();
-		string getString();
+		int getInt(int i = -1);
+		float getNumber(int i = -1);
+		bool getBool(int i = -1);
+		string getString(int i = -1);
+		void remove(int i = -1);
+		int getIndex(int i);
+
+		void registerFunction(string name, lua_CFunction func);
 	private:
 		std::string _file;
+
+		static map<string, GameObject*> quickFind;
+
+		//For Lua
+		static int spawnObject(lua_State* state);
 };
+
+
 
 #endif // LUASCRIPT_HPP

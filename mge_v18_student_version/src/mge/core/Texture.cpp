@@ -2,6 +2,7 @@
 #include <string>
 
 #include <SFML/Graphics.hpp>
+#include "mge/config.hpp"
 #include "mge/core/Texture.hpp"
 
 Texture::Texture(): _id() {
@@ -22,7 +23,7 @@ Texture* Texture::load(const std::string& pFilename)
 {
     // load from file and store in cache
     sf::Image image;
-    if (image.loadFromFile(pFilename)) {
+    if (image.loadFromFile(config::MGE_TEXTURE_PATH + pFilename)) {
         //normal image 0,0 is top left, but opengl considers 0,0 to be bottom left, so we flip the image internally
         image.flipVertically();
         //create a wrapper for the id (texture is nothing more than that) and

@@ -3,9 +3,45 @@
 #include <string>
 #include <cmath>
 #include <iostream>
+#include <string>
+#include "glm.hpp"
 #include "mge\config.hpp"
+#include "mge\core\AbstractGame.hpp"
 
 using namespace std;
+
+map<string, GameObject*> LuaScript::quickFind = map<string, GameObject*>();
+
+//LUA functions
+int LuaScript::spawnObject(lua_State* state) {
+	string name = lua_tostring(state, 1);
+	string parent = lua_tostring(state, 2);
+	float x = (float)lua_tonumber(state, 3);
+	float y = (float)lua_tonumber(state, 4);
+	float z = (float)lua_tonumber(state, 5);
+
+	GameObject* p = nullptr;
+	auto search = quickFind.find(parent);
+	if (search != quickFind.end()) {
+		if (!quickFind[name]) {
+			quickFind.erase(name);
+		}
+		else {
+			p = quickFind[name];
+		}
+	}
+	
+	if(p == nullptr){
+		p = AbstractGame::Find(name);
+		if (p != nullptr) {
+			quickFind.insert(pair<string, GameObject*>(name, p));
+		}
+	}
+	AbstractGame::spawnObject(name, glm::vec3(x, y, z), p);
+	return 0;
+}
+
+//Class
 
 LuaScript::LuaScript(string fileName): _file(fileName)
 {
@@ -22,17 +58,18 @@ void LuaScript::start()
 	state = luaL_newstate();
 	luaL_openlibs(state);
 	openFile(_file);
+	registerFunction("spawn", spawnObject);
 	luaStart();
 }
 
 void LuaScript::openFile(string fileName) 
 {
 	_file = fileName;
-	if (luaL_dofile(state, (config::MGE_SCRIPTS_PATH+_file).c_str()) != 0) {
+	if (luaL_dofile(state, (config::MGE_SCRIPTS_PATH + fileName).c_str()) != 0) {
 		std::string error = lua_tostring(state, -1);
 		printf("Could not do file: %s\n", error.c_str());
 	}
-
+	
 	settupFunction("start");
 	callFunction();
 }
@@ -80,18 +117,43 @@ void LuaScript::pushObject(void* obj) {
 }
 
 
-int LuaScript::getInt() {
-	return lua_tointeger(state, lua_gettop(state));
+int LuaScript::getInt(int i) {
+	int a = getIndex(i);
+	int I = lua_tointeger(state, a);
+	remove(a);
+	return I;
 }
 
-bool LuaScript::getBool() {
-	return lua_toboolean(state, lua_gettop(state));
+bool LuaScript::getBool(int i) {
+	int a = getIndex(i);
+	bool b = lua_toboolean(state, a);
+	remove(a);
+	return b;
 }
 
-float LuaScript::getNumber() {
-	return lua_tonumber(state, lua_gettop(state));
+float LuaScript::getNumber(int i) {
+	int a = getIndex(i);
+	float f = (float)lua_tonumber(state, a);
+	remove(a);
+	return f;
 }
 
-string LuaScript::getString() {
-	return lua_tostring(state, lua_gettop(state));
+string LuaScript::getString(int i) {
+	int a = getIndex(i);
+	string s = lua_tostring(state, a);
+	remove(a);
+	return s;
+}
+
+void LuaScript::remove(int i){
+	lua_remove(state, getIndex(i));
+}
+
+int LuaScript::getIndex(int i) {
+	if (i == -1) return lua_gettop(state);
+	return i;
+}
+
+void LuaScript::registerFunction(string name, lua_CFunction func) {
+	lua_register(state, name.c_str(), func);
 }

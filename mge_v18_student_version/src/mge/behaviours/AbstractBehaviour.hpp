@@ -17,6 +17,8 @@ class AbstractBehaviour
 		AbstractBehaviour();
 		virtual ~AbstractBehaviour() = 0;
 
+		virtual AbstractBehaviour* copy() = 0;
+
         //for internal administration, do not use directly
         virtual void setOwner (GameObject* pGameObject);
 

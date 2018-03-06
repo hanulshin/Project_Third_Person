@@ -168,6 +168,7 @@
   <ItemGroup>
     <ClInclude Include="..\src\glm.hpp" />
     <ClInclude Include="..\src\mge\behaviours\AbstractBehaviour.hpp" />
+    <ClInclude Include="..\src\mge\behaviours\BulletBehaviour.hpp" />
     <ClInclude Include="..\src\mge\behaviours\PlayerBehaviour.hpp" />
     <ClInclude Include="..\src\mge\behaviours\LuaScripts\LuaPlayer.hpp" />
     <ClInclude Include="..\src\mge\behaviours\LuaScripts\LuaScript.hpp" />
@@ -192,6 +193,7 @@
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\mge\behaviours\AbstractBehaviour.cpp" />
+    <ClCompile Include="..\src\mge\behaviours\BulletBehaviour.cpp" />
     <ClCompile Include="..\src\mge\behaviours\PlayerBehaviour.cpp" />
     <ClCompile Include="..\src\mge\behaviours\LuaScripts\LuaPlayer.cpp" />
     <ClCompile Include="..\src\mge\behaviours\LuaScripts\LuaScript.cpp" />

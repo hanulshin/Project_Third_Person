@@ -1,3 +1,36 @@
-﻿  ColorMaterial.cpp
-  mge.vcxproj -> C:\Users\Alex\Desktop\Programing\Projects\ProjectCpp\Project_Third_Person\mge_v18_student_version\_vs2015\debug_dynamic_exe/mge.exe
-  mge.vcxproj -> debug_dynamic_exe/mge.pdb (Partial PDB)
+﻿  main.cpp
+  Generating Code...
+  Compiling...
+  LuaPlayer.cpp
+c:\users\alex\desktop\programing\projects\projectcpp\project_third_person\mge_v18_student_version\src\mge\behaviours\luascripts\luaplayer.cpp(60): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\alex\desktop\programing\projects\projectcpp\project_third_person\mge_v18_student_version\src\mge\behaviours\luascripts\luaplayer.cpp(61): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  DodgerGame.cpp
+  Generating Code...
+main.obj : error LNK2001: unresolved external symbol "public: static class Mesh * meshes::sphere" (?sphere@meshes@@2PAVMesh@@A)
+DodgerGame.obj : error LNK2001: unresolved external symbol "public: static class Mesh * meshes::sphere" (?sphere@meshes@@2PAVMesh@@A)
+main.obj : error LNK2001: unresolved external symbol "public: static class Mesh * meshes::cube" (?cube@meshes@@2PAVMesh@@A)
+DodgerGame.obj : error LNK2001: unresolved external symbol "public: static class Mesh * meshes::cube" (?cube@meshes@@2PAVMesh@@A)
+main.obj : error LNK2001: unresolved external symbol "public: static class Mesh * meshes::plane" (?plane@meshes@@2PAVMesh@@A)
+main.obj : error LNK2001: unresolved external symbol "public: static class Mesh * meshes::cone" (?cone@meshes@@2PAVMesh@@A)
+main.obj : error LNK2001: unresolved external symbol "public: static class Mesh * meshes::cylinder" (?cylinder@meshes@@2PAVMesh@@A)
+main.obj : error LNK2001: unresolved external symbol "public: static class AbstractMaterial * colors::black" (?black@colors@@2PAVAbstractMaterial@@A)
+main.obj : error LNK2001: unresolved external symbol "public: static class AbstractMaterial * colors::red" (?red@colors@@2PAVAbstractMaterial@@A)
+main.obj : error LNK2001: unresolved external symbol "public: static class AbstractMaterial * colors::green" (?green@colors@@2PAVAbstractMaterial@@A)
+main.obj : error LNK2001: unresolved external symbol "public: static class AbstractMaterial * colors::blue" (?blue@colors@@2PAVAbstractMaterial@@A)
+main.obj : error LNK2001: unresolved external symbol "public: static class AbstractMaterial * colors::yellow" (?yellow@colors@@2PAVAbstractMaterial@@A)
+main.obj : error LNK2001: unresolved external symbol "public: static class AbstractMaterial * colors::magenta" (?magenta@colors@@2PAVAbstractMaterial@@A)
+main.obj : error LNK2001: unresolved external symbol "public: static class AbstractMaterial * colors::cyan" (?cyan@colors@@2PAVAbstractMaterial@@A)
+main.obj : error LNK2001: unresolved external symbol "public: static class AbstractMaterial * colors::white" (?white@colors@@2PAVAbstractMaterial@@A)
+main.obj : error LNK2001: unresolved external symbol "public: static class AbstractMaterial * colors::darkGray" (?darkGray@colors@@2PAVAbstractMaterial@@A)
+main.obj : error LNK2001: unresolved external symbol "public: static class AbstractMaterial * colors::gray" (?gray@colors@@2PAVAbstractMaterial@@A)
+main.obj : error LNK2001: unresolved external symbol "public: static class AbstractMaterial * colors::lightGray" (?lightGray@colors@@2PAVAbstractMaterial@@A)
+main.obj : error LNK2001: unresolved external symbol "public: static class AbstractMaterial * colors::skyBlue" (?skyBlue@colors@@2PAVAbstractMaterial@@A)
+DodgerGame.obj : error LNK2001: unresolved external symbol "public: static class AbstractMaterial * colors::skyBlue" (?skyBlue@colors@@2PAVAbstractMaterial@@A)
+main.obj : error LNK2001: unresolved external symbol "public: static class AbstractMaterial * colors::orange" (?orange@colors@@2PAVAbstractMaterial@@A)
+main.obj : error LNK2001: unresolved external symbol "public: static class AbstractMaterial * colors::brown" (?brown@colors@@2PAVAbstractMaterial@@A)
+main.obj : error LNK2001: unresolved external symbol "public: static class AbstractMaterial * textures::runicStone" (?runicStone@textures@@2PAVAbstractMaterial@@A)
+DodgerGame.obj : error LNK2001: unresolved external symbol "public: static class AbstractMaterial * textures::runicStone" (?runicStone@textures@@2PAVAbstractMaterial@@A)
+main.obj : error LNK2001: unresolved external symbol "public: static class AbstractMaterial * textures::tintedGlass" (?tintedGlass@textures@@2PAVAbstractMaterial@@A)
+main.obj : error LNK2001: unresolved external symbol "public: static class GameObject * objects::bullet" (?bullet@objects@@2PAVGameObject@@A)
+LuaPlayer.obj : error LNK2001: unresolved external symbol "public: static class GameObject * objects::bullet" (?bullet@objects@@2PAVGameObject@@A)
+debug_dynamic_exe/mge.exe : fatal error LNK1120: 22 unresolved externals

@@ -4,7 +4,7 @@
 #include <vector>
 #include "glm.hpp"
 
-class AbstractCollider;
+class Collider;
 class AbstractBehaviour;
 class AbstractMaterial;
 class World;
@@ -18,6 +18,12 @@ class GameObject
 	public:
 		GameObject(const std::string& pName = nullptr, const glm::vec3& pPosition = glm::vec3( 0.0f, 0.0f, 0.0f ));
 		virtual ~GameObject();
+
+		///<@param>o Recursion terminator. Do not set manually!
+		GameObject* copy(bool cName = true, GameObject* o = nullptr);
+
+		//static GameObject* copy(GameObject* original);
+		//GameObject* copy();
 
         void setName (const std::string& pName);
         std::string getName() const;
@@ -69,6 +75,7 @@ class GameObject
 
         int getChildCount() const;
         GameObject* getChildAt (int pIndex) const;
+		GameObject* findChild(std::string pChildName) const;
 
 	protected:
 		std::string _name;
@@ -80,6 +87,7 @@ class GameObject
         Mesh* _mesh;
 		AbstractBehaviour* _behaviour;
 		AbstractMaterial* _material;
+		//Collider* _collider;
 		World* _world;
 
         //update children list administration
@@ -88,6 +96,7 @@ class GameObject
 
 		//used to pass on pointer to the world to a gameobject
 		virtual void _setWorldRecursively (World* pWorld);
+		World* getWorld();
 
     private:
         GameObject (const GameObject&);

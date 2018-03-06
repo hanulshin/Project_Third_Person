@@ -4,9 +4,12 @@
 #include <SFML/Graphics.hpp>
 #include <GL/glew.h>
 #include <string>
+#include <map>
+#include <mge/core/GameObject.hpp>
 
 class World;
 class Renderer;
+//class GameObject;
 
 /**
  * Defines the basic structure for a game, with defaults already filled in.
@@ -24,6 +27,16 @@ class AbstractGame
         virtual void initialize();
         //run the actual process of updating all objects, rendering them and processing events
         virtual void run();
+
+		void setWorld(World* pScene);
+		World* getWorld();
+
+		static GameObject* Find(std::string pName);
+		static AbstractGame* getGame();
+		static void setGame(AbstractGame* pGame);
+		static void addToWorld(GameObject* child);
+
+		static GameObject* spawnObject(std::string pName, glm::vec3 pPos = glm::vec3(), GameObject* pParent = nullptr);
 
     protected:
 
@@ -52,14 +65,13 @@ class AbstractGame
 
 		sf::RenderWindow* _window;  //sfml window to render into
 		Renderer* _renderer;        //the renderer class to render the world
-		World* _world;              //the root game object that represents our scene
+		World* _world;				//the root game object that represents our scene
 		float _fps;                 //stores the real fps
+		static AbstractGame* game;
 
     private:
         AbstractGame(const AbstractGame&);
         AbstractGame& operator=(const AbstractGame&);
-
-
 };
 
 #endif // ABSTRACTGAME_HPP

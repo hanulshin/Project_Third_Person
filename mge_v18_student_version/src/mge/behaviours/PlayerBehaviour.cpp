@@ -56,3 +56,7 @@ void PlayerBehaviour::update( float pStep )
 	//The methods multiply the current transform with the translation/rotation matrix from left to right
 	//meaning everything happens in local space.
 }
+
+AbstractBehaviour* PlayerBehaviour::copy(){
+	return new PlayerBehaviour(_moveX);
+}

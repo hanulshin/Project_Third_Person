@@ -91,6 +91,9 @@
     <ClInclude Include="..\src\mge\behaviours\LuaScripts\LuaPlayer.hpp">
       <Filter>MGE Source files\mge\behaviours\LuaScripts</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\mge\behaviours\BulletBehaviour.hpp">
+      <Filter>MGE Source files\mge\behaviours</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp">
@@ -155,6 +158,9 @@
     </ClCompile>
     <ClCompile Include="..\src\mge\behaviours\LuaScripts\LuaPlayer.cpp">
       <Filter>MGE Source files\mge\behaviours\LuaScripts</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\mge\behaviours\BulletBehaviour.cpp">
+      <Filter>MGE Source files\mge\behaviours</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

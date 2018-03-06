@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mge", "mge.vcxproj", "{9BF1737F-5BBF-413D-A25B-8DA45BE5CF13}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5B70059F-1950-445A-9DB4-D8C943C4820B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

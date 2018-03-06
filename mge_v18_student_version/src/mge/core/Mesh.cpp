@@ -2,6 +2,7 @@
 #include <map>
 #include <string>
 #include <fstream>
+#include "mge/config.hpp"
 
 #include "mge/core/Mesh.hpp"
 
@@ -69,7 +70,7 @@ Mesh* Mesh::load(std::string pFilename)
 
 	Mesh* mesh = new Mesh();
 
-	std::ifstream file (pFilename, std::ios::in);
+	std::ifstream file (config::MGE_MODEL_PATH + pFilename, std::ios::in);
 
 	if( file.is_open() ){
         //these three vectors will contains data as taken from the obj file

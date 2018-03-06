@@ -3,6 +3,8 @@
 #include "mge/core/AbstractGame.hpp"
 #include "mge/DodgerGame.hpp"
 #include "mge/MGEDemo.hpp"
+#include "mge/prefabs.hpp"
+
 
 /**
  * Main entry point for the Micro Engine.
@@ -19,13 +21,20 @@
  * All documentation is contained within the HEADER files, not the CPP files if possible.
  *
  */
+
 int main()
 {
     std::cout << "Starting Game" << std::endl;
 
-    //AbstractGame* game = new MGEDemo();
-	AbstractGame* game = new DodgerGame();
-    game->initialize();
+    //game = new MGEDemo();
+	meshes::load();
+	textures::load();
+	colors::load();
+	objects::load();
+
+	AbstractGame::setGame(new DodgerGame());
+	AbstractGame* game = AbstractGame::getGame();
+	game->initialize();
     game->run();
 
 	delete game;

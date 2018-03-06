@@ -1,10 +1,12 @@
 #include <iostream>
+#include <string>
 
+#include "glm.hpp"
 #include "AbstractGame.hpp"
 #include "mge/core/Renderer.hpp"
 #include "mge/core/World.hpp"
 
-AbstractGame::AbstractGame():_window(NULL),_renderer(NULL),_world(NULL), _fps(0)
+AbstractGame::AbstractGame():_window(NULL),_renderer(NULL), _world(NULL), _fps(0)
 {
     //ctor
 }
@@ -172,5 +174,41 @@ void AbstractGame::_processEvents()
 	}
 }
 
+World* AbstractGame::getWorld() {
+	return _world;
+}
 
+void AbstractGame::setWorld(World* pScene) {
+	_world = pScene;
+}
 
+GameObject* AbstractGame::Find(std::string pName) {
+	if (game->getWorld()->getName() == pName) return game->getWorld();
+	if (game->getWorld() == nullptr) return nullptr;
+	return game->getWorld()->findChild(pName);
+}
+
+AbstractGame* AbstractGame::getGame() {
+	return game;
+}
+
+void AbstractGame::setGame(AbstractGame* pGame) {
+	game = pGame;
+}
+
+void AbstractGame::addToWorld(GameObject* child) {
+	game->getWorld()->add(child);
+}
+
+AbstractGame* AbstractGame::game = nullptr;
+
+GameObject* AbstractGame::spawnObject(std::string pName, glm::vec3 pPos, GameObject* pParent) {
+
+	GameObject* g = new GameObject(pName, pPos);
+	if (pParent != nullptr) {
+		g->setParent(pParent);
+	} else {
+		g->setParent(game->getWorld());
+	}
+	return g;
+}

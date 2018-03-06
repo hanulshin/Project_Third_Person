@@ -13,14 +13,41 @@ GameObject::~GameObject()
 {
     //detach all children
     std::cout << "GC running on:" << _name << std::endl;
-
     while (_children.size() > 0) {
         GameObject* child = _children[0];
         remove (child);
         delete child;
     }
+	_parent->remove(this);
 
+	//delete(_material);
+	//delete(_mesh);
+	//delete(_behaviour);
+	//delete(_world);
+	//delete(_collider);
     //do not forget to delete behaviour, material, mesh, collider manually if required!
+}
+
+GameObject* GameObject::copy(bool cName, GameObject* o)
+{
+	if (o == this) {
+		printf(("Error: Parent loop in " + _name).c_str());
+		return nullptr;
+	}
+	if (o == nullptr) o = this;
+	std::string copyName = _name;
+	glm::vec3 pos = getLocalPosition();
+	if (cName) copyName += "[Copy]";
+	GameObject* g = new GameObject(copyName, pos);
+	g->setParent(getParent());
+	for (int a = 0; a < getChildCount(); a++) {
+		g->add(getChildAt(a)->copy(false));
+	}
+	g->setMesh(getMesh());
+	g->setBehaviour(getBehaviour()->copy());
+	g->setMaterial(getMaterial());
+	g->_setWorldRecursively(getWorld());
+	return g;
 }
 
 void GameObject::setName (const std::string& pName)
@@ -84,6 +111,7 @@ AbstractBehaviour* GameObject::getBehaviour() const
 {
     return _behaviour;
 }
+
 
 void GameObject::setParent (GameObject* pParent) {
     //remove from previous parent
@@ -154,6 +182,10 @@ glm::mat4 GameObject::getWorldTransform() const
 
 ////////////
 
+World* GameObject::getWorld() {
+	return _world;
+}
+
 void GameObject::translate(glm::vec3 pTranslation)
 {
 	setTransform(glm::translate(_transform, pTranslation));
@@ -197,3 +229,19 @@ GameObject* GameObject::getChildAt(int pIndex) const {
     return _children[pIndex];
 }
 
+GameObject* GameObject::findChild(std::string pChildName) const{
+	for (unsigned int a = 0; a < _children.size(); a++)
+	{
+		if (_children[a]->getName() == pChildName)
+		{
+			return _children[a];
+		}
+
+		GameObject* _grandChild = _children[a]->findChild(pChildName);
+		if (_grandChild != nullptr)
+		{
+			return _grandChild;
+		}
+	}
+	return nullptr;
+}

@@ -77,7 +77,7 @@ void MGEDemo::_initializeScene()
     sphere->scale(glm::vec3(2.5,2.5,2.5));
     sphere->setMesh (sphereMeshS);
     sphere->setMaterial(runicStoneMaterial);
-    sphere->setBehaviour (new RotatingBehaviour());
+    sphere->setBehaviour (new RotatingBehaviour(45.0f, glm::vec3(0, 1, 0)));
     _world->add(sphere);
 
     //add a light. Note that the light does ABSOLUTELY ZIP! NADA ! NOTHING !
