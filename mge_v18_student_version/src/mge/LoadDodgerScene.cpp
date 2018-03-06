@@ -9,7 +9,6 @@ LoadDodgerScene::LoadDodgerScene() :AbstractGame(), _hud(0)
 
 void LoadDodgerScene::initialize()
 {
-
 	//setup the core part
 	AbstractGame::initialize();
 
