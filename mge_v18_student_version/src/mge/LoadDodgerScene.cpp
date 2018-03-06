@@ -19,33 +19,29 @@ void LoadDodgerScene::initialize()
 void LoadDodgerScene::_initializeScene()
 {
 	
+
 	Mesh* cubeMesh = Mesh::load(config::MGE_MODEL_PATH + "cube_flat.obj");
 	Mesh* sphereMesh = Mesh::load(config::MGE_MODEL_PATH + "sphere_smooth.obj");
 
 	AbstractMaterial* playerMaterial = new ColorMaterial(glm::vec3(0, 0.5f, 1));
 	AbstractMaterial* runicStoneMaterial = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "runicfloor.png"));
 
+
+	
 	GameObject* player = new GameObject("Player", glm::vec3(0, 1, 0));
 	player->scale(glm::vec3(0.8f, 1, 0.8f));
 	player->setMesh(sphereMesh);
 	player->setMaterial(playerMaterial);
-	//player->setBehaviour(new PlayerBehaviour(500));
+	player->setBehaviour(new PlayerBehaviour(5));
 	_world->add(player);
 
+	Camera* camera = new Camera("camera", glm::vec3(23.1, 8.0, 0.0));
+	camera->rotate(glm::radians(90.0f), glm::vec3(0.0, 1.0, 0.0));
+	//camera->setBehaviour(new CameraMovementBehaviour());
 	
-	
-	std::vector<GameObject*> floor;
-	for (int a = 0; a < 9; a++) {
-		floor.push_back(new GameObject("Floor", glm::vec3(-8 + (a * 2), -2, 0)));
-		floor[a]->setMesh(cubeMesh);
-		floor[a]->setMaterial(runicStoneMaterial);
-		_world->add(floor[a]);
-	}
-	
-	Camera* camera = new Camera("camera", glm::vec3(0, 1.5f, 15));
-	camera->rotate(glm::radians(-5.0f), glm::vec3(1, 0, 0));
-	camera->setBehaviour(new CameraMovementBehaviour());
-	player->add(camera);
+
+	//camera->setBehaviour(new UpMovementBehaviour());
+	player ->add(camera);
 	_world->setMainCamera(camera);
 
 	
@@ -93,16 +89,40 @@ GameObject* LoadDodgerScene::_convertGameObject(rapidxml::xml_node<>* pXmlNode, 
 	//use material library set up by the artists
 	AbstractMaterial* whitematerial = new ColorMaterial(glm::vec3(1, 1, 1));
 	AbstractMaterial* stoner = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "runicfloor.png"));
+	AbstractMaterial* elevatorPlatform = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "Elevator_PipeBarrierSG1_Diffuse (1).png"));
+	AbstractMaterial* shaftT = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "Shaft_phong2SG_Diffuse 1.png"));
+	AbstractMaterial* gearsT = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "Gears_phong4SG_Diffuse 1.png"));
+	//Gears_phong4SG_Diffuse 1
 	gameObject->setMaterial(stoner);
 	for (rapidxml::xml_attribute<>*attrib = pXmlNode->first_attribute();
 		attrib!=NULL;attrib=attrib->next_attribute())
 	{
 		std::cout << attrib->name() << "=" << attrib->value() << std::endl;
 		std::string attribName = attrib->name();
-
+		std::string attribValue = attrib->value();
+		
 		if (attribName == "name")
 		{
-			gameObject->setName(attrib->value());
+			gameObject->setName(attribValue);
+
+			//setup a fiunction which takes attrib value and assigns texture depending on it
+			if (attribValue=="GearsWheel")
+			{
+				std::cout << "GearDetected" << endl;
+				gameObject->setBehaviour(new RotatingBehaviour());
+			}
+			if (attribValue == "ElevatorPlatform")
+			{
+				gameObject->setMaterial(elevatorPlatform);
+			}
+			if (attribValue == "ShaftWall")
+			{
+				gameObject->setMaterial(shaftT);
+			}
+			if (attribValue == "GearsWheel")
+			{
+				gameObject->setMaterial(gearsT);
+			}
 		}
 		else if (attribName=="position")
 		{
@@ -124,7 +144,7 @@ GameObject* LoadDodgerScene::_convertGameObject(rapidxml::xml_node<>* pXmlNode, 
 		}
 		else if(attribName=="mesh")
 		{
-			Mesh* objMesh = Mesh::load(config::MGE_MODEL_PATH + attrib->value());
+			Mesh* objMesh = Mesh::load(config::MGE_MODEL_PATH + attribValue);
 			gameObject->setMesh(objMesh);
 		}
 
@@ -139,6 +159,7 @@ void LoadDodgerScene::_render()
 {
 	AbstractGame::_render();
 	_updateHud();
+
 }
 
 void LoadDodgerScene::_updateHud()

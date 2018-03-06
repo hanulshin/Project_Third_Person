@@ -5,4 +5,5 @@ namespace config {
     const std::string MGE_SHADER_PATH ("mge/shaders/");
     const std::string MGE_FONT_PATH ("mge/fonts/");
 	const std::string MGE_SCRIPTS_PATH("mge/scripts/");
+	const std::string MGE_MUSIC_PATH("mge/music/");
 }

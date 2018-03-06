@@ -1,24 +1,19 @@
 <root>
-  <GameObject name="Main Camera" position="(0.0, 1.0, -10.0)" rotation="(0.0, 0.0, 0.0, 1.0)" scale="(1.0, 1.0, 1.0)" />
-  <GameObject name="polySurface18" position="(187.0, 0.0, 0.0)" rotation="(0.0, 0.0, 0.0, 1.0)" scale="(1.0, 1.0, 1.0)" mesh="polySurface18.obj" />
-  <GameObject name="polySurface18" position="(607.0, 0.0, 0.0)" rotation="(0.0, 0.0, 0.0, 1.0)" scale="(1.0, 1.0, 1.0)" mesh="polySurface18.obj" />
+  <GameObject name="Main Camera" position="(15.4, 3.9, -0.7)" rotation="(0.0, -0.7, 0.0, 0.7)" scale="(1.0, 1.0, 1.0)" />
+  <GameObject name="GearsWheel" position="(6.3, -0.7, -8.8)" rotation="(0.0, 0.0, 0.0, 1.0)" scale="(1.0, 1.0, 1.0)">
+    <GameObject name="GearsWheel" position="(0.0, 0.0, 0.0)" rotation="(0.0, 0.0, 0.0, 1.0)" scale="(1.0, 1.0, 1.0)" mesh="GearsWheel.obj" />
+  </GameObject>
+  <GameObject name="ShaftWall" position="(71.5, 26.9, -15.6)" rotation="(0.0, 0.0, 0.0, 1.0)" scale="(1.0, 1.0, 1.0)">
+    <GameObject name="ShaftWall" position="(-70.3, -28.9, 14.8)" rotation="(0.0, 0.0, 0.0, 1.0)" scale="(1.0, 1.0, 1.0)" mesh="ShaftWall.obj" />
+  </GameObject>
+  <GameObject name="ElevatorPlatform" position="(5.5, 0.9, -0.8)" rotation="(0.0, 0.0, 0.0, 1.0)" scale="(1.0, 1.0, 1.0)">
+    <GameObject name="ElevatorPlatform" position="(-5.2, -1.6, 0.0)" rotation="(0.0, 0.0, 0.0, 1.0)" scale="(1.0, 1.0, 1.0)" mesh="ElevatorPlatform.obj" />
+  </GameObject>
   <GameObject name="Directional Light" position="(0.0, 3.0, 0.0)" rotation="(-0.4, 0.2, 0.1, 0.9)" scale="(1.0, 1.0, 1.0)" />
-  <GameObject name="Crates" position="(0.0, 0.0, 0.0)" rotation="(0.0, 0.0, 0.0, 1.0)" scale="(1.0, 1.0, 1.0)">
-    <GameObject name="pCone25" position="(0.0, 0.0, 0.0)" rotation="(0.0, 0.0, 0.0, 1.0)" scale="(0.0, 0.0, 0.0)" mesh="pCone25.obj" />
+  <GameObject name="ShaftWall (1)" position="(71.5, 26.9, -15.6)" rotation="(0.0, 0.0, 0.0, 1.0)" scale="(1.0, 1.0, 1.0)">
+    <GameObject name="ShaftWall" position="(-70.3, -15.8, 14.8)" rotation="(0.0, 0.0, 0.0, 1.0)" scale="(1.0, 1.0, 1.0)" mesh="ShaftWall.obj" />
   </GameObject>
-  <GameObject name="Crates (1)" position="(0.0, 0.0, 185.0)" rotation="(0.0, 0.0, 0.0, 1.0)" scale="(1.0, 1.0, 1.0)">
-    <GameObject name="pCone25" position="(0.0, 0.0, 0.0)" rotation="(0.0, 0.0, 0.0, 1.0)" scale="(1.0, 1.0, 1.0)" mesh="pCone25.obj" />
-  </GameObject>
-  <GameObject name="Crates (2)" position="(0.0, 0.0, 386.0)" rotation="(0.0, 0.0, 0.0, 1.0)" scale="(1.0, 1.0, 1.0)">
-    <GameObject name="pCone25" position="(0.0, 0.0, 0.0)" rotation="(0.0, 0.0, 0.0, 1.0)" scale="(1.0, 1.0, 1.0)" mesh="pCone25.obj" />
-  </GameObject>
-  <GameObject name="Crates (3)" position="(642.0, 189.0, 601.0)" rotation="(0.0, 0.0, 0.0, 1.0)" scale="(1.0, 1.0, 1.0)">
-    <GameObject name="pCone25" position="(0.0, 0.0, 0.0)" rotation="(0.0, 0.0, 0.0, 1.0)" scale="(1.0, 1.0, 1.0)" mesh="pCone25.obj" />
-  </GameObject>
-  <GameObject name="Crates (4)" position="(642.0, 189.0, -511.0)" rotation="(0.0, 0.0, 0.0, 1.0)" scale="(1.0, 1.0, 1.0)">
-    <GameObject name="pCone25" position="(0.0, 0.0, 0.0)" rotation="(0.0, 0.0, 0.0, 1.0)" scale="(1.0, 1.0, 1.0)" mesh="pCone25.obj" />
-  </GameObject>
-  <GameObject name="Crates (5)" position="(0.0, 0.0, 20.0)" rotation="(0.0, 0.0, 0.0, 1.0)" scale="(1.0, 1.0, 1.0)">
-    <GameObject name="pCone25" position="(0.0, 0.0, 0.0)" rotation="(0.0, 0.0, 0.0, 1.0)" scale="(1.0, 1.0, 1.0)" mesh="pCone25.obj" />
+  <GameObject name="GearsWheel (1)" position="(6.3, -0.7, 7.9)" rotation="(0.0, 0.0, 0.0, 1.0)" scale="(1.0, 1.0, 1.0)">
+    <GameObject name="GearsWheel" position="(0.0, 0.0, 0.0)" rotation="(0.0, 0.0, 0.0, 1.0)" scale="(1.0, 1.0, 1.0)" mesh="GearsWheel.obj" />
   </GameObject>
 </root>

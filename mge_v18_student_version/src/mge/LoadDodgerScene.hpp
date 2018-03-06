@@ -33,6 +33,8 @@
 #include "rapidxml_print.hpp"
 #include "rapidxml_utils.hpp"
 #include "behaviours\CameraMovementBehaviour.h"
+#include "behaviours\UpMovementBehaviour.h"
+#include <SFML/Audio.hpp>
 
 class DebugHud;
 
