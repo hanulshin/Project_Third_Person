@@ -24,7 +24,7 @@ class World : public GameObject
 	private:
 	    Camera* _mainCamera;
 	    std::vector<Light*> _lights;
-
+		
         World(const World&);
         World& operator=(const World&);
 };

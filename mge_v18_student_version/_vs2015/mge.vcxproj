@@ -188,7 +188,9 @@
     <ClInclude Include="..\src\mge\materials\TextureMaterial.hpp" />
     <ClInclude Include="..\src\mge\MGEDemo.hpp" />
     <ClInclude Include="..\src\mge\util\DebugHud.hpp" />
-    <ClInclude Include="custom\BoxCollider.h" />
+    <ClInclude Include="Collision\BoxCollider.h" />
+    <ClInclude Include="Collision\CollisionManager.h" />
+    <ClInclude Include="ReferenceCounter.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp" />
@@ -212,7 +214,8 @@
     <ClCompile Include="..\src\mge\materials\TextureMaterial.cpp" />
     <ClCompile Include="..\src\mge\MGEDemo.cpp" />
     <ClCompile Include="..\src\mge\util\DebugHud.cpp" />
-    <ClCompile Include="custom\BoxCollider.cpp" />
+    <ClCompile Include="Collision\BoxCollider.cpp" />
+    <ClCompile Include="Collision\CollisionManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

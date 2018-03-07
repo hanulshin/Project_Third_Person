@@ -1,21 +1,17 @@
 #include <iostream>
+#include <vector>
 #include "GameObject.hpp"
 #include "mge/behaviours/AbstractBehaviour.hpp"
-#include "../_vs2015/custom/BoxCollider.h"
+#include "../_vs2015/collision/BoxCollider.h"
+#include "../_vs2015/ReferenceCounter.h"
 
 GameObject::GameObject(const std::string& pName, const glm::vec3& pPosition)
 	: _name(pName), _transform(glm::translate(pPosition)), _parent(nullptr), _children(),
 	_mesh(nullptr), _behaviour(nullptr), _material(nullptr), _world(nullptr)
-
 {
+	_gameObjects.push_back(this);
+	_boxCollider = nullptr;
 }
-//GameObject::GameObject(const BoxCollider& pBoxCollider, const std::string& pName, const glm::vec3& pPosition)
-//	: _name(pName), _transform(glm::translate(pPosition)), _parent(nullptr), _children(),
-//	_mesh(nullptr), _behaviour(nullptr), _material(nullptr), _world(nullptr)
-//
-//{
-//}
-
 
 GameObject::~GameObject()
 {
@@ -29,6 +25,7 @@ GameObject::~GameObject()
 	}
 
 	//do not forget to delete behaviour, material, mesh, collider manually if required!
+	_gameObjects.erase(std::find(_gameObjects.begin(),_gameObjects.end(),this));
 }
 
 void GameObject::setName(const std::string& pName)
@@ -82,7 +79,7 @@ Mesh * GameObject::getMesh() const
 }
 
 void GameObject::setBehaviour(AbstractBehaviour* pBehaviour)
-{ 
+{
 	_behaviour = pBehaviour;
 	_behaviour->setOwner(this);
 }
@@ -93,11 +90,16 @@ AbstractBehaviour* GameObject::getBehaviour() const
 }
 
 void GameObject::setBoxCollider(BoxCollider* pBoxCollider) {
+	add(pBoxCollider);
 	_boxCollider = pBoxCollider;
 }
 BoxCollider* GameObject::getBoxCollider() const
 {
 	return _boxCollider;
+}
+
+bool GameObject::hasCollider() const {
+	return _boxCollider != nullptr;
 }
 
 void GameObject::setParent(GameObject* pParent) {
@@ -197,6 +199,22 @@ void GameObject::update(float pStep)
 	}
 }
 
+void GameObject::fixedUpdate(float pStep) 
+{
+	for (int i = _children.size() - 1; i >= 0; --i) {
+		_children[i]->fixedUpdate(pStep);
+	}
+}
+
+void GameObject::OnCollision(GameObject * pOther)
+{
+	for (int i = _children.size() - 1; i >= 0; --i) {
+		_children[i]->OnCollision(pOther);
+	}
+	//std::cout << "help";
+}
+
+
 void GameObject::_setWorldRecursively(World* pWorld) {
 	_world = pWorld;
 
@@ -213,3 +231,8 @@ GameObject* GameObject::getChildAt(int pIndex) const {
 	return _children[pIndex];
 }
 
+std::vector<GameObject*> GameObject::GetAllObjects()
+{
+	return _gameObjects;
+}
+std::vector<GameObject*> GameObject::_gameObjects;

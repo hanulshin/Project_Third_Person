@@ -3,6 +3,8 @@
 #include "AbstractGame.hpp"
 #include "mge/core/Renderer.hpp"
 #include "mge/core/World.hpp"
+#include "mge/core/GameObject.hpp"
+#include "../_vs2015/Collision/BoxCollider.h"
 
 AbstractGame::AbstractGame():_window(NULL),_renderer(NULL),_world(NULL), _fps(0)
 {
@@ -25,6 +27,7 @@ void AbstractGame::initialize() {
     _initializeRenderer();
     _initializeWorld();
     _initializeScene();
+	//_initializeCollisionManager();
     std::cout << std::endl << "Engine initialized." << std::endl << std::endl;
 }
 
@@ -81,6 +84,17 @@ void AbstractGame::_initializeWorld() {
     std::cout << "World initialized." << std::endl << std::endl;
 }
 
+//void AbstractGame::_initializeCollisionManager()
+//{
+//	_collisionManager = new CollisionManager();
+//	_collisionManager->Setup(900,900,500);
+//	std::vector<GameObject*> objects = GameObject::GetAllObjects();
+//	for (size_t i = 0; i < objects.size(); i++)
+//	{
+//		_collisionManager->RegisterObject(objects[i]);
+//	}
+//}
+
 ///MAIN GAME LOOP
 
 void AbstractGame::run()
@@ -94,9 +108,12 @@ void AbstractGame::run()
 	sf::Time timePerFrame = sf::seconds(1.0f / 60.0f);
 	sf::Clock updateClock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
+	sf::Time timeSinceLastFixedUpdate = sf::Time::Zero;
 
 	while (_window->isOpen()) {
 		timeSinceLastUpdate += updateClock.restart();
+		timeSinceLastFixedUpdate += updateClock.restart();
+
 
 		if (timeSinceLastUpdate > timePerFrame)
 		{
@@ -105,7 +122,15 @@ void AbstractGame::run()
 		    while (timeSinceLastUpdate > timePerFrame) {
                 timeSinceLastUpdate -= timePerFrame;
                 _update(timePerFrame.asSeconds());
-		    }
+				_resolveCollisions();
+				_fixedUpdate(timePerFrame.asSeconds());
+			}
+
+			//while (timeSinceLastFixedUpdate > timePerFrame * 2.0f)
+			//{
+			//	timeSinceLastFixedUpdate -= timePerFrame;
+
+			//}
 
             _render();
             _window->display();
@@ -128,6 +153,25 @@ void AbstractGame::run()
 
 void AbstractGame::_update(float pStep) {
     _world->update(pStep);
+}
+
+void AbstractGame::_resolveCollisions()
+{
+	for (size_t i = 0; i < GameObject::GetAllObjects().size(); i++)
+	{
+		for (size_t j = 0; j < GameObject::GetAllObjects().size(); j++)
+		{
+			if (GameObject::GetAllObjects()[i]->getBoxCollider()->IsOverlapping(GameObject::GetAllObjects()[j]->getBoxCollider()))
+			{
+				GameObject::GetAllObjects()[i]->OnCollision(GameObject::GetAllObjects()[j]);
+			}
+		}
+	}
+}
+
+void AbstractGame::_fixedUpdate(float pStep)
+{
+	_world->fixedUpdate(pStep);
 }
 
 void AbstractGame::_render () {

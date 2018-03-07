@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "glm.hpp"
+#include "../_vs2015/ReferenceCounter.h"
 
 class BoxCollider;
 class AbstractBehaviour;
@@ -13,11 +14,10 @@ class Mesh;
 /**
  * A GameObject wraps all data required to display an object, but knows nothing about OpenGL or rendering.
  */
-class GameObject
+class GameObject : ReferenceCounter<GameObject>
 {
 	public:
 		GameObject(const std::string& pName = nullptr, const glm::vec3& pPosition = glm::vec3(0.0f, 0.0f, 0.0f));
-		//GameObject(const BoxCollider&, const std::string& pName = nullptr, const glm::vec3& pPosition = glm::vec3( 0.0f, 0.0f, 0.0f ));
 		virtual ~GameObject();
 
         void setName (const std::string& pName);
@@ -52,10 +52,18 @@ class GameObject
 		void setBehaviour(AbstractBehaviour* pBehaviour);
 		AbstractBehaviour* getBehaviour() const;
 
+		//set the collider for the gameobject
 		void setBoxCollider(BoxCollider* pBoxCollider);
 		BoxCollider* getBoxCollider() const;
 
+		//returns true if the gameobject has a collider
+		bool hasCollider() const;
+
 		virtual void update(float pStep);
+
+		virtual void fixedUpdate(float pStep);
+
+		virtual void OnCollision(GameObject* pOther);
 
         //child management, note that add/remove and setParent are closely coupled.
         //a.add(b) has the same effect as b.setParent(a)
@@ -72,6 +80,8 @@ class GameObject
         int getChildCount() const;
         GameObject* getChildAt (int pIndex) const;
 
+		static std::vector<GameObject*> GetAllObjects();
+
 	protected:
 		std::string _name;
 		glm::mat4 _transform;
@@ -84,7 +94,7 @@ class GameObject
 		AbstractMaterial* _material;
 		World* _world;
 		BoxCollider* _boxCollider;
-
+		static std::vector<GameObject*> _gameObjects;
 
         //update children list administration
         void _innerAdd (GameObject* pChild);
@@ -93,9 +103,9 @@ class GameObject
 		//used to pass on pointer to the world to a gameobject
 		virtual void _setWorldRecursively (World* pWorld);
 
-    private:
-        GameObject (const GameObject&);
-		GameObject& operator= (const GameObject&);
+    //private:
+        //GameObject (const GameObject&);
+		//GameObject& operator= (const GameObject&) { return *this; };
 };
 
 #endif // GAMEOBJECT_HPP

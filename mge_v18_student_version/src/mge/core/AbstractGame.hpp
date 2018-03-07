@@ -4,9 +4,11 @@
 #include <SFML/Graphics.hpp>
 #include <GL/glew.h>
 #include <string>
+#include "../_vs2015/Collision/CollisionManager.h"
 
 class World;
 class Renderer;
+class CollisionManager;
 
 /**
  * Defines the basic structure for a game, with defaults already filled in.
@@ -39,17 +41,24 @@ class AbstractGame
         virtual void _initializeRenderer();
         //initialize a scene root to which we can attach/add objects
         virtual void _initializeWorld();
+		//initialize the collision manager
+		//void _initializeCollisionManager();
 
         //initialize the actual scene, HAS to be done by a subclass
         virtual void _initializeScene() = 0;
 
         //call update on all game objects in the display root
         virtual void _update(float pStep);
-        //render all game objects in the display root
+		//resolves collisions
+		virtual void _resolveCollisions();
+        //gets called half of the time update gets called
+		virtual void _fixedUpdate(float pStep);
+		//render all game objects in the display root
         virtual void _render();
         //process any sfml window events (see SystemEventDispatcher/Listener)
         virtual void _processEvents();
 
+		//CollisionManager* _collisionManager;
 		sf::RenderWindow* _window;  //sfml window to render into
 		Renderer* _renderer;        //the renderer class to render the world
 		World* _world;              //the root game object that represents our scene

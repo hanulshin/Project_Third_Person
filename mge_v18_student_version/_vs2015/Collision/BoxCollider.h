@@ -2,14 +2,30 @@
 #define BOXCOLLIDER_H
 #include "mge/core/GameObject.hpp"
 #include "glm.hpp"
-
-class BoxCollider:public GameObject
+class Bounds {
+public:
+	Bounds(float pMinX, float pMaxX, float pMinY, float pMaxY);
+	~Bounds();
+	float minX;
+	float maxX;
+	float minY;
+	float maxY;
+};
+class BoxCollider :public GameObject
 {
 public:
 	BoxCollider(float pWidth, float pHeight, glm::vec3 pPos);
-	virtual ~BoxCollider();
-	bool IsOverlapping(BoxCollider&);
+	~BoxCollider();
+	bool IsOverlapping(BoxCollider*);
+	std::vector<GameObject*> IsOverlapping(std::vector<GameObject*> groupOfObjects); //returns the objects that are overlapping this collider
 	float width;
 	float height;
+	Bounds * getBounds() const;
+	void OnCollision(GameObject* pOther);
+	void update(float pStep);
+	bool isTrigger = false;
+private:
+	glm::vec3 _newPos;
 };
+
 #endif // !BOXCOLLIDER_H

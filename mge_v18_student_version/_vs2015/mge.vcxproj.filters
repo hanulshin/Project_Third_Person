@@ -91,11 +91,17 @@
     <ClInclude Include="..\src\mge\behaviours\LuaScripts\LuaScript.hpp">
       <Filter>MGE Source files\mge\behaviours\LuaScripts</Filter>
     </ClInclude>
-    <ClInclude Include="custom\BoxCollider.h">
-      <Filter>MGE Source files\Collision</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\glm.hpp">
       <Filter>MGE Source files</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision\BoxCollider.h">
+      <Filter>MGE Source files\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision\CollisionManager.h">
+      <Filter>MGE Source files\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="ReferenceCounter.h">
+      <Filter>MGE Source files\mge\util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -162,7 +168,10 @@
     <ClCompile Include="..\src\mge\behaviours\LuaScripts\LuaScript.cpp">
       <Filter>MGE Source files\mge\behaviours\LuaScripts</Filter>
     </ClCompile>
-    <ClCompile Include="custom\BoxCollider.cpp">
+    <ClCompile Include="Collision\BoxCollider.cpp">
+      <Filter>MGE Source files\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision\CollisionManager.cpp">
       <Filter>MGE Source files\Collision</Filter>
     </ClCompile>
   </ItemGroup>
