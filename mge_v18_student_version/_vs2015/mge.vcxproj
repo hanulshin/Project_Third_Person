@@ -178,7 +178,6 @@
     <ClInclude Include="..\src\mge\behaviours\RotatingBehaviour.hpp" />
     <ClInclude Include="..\src\mge\behaviours\UpMovementBehaviour.h" />
     <ClInclude Include="..\src\mge\collision\BoxCollider.h" />
-    <ClInclude Include="..\src\mge\collision\CollisionManager.h" />
     <ClInclude Include="..\src\mge\config.hpp" />
     <ClInclude Include="..\src\mge\core\AbstractGame.hpp" />
     <ClInclude Include="..\src\mge\core\Camera.hpp" />
@@ -208,7 +207,6 @@
     <ClCompile Include="..\src\mge\behaviours\RotatingBehaviour.cpp" />
     <ClCompile Include="..\src\mge\behaviours\UpMovementBehaviour.cpp" />
     <ClCompile Include="..\src\mge\collision\BoxCollider.cpp" />
-    <ClCompile Include="..\src\mge\collision\CollisionManager.cpp" />
     <ClCompile Include="..\src\mge\core\AbstractGame.cpp" />
     <ClCompile Include="..\src\mge\core\Camera.cpp" />
     <ClCompile Include="..\src\mge\core\GameObject.cpp" />

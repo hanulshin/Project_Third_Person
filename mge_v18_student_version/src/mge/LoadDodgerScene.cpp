@@ -1,4 +1,5 @@
 #include "LoadDodgerScene.hpp"
+#include "collision\BoxCollider.h"
 
 LoadDodgerScene::LoadDodgerScene() :AbstractGame(), _hud(0)
 {
@@ -10,7 +11,7 @@ void LoadDodgerScene::initialize()
 {
 	//setup the core part
 	AbstractGame::initialize();
-
+	_hud = new DebugHud(_window);
 	//setup the custom part so we can display some text
 	std::cout << "HUD Initialized." << std::endl << std::endl;
 }
@@ -33,6 +34,7 @@ void LoadDodgerScene::_initializeScene()
 	player->setMaterial(playerMaterial);
 	player->setBehaviour(new LuaPlayer());
 	player->setActor("player");
+	player->setBoxCollider(new BoxCollider(2.0f,2.0f,player->getWorldPosition()));
 	_world->add(player);
 
 	GameObject* bullet = new GameObject("Bullet");
@@ -173,8 +175,8 @@ void LoadDodgerScene::_updateHud()
 	std::string debugInfo = "";
 	debugInfo += std::string("FPS:") + std::to_string((int)_fps) + "\n";
 
-	//_hud->setDebugInfo(debugInfo);
-	//_hud->draw();
+	_hud->setDebugInfo(debugInfo);
+	_hud->draw();
 }
 LoadDodgerScene::~LoadDodgerScene()
 {

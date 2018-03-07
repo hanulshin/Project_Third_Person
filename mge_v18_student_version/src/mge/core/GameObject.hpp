@@ -80,6 +80,7 @@ class GameObject
 		void removeActor();
 		static bool isActor(std::string tag);
 		static GameObject* getActor(std::string tag);
+		static std::vector<GameObject*> getAllObjects();
 
 	protected:
 		std::string _name;
@@ -87,6 +88,7 @@ class GameObject
 
         GameObject* _parent;
 		std::vector<GameObject*> _children;
+		static std::vector<GameObject*> _gameObjects;
 
         Mesh* _mesh;
 		AbstractBehaviour* _behaviour;

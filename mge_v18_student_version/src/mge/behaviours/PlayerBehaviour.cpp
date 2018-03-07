@@ -39,7 +39,6 @@ void PlayerBehaviour::update( float pStep )
 	}
 	_aim.x = _facing;
 	_aim = glm::normalize(_aim);
-
 	_owner->translate( glm::vec3(delta.x * pStep, 0.0f, 0.0f) );
 
 	//translate the object in its own local space

@@ -12,6 +12,7 @@ GameObject::GameObject(const std::string& pName, const glm::vec3& pPosition)
 
 {
 	_boxCollider = nullptr;
+	_gameObjects.push_back(this);
 }
 //GameObject::GameObject(const BoxCollider& pBoxCollider, const std::string& pName, const glm::vec3& pPosition)
 //	: _name(pName), _transform(glm::translate(pPosition)), _parent(nullptr), _children(),
@@ -35,6 +36,7 @@ GameObject::~GameObject()
 	removeActor();
 
 	//do not forget to delete behaviour, material, mesh, collider manually if required!
+	_gameObjects.erase(std::find(_gameObjects.begin(),_gameObjects.end(), this));
 }
 
 void GameObject::setName(const std::string& pName)
@@ -240,6 +242,7 @@ GameObject* GameObject::copy(std::string pName, GameObject* o)
 	g->setMaterial(getMaterial());
 	g->setTransform(getTransform());
 	GameObject::getActor(config::CURRENT_SCENE);
+	_gameObjects.push_back(this);
 	return g;
 }
 
@@ -263,6 +266,11 @@ GameObject* GameObject::getActor(std::string tag)
 		std::cout << "No Actor with tag [" << tag << "] exists!";
 	}
 	return actor;
+}
+
+std::vector<GameObject*> GameObject::getAllObjects()
+{
+	return _gameObjects;
 }
 
 bool GameObject::isActor(std::string tag)
@@ -292,3 +300,4 @@ void GameObject::removeActor()
 
 void GameObject::setTag(std::string pTag) { tag = pTag; }
 std::string GameObject::getTag() { return tag; }
+std::vector<GameObject*> GameObject::_gameObjects;
