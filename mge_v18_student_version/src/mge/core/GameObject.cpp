@@ -4,13 +4,14 @@
 #include "mge/config.hpp"
 #include "GameObject.hpp"
 #include "mge/behaviours/AbstractBehaviour.hpp"
-#include "../_vs2015/custom/BoxCollider.h"
+#include "../collision/BoxCollider.h"
 
 GameObject::GameObject(const std::string& pName, const glm::vec3& pPosition)
 	: _name(pName), _transform(glm::translate(pPosition)), _parent(nullptr), _children(),
 	_mesh(nullptr), _behaviour(nullptr), _material(nullptr), _world(nullptr), actor_tag(""), tag("default")
 
 {
+	_boxCollider = nullptr;
 }
 //GameObject::GameObject(const BoxCollider& pBoxCollider, const std::string& pName, const glm::vec3& pPosition)
 //	: _name(pName), _transform(glm::translate(pPosition)), _parent(nullptr), _children(),
@@ -201,6 +202,11 @@ void GameObject::update(float pStep)
 	for (int i = _children.size() - 1; i >= 0; --i) {
 		_children[i]->update(pStep);
 	}
+}
+
+bool GameObject::hasCollider()
+{
+	return _boxCollider != nullptr;
 }
 
 void GameObject::_setWorldRecursively(World* pWorld) {

@@ -1,6 +1,6 @@
 #include "mge\core\GameObject.hpp"
 #include "BoxCollider.h"
-#include "../_vs2015/Collision/CollisionManager.h"
+#include "../collision/CollisionManager.h"
 #include <map>
 #include <vector>
 #include <cmath>

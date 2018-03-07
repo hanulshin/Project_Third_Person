@@ -25,8 +25,9 @@
     <ClCompile Include="..\src\mge\MGEDemo.cpp" />
     <ClCompile Include="..\src\mge\util\DebugHud.cpp" />
     <ClCompile Include="..\src\mge\behaviours\UpMovementBehaviour.cpp" />
-    <ClCompile Include="custom\BoxCollider.cpp" />
     <ClCompile Include="..\src\mge\behaviours\BulletBehaviour.cpp" />
+    <ClCompile Include="..\src\mge\collision\BoxCollider.cpp" />
+    <ClCompile Include="..\src\mge\collision\CollisionManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\glm.hpp" />
@@ -54,8 +55,9 @@
     <ClInclude Include="..\src\mge\MGEDemo.hpp" />
     <ClInclude Include="..\src\mge\util\DebugHud.hpp" />
     <ClInclude Include="..\src\mge\behaviours\UpMovementBehaviour.h" />
-    <ClInclude Include="custom\BoxCollider.h" />
     <ClInclude Include="..\src\mge\behaviours\BulletBehaviour.hpp" />
+    <ClInclude Include="..\src\mge\collision\BoxCollider.h" />
+    <ClInclude Include="..\src\mge\collision\CollisionManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\src\mge\scene.xml" />

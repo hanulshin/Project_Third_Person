@@ -57,9 +57,10 @@ class GameObject
 		void setBoxCollider(BoxCollider* pBoxCollider);
 		BoxCollider* getBoxCollider() const;
 
-
 		virtual void update(float pStep);
 
+		bool hasCollider();
+		
         //child management, note that add/remove and setParent are closely coupled.
         //a.add(b) has the same effect as b.setParent(a)
         //Adding a gameobject or resetting the parent, recursively passes on the world pointer to all child objects
