@@ -15,8 +15,8 @@ using namespace glm;
 //LUA Functions
 
 int LuaPlayer::fireBullet(lua_State * state) {
-	string name = lua_tostring(state, 1);
-	name += "_bullet";
+	string bulletTemplate = "_bullet";
+	string name = lua_tostring(state, 1) + bulletTemplate;
 	vec2 pos = vec2(lua_tonumber(state, 2), lua_tonumber(state, 3));
 	vec2 vel = vec2(lua_tonumber(state, 4), lua_tonumber(state, 5));
 	int bDamage = lua_tointeger(state, 6);
@@ -27,9 +27,10 @@ int LuaPlayer::fireBullet(lua_State * state) {
 	//std::cout<<"[\""<<name<<"\" - p["<<pos.x<<", "<<pos.y<<"] d["<<vel.x<<", "<<vel.y<<"] - d:"<<bDamage<<" s:"<<bSpeed<<" t:"<<pTime<<"]"<<std::endl;
 	vel *= bSpeed;
 
-	//GameObject* b = objects::bullet->copy();
-	//b->setBehaviour(new BulletBehaviour(vel, bDamage, pTime));
-	//AbstractGame::getGame()->getWorld()->add(b);
+	GameObject* b = GameObject::getActor(bulletTemplate)->copy();
+	b->setLocalPosition(GameObject::getActor("player")->getLocalPosition());
+	b->setBehaviour(new BulletBehaviour(vel, bDamage, pTime));
+	GameObject::getActor(config::CURRENT_SCENE)->add(b);
 	return 0;
 }
 //Class
@@ -59,21 +60,17 @@ void LuaPlayer::update(float pStep)
 	delta.x = Keyboard::isKeyPressed(Keyboard::Right) - Keyboard::isKeyPressed(Keyboard::Left);
 	delta.y = Keyboard::isKeyPressed(Keyboard::Up) - Keyboard::isKeyPressed(Keyboard::Down);
 	delta.z = Keyboard::isKeyPressed(Keyboard::Space);
-	_owner->translate(handleMovement(delta) * pStep);
+	inputDelta(delta);
 	if (Keyboard::isKeyPressed(Keyboard::Z)) shoot(delta);
 }
 
-vec3 LuaPlayer::handleMovement(vec3 delta)
+void LuaPlayer::inputDelta(vec3 delta)
 {
 	settupFunction("move");
 	pushNumber(delta.x);
 	pushNumber(delta.y);
 	pushNumber(delta.z);
-	callFunction(3, 2);
-	vec3 movement = vec3();
-	movement.x = getNumber();
-	movement.y = getNumber();
-	return movement;
+	callFunction(3);
 }
 
 void LuaPlayer::equipWeapon(string weapon)

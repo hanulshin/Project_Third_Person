@@ -7,6 +7,7 @@
 #include "glm.hpp"
 #include "mge\config.hpp"
 #include "mge\core\AbstractGame.hpp"
+#include "mge\core\GameObject.hpp"
 
 using namespace std;
 
@@ -20,6 +21,36 @@ int LuaScript::spawnObject(lua_State* state) {
 	float y = (float)lua_tonumber(state, 4);
 	float z = (float)lua_tonumber(state, 5);
 
+	return 0;
+}
+
+int LuaScript::action(lua_State* state) 
+{
+	string actorTag = lua_tostring(state, 1);
+	GameObject* actor = GameObject::getActor(actorTag);
+	string action = lua_tostring(state, 2);
+	glm::vec3 delta = glm::vec3();
+	int n = getAction(action);
+	switch (n) {
+	    case 1:
+			delta.x = lua_tonumber(state, 3);
+			delta.y = lua_tonumber(state, 4);
+			delta.z = lua_tonumber(state, 5);
+			actor->translate(delta);
+			break;
+		case 2:
+			actor->add(GameObject::getActor(lua_tostring(state, 3)));
+		default:
+			cout << "Invalid Action [" << action << "].";
+			return 2;
+	}
+	return 0;
+}
+
+int LuaScript::getAction(std::string action)
+{
+	if (action == "move") return 1;
+	if (action == "add") return 2;
 	return 0;
 }
 
@@ -41,6 +72,7 @@ void LuaScript::start()
 	luaL_openlibs(state);
 	openFile(_file);
 	registerFunction("spawn", spawnObject);
+	registerFunction("action", action);
 	luaStart();
 }
 
@@ -139,3 +171,4 @@ int LuaScript::getIndex(int i) {
 void LuaScript::registerFunction(string name, lua_CFunction func) {
 	lua_register(state, name.c_str(), func);
 }
+

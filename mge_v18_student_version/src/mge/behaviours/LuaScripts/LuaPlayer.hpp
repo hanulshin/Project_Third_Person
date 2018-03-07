@@ -17,7 +17,7 @@ public:
 protected:
 
 private:
-	glm::vec3 handleMovement(glm::vec3 delta);
+	void inputDelta(glm::vec3 delta);
 	void shoot(glm::vec2 delta);
 	void equipWeapon(std::string weapon);
 

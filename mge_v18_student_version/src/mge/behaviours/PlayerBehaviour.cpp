@@ -11,6 +11,10 @@ PlayerBehaviour::~PlayerBehaviour()
 {
 }
 
+AbstractBehaviour* PlayerBehaviour::copy() {
+	return new PlayerBehaviour(_moveX);
+}
+
 void PlayerBehaviour::start()
 {}
 

@@ -1,7 +1,8 @@
 #include "mge/behaviours/RotatingBehaviour.hpp"
 #include "mge/core/GameObject.hpp"
+#include "glm.hpp"
 
-RotatingBehaviour::RotatingBehaviour():AbstractBehaviour()
+RotatingBehaviour::RotatingBehaviour(float pRpm, glm::vec3 pAxis):AbstractBehaviour(), _rpm(pRpm), _axis(pAxis)
 {
 	//ctor
 }
@@ -18,6 +19,10 @@ void RotatingBehaviour::start()
 
 void RotatingBehaviour::update(float pStep)
 {
-    //rotates 90° per second
-	_owner->rotate(pStep * glm::radians(90.0f), glm::vec3( 0.0f, 0.0f, 1.0f ) );
+	_owner->rotate(pStep * glm::radians(_rpm * 6.0f), _axis );
+}
+
+AbstractBehaviour* RotatingBehaviour::copy()
+{
+	return new RotatingBehaviour(_rpm, _axis);
 }

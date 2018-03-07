@@ -22,9 +22,9 @@ void LoadDodgerScene::_initializeScene()
 	Mesh* cubeMesh = Mesh::load(config::MGE_MODEL_PATH + "cube_flat.obj");
 	Mesh* sphereMesh = Mesh::load(config::MGE_MODEL_PATH + "sphere_smooth.obj");
 
+	AbstractMaterial* red = new ColorMaterial(glm::vec3(1, 0, 0));
 	AbstractMaterial* playerMaterial = new ColorMaterial(glm::vec3(0, 0.5f, 1));
 	AbstractMaterial* runicStoneMaterial = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "runicfloor.png"));
-
 
 	
 	GameObject* player = new GameObject("Player", glm::vec3(0, 1, 0));
@@ -32,7 +32,14 @@ void LoadDodgerScene::_initializeScene()
 	player->setMesh(sphereMesh);
 	player->setMaterial(playerMaterial);
 	player->setBehaviour(new LuaPlayer());
+	player->setActor("player");
 	_world->add(player);
+
+	GameObject* bullet = new GameObject("Bullet");
+	bullet->scale(glm::vec3(0.2f, 0.2f, 0.2f));
+	bullet->setMesh(cubeMesh);
+	bullet->setMaterial(red);
+	bullet->setActor("_bullet");
 
 	Camera* camera = new Camera("camera", glm::vec3(0, 10.9, 23.5));
 	camera->rotate(glm::radians(0.0f), glm::vec3(0.0, -1.0, 0.0));
@@ -108,7 +115,7 @@ GameObject* LoadDodgerScene::_convertGameObject(rapidxml::xml_node<>* pXmlNode, 
 			if (attribValue=="GearsWheel")
 			{
 				std::cout << "GearDetected" << endl;
-				gameObject->setBehaviour(new RotatingBehaviour());
+				gameObject->setBehaviour(new RotatingBehaviour(15, glm::vec3(0,0,1)));
 			}
 			if (attribValue == "ElevatorPlatform")
 			{

@@ -22,7 +22,6 @@ class AbstractMaterial
     public:
         AbstractMaterial();
         virtual ~AbstractMaterial();
-
         /**
          * Render the given mesh in the given world using the given mvp matrices. Implement in subclass.
          */
