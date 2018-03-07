@@ -64,3 +64,8 @@ void CameraMovementBehaviour::update(float pStep)
 void CameraMovementBehaviour::start()
 {
 }
+
+AbstractBehaviour* CameraMovementBehaviour::copy()
+{
+	return new CameraMovementBehaviour(_moveSpeed, _turnSpeed, _lookUpSpeed);
+}

@@ -1,4 +1,5 @@
 #include <iostream>
+#include "mge/config.hpp"
 
 #include "AbstractGame.hpp"
 #include "mge/core/Renderer.hpp"
@@ -75,9 +76,11 @@ void AbstractGame::_initializeRenderer() {
 }
 
 void AbstractGame::_initializeWorld() {
+	using namespace config;
     //setup the world
 	std::cout << "Initializing world..." << std::endl;
 	_world = new World();
+	_world->setActor(CURRENT_SCENE);
     std::cout << "World initialized." << std::endl << std::endl;
 }
 

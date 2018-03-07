@@ -14,6 +14,7 @@ public:
 	LuaScript(string fileName);
 	virtual ~LuaScript();
 
+	
 	virtual void start();
 	virtual void luaStart() = 0;
 
@@ -50,6 +51,8 @@ private:
 
 	//For Lua
 	static int spawnObject(lua_State* state);
+	static int action(lua_State* state);
+	static int getAction(std::string action);
 };
 
 

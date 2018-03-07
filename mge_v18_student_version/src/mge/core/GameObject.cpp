@@ -1,13 +1,14 @@
 #include <iostream>
 #include <map>
 #include <vector>
+#include "mge/config.hpp"
 #include "GameObject.hpp"
 #include "mge/behaviours/AbstractBehaviour.hpp"
 #include "../_vs2015/custom/BoxCollider.h"
 
 GameObject::GameObject(const std::string& pName, const glm::vec3& pPosition)
 	: _name(pName), _transform(glm::translate(pPosition)), _parent(nullptr), _children(),
-	_mesh(nullptr), _behaviour(nullptr), _material(nullptr), _world(nullptr)
+	_mesh(nullptr), _behaviour(nullptr), _material(nullptr), _world(nullptr), actor_tag(""), tag("default")
 
 {
 }
@@ -29,6 +30,8 @@ GameObject::~GameObject()
 		remove(child);
 		delete child;
 	}
+	_parent->remove(this);
+	removeActor();
 
 	//do not forget to delete behaviour, material, mesh, collider manually if required!
 }
@@ -208,6 +211,32 @@ void GameObject::_setWorldRecursively(World* pWorld) {
 	}
 }
 
+GameObject* GameObject::copy(std::string pName, GameObject* o)
+{
+	if (o == this) {
+		printf(("Error: Parent loop in " + _name).c_str());
+		return nullptr;
+	}
+	if (o == nullptr) o = this;
+	std::string copyName = pName;
+	glm::vec3 pos = getLocalPosition();
+	if (copyName == "") copyName = _name;
+	GameObject* g = new GameObject(copyName, pos);
+	g->setParent(getParent());
+	for (int a = 0; a < getChildCount(); a++) {
+		g->add(getChildAt(a)->copy(false));
+	}
+	g->setMesh(getMesh());
+	AbstractBehaviour* beh = getBehaviour();
+	if (beh != nullptr) {
+		g->setBehaviour(beh->copy());
+	}
+	g->setMaterial(getMaterial());
+	g->setTransform(getTransform());
+	GameObject::getActor(config::CURRENT_SCENE);
+	return g;
+}
+
 int GameObject::getChildCount() const {
 	return _children.size();
 }
@@ -216,5 +245,44 @@ GameObject* GameObject::getChildAt(int pIndex) const {
 	return _children[pIndex];
 }
 
-//std::map<std::string, GameObject*> GameObject::actors = std::map<std::string, GameObject*>()
+std::map<std::string, GameObject*> GameObject::actors = std::map<std::string, GameObject*>();
 
+GameObject* GameObject::getActor(std::string tag)
+{
+	GameObject* actor = nullptr;
+	if (tag != "" && isActor(tag)) {
+		return actors[tag];
+	}
+	if (actor == nullptr) {
+		std::cout << "No Actor with tag [" << tag << "] exists!";
+	}
+	return actor;
+}
+
+bool GameObject::isActor(std::string tag)
+{
+	return(actors.count(tag));
+}
+
+void GameObject::setActor(std::string tag)
+{
+	using namespace std;
+	if (tag == "") return;
+	if (isActor(tag)) {
+		cout << "Actor with tag [" << tag << "] already exists." << endl;
+		return;
+	} else {
+		actors.insert(pair<string, GameObject*>(tag, this));
+		actor_tag = tag;
+	}
+}
+
+void GameObject::removeActor()
+{
+	if (actor_tag != "") {
+		actors.erase(actor_tag);
+	}
+}
+
+void GameObject::setTag(std::string pTag) { tag = pTag; }
+std::string GameObject::getTag() { return tag; }

@@ -2,7 +2,7 @@ function vec2(px, py)
 	return {x = px, y = py}
 end
 
-World = "root"
+World = "world"
 
 speed = 5
 gravity = 10
@@ -14,19 +14,19 @@ weapons = {}
 equiped = ""
 cooldown = 0
 
-
+movement = vec2(0, 0)
 aim = vec2(0, 0)
 
-function vecMult(vec, mult)
-	if(vec.x == nil) then
-		vec.x = 0
+function vecScale(v, scalar)
+	if(v.x == nil) then
+		v.x = 0
 	end
-	if(vec.y == nil) then
-		vec.y = 0
+	if(v.y == nil) then
+		v.y = 0
 	end
-	vec.x = vec.x * mult
-	vec.y = vec.y * mult
-	return vec
+	v.x = v.x * scalar
+	v.y = v.y * scalar
+	return v
 end
 
 function newWeapon( pName, pDamage, pFireRate, pRange, pSpeed )
@@ -45,16 +45,13 @@ function newWeapon( pName, pDamage, pFireRate, pRange, pSpeed )
 end
 
 function start()
-	weapons["pistol"] = newWeapon("pistol", 1, 1, 5, 5)
+	weapons["pistol"] = newWeapon("pistol", 1, 1, 10, 5)
 	equip("pistol")
 end
 
-function move( x, y, j )
-	m = vec2(0, 0)
+function move( x, y, j)
 	aim:calculate(x, y)
-	m.x = x * speed;
-
-	return m.y, m.x;
+	movement.x = x * speed;
 end
 
 function aim:calculate(x, y)
@@ -67,7 +64,7 @@ function aim:calculate(x, y)
 		self.x = facing
 	end
 	length = math.sqrt(math.pow(self.x, 2) + math.pow(self.y, 2))
-	self = vecMult(self, 1 / length)
+	self = vecScale(self, 1 / length)
 end
 
 function shoot(pX, pY)
@@ -79,7 +76,7 @@ function shoot(pX, pY)
 		return;
 	end
 	cooldown = weapons[equiped].fireRate;
-	bulletDelta = vecMult(aim, weapons[equiped].speed)
+	bulletDelta = vecScale(aim, weapons[equiped].speed)
 	bsp = weapons[equiped].range / weapons[equiped].speed
 
 	--print(pX..", "..pY)
@@ -100,6 +97,9 @@ function step( dt )
 	if(cooldown > 0) then
 		cooldown = cooldown - dt;
 	end
+	m = vec2(movement.x, movement.y)
+	m = vecScale(m, dt)
+	action("player", "move", m.x, m.y, 0)
 end
 
 function lastStep( dt )

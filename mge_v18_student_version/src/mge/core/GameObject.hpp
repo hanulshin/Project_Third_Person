@@ -20,6 +20,7 @@ class GameObject
 		GameObject(const std::string& pName = nullptr, const glm::vec3& pPosition = glm::vec3(0.0f, 0.0f, 0.0f));
 		//GameObject(const BoxCollider&, const std::string& pName = nullptr, const glm::vec3& pPosition = glm::vec3( 0.0f, 0.0f, 0.0f ));
 		virtual ~GameObject();
+		GameObject* copy(std::string name = "", GameObject* o = nullptr);
 
         void setName (const std::string& pName);
         std::string getName() const;
@@ -74,9 +75,10 @@ class GameObject
         int getChildCount() const;
         GameObject* getChildAt (int pIndex) const;
 
-		void setActor();
+		void setActor(std::string tag);
 		void removeActor();
-		static GameObject* getActor(std::string index);
+		static bool isActor(std::string tag);
+		static GameObject* getActor(std::string tag);
 
 	protected:
 		std::string _name;
@@ -99,10 +101,11 @@ class GameObject
 		//used to pass on pointer to the world to a gameobject
 		virtual void _setWorldRecursively (World* pWorld);
 
-		
-
+		void setTag(std::string tag);
+		std::string getTag();
     private:
-		bool actor;
+		std::string tag;
+		std::string actor_tag;
 		static std::map<std::string, GameObject*> actors;
 
         GameObject (const GameObject&);

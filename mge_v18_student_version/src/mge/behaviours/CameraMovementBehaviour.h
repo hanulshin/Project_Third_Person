@@ -8,6 +8,7 @@ public:
 	~CameraMovementBehaviour();
 	virtual void update(float pStep);
 	virtual void start();
+	virtual AbstractBehaviour* copy();
 private:
 	float _moveSpeed;
 	float _turnSpeed;
