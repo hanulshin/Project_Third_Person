@@ -53,16 +53,15 @@ void BoxCollider::OnCollision(GameObject* pOther)
 		if (_parent->getName() == "Player" && pOther->getName() == "ElevatorPlatform")
 		{
 			std::cout << pOther->getLocalPosition().y << std::endl;
-			_parent->translate(glm::vec3(0.0f, 0.1f, 0.0f));
+			_newPos = glm::vec3(0.0f, 1, 0.0f);
 		}
 	}
 }
 
 void BoxCollider::update(float pStep)
 {
-	//std::cout << getLocalPosition() << std::endl;
-	//std::cout << getWorldPosition() << std::endl;
-
+	_parent->translate(_newPos * pStep);
+	_newPos = glm::vec3();
 }
 
 BoxCollider::~BoxCollider() {};

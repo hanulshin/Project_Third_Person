@@ -24,8 +24,8 @@ public:
 	void OnCollision(GameObject* pOther);
 	void update(float pStep);
 	bool isTrigger = false;
-//private:
-	//glm::vec3 _newPos;
+private:
+	glm::vec3 _newPos;
 };
 
 #endif // !BOXCOLLIDER_H
