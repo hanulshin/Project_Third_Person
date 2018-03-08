@@ -58,7 +58,7 @@ void LuaPlayer::update(float pStep)
 
 	vec3 delta = vec3(0, 0, 0);
 	glm::vec3 currentPos = _owner->getWorldPosition();
-	std::cout <<"Player x position: " << currentPos.x << std::endl;
+	//std::cout <<"Player x position: " << currentPos.x << std::endl;
 	if (currentPos.x + pStep>-7.0f && currentPos.x + pStep<5.0f)
 		delta.x = Keyboard::isKeyPressed(Keyboard::Right) - Keyboard::isKeyPressed(Keyboard::Left);
 	else

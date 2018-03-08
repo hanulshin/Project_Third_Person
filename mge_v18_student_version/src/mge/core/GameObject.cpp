@@ -14,13 +14,6 @@ GameObject::GameObject(const std::string& pName, const glm::vec3& pPosition)
 	_boxCollider = nullptr;
 	_gameObjects.push_back(this);
 }
-//GameObject::GameObject(const BoxCollider& pBoxCollider, const std::string& pName, const glm::vec3& pPosition)
-//	: _name(pName), _transform(glm::translate(pPosition)), _parent(nullptr), _children(),
-//	_mesh(nullptr), _behaviour(nullptr), _material(nullptr), _world(nullptr)
-//
-//{
-//}
-
 
 GameObject::~GameObject()
 {
@@ -37,6 +30,7 @@ GameObject::~GameObject()
 
 	//do not forget to delete behaviour, material, mesh, collider manually if required!
 	_gameObjects.erase(std::find(_gameObjects.begin(),_gameObjects.end(), this));
+	std::cout << "erased " << this->_name << std::endl;
 }
 
 void GameObject::setName(const std::string& pName)
@@ -103,6 +97,7 @@ AbstractBehaviour* GameObject::getBehaviour() const
 
 void GameObject::setBoxCollider(BoxCollider* pBoxCollider) {
 	_boxCollider = pBoxCollider;
+	add(_boxCollider);
 }
 BoxCollider* GameObject::getBoxCollider() const
 {
@@ -209,6 +204,13 @@ void GameObject::update(float pStep)
 bool GameObject::hasCollider()
 {
 	return _boxCollider != nullptr;
+}
+
+void GameObject::OnCollision(GameObject * pOther)
+{
+	for (int i = _children.size() - 1; i >= 0; --i) {
+		_children[i]->OnCollision(pOther);
+	}
 }
 
 void GameObject::_setWorldRecursively(World* pWorld) {

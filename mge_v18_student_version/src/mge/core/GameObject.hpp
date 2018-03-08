@@ -60,6 +60,8 @@ class GameObject
 		virtual void update(float pStep);
 
 		bool hasCollider();
+
+		virtual void OnCollision(GameObject* pOther);
 		
         //child management, note that add/remove and setParent are closely coupled.
         //a.add(b) has the same effect as b.setParent(a)

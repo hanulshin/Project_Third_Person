@@ -18,7 +18,7 @@ void LoadDodgerScene::initialize()
 
 void LoadDodgerScene::_initializeScene()
 {
-	
+
 
 	Mesh* cubeMesh = Mesh::load(config::MGE_MODEL_PATH + "cube_flat.obj");
 	Mesh* sphereMesh = Mesh::load(config::MGE_MODEL_PATH + "sphere_smooth.obj");
@@ -27,14 +27,14 @@ void LoadDodgerScene::_initializeScene()
 	AbstractMaterial* playerMaterial = new ColorMaterial(glm::vec3(0, 0.5f, 1));
 	AbstractMaterial* runicStoneMaterial = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "runicfloor.png"));
 
-	
+
 	GameObject* player = new GameObject("Player", glm::vec3(0, 1, 0));
 	player->scale(glm::vec3(0.8f, 1, 0.8f));
 	player->setMesh(sphereMesh);
 	player->setMaterial(playerMaterial);
 	player->setBehaviour(new LuaPlayer());
 	player->setActor("player");
-	player->setBoxCollider(new BoxCollider(2.0f,2.0f,player->getWorldPosition()));
+	player->setBoxCollider(new BoxCollider(2.0f, 2.0f, player->getWorldPosition()));
 	_world->add(player);
 
 	GameObject* bullet = new GameObject("Bullet");
@@ -46,15 +46,15 @@ void LoadDodgerScene::_initializeScene()
 	Camera* camera = new Camera("camera", glm::vec3(0, 10.9, 23.5));
 	camera->rotate(glm::radians(0.0f), glm::vec3(0.0, -1.0, 0.0));
 	//camera->setBehaviour(new CameraMovementBehaviour());
-	
+
 
 	//camera->setBehaviour(new UpMovementBehaviour());
-	player ->add(camera);
+	player->add(camera);
 	_world->setMainCamera(camera);
 
-	
+
 	//read the file as char vector
-	std::ifstream myXml(config::MGE_SCENE_PATH+"scene.xml");
+	std::ifstream myXml(config::MGE_SCENE_PATH + "scene.xml");
 	std::vector<char> buffer((std::istreambuf_iterator<char>(myXml)), std::istreambuf_iterator<char>());
 	buffer.push_back('\0');
 
@@ -81,14 +81,14 @@ void LoadDodgerScene::_processSingle(rapidxml::xml_node<>* pXmlNode, GameObject*
 {
 	GameObject* currentNode = pGameObjectNode;
 	std::cout << "Processing" << pXmlNode->name() << std::endl;
-	if (strcmp(pXmlNode->name(),"GameObject")==0)
+	if (strcmp(pXmlNode->name(), "GameObject") == 0)
 	{
 		GameObject * newNode = _convertGameObject(pXmlNode, currentNode);
 		currentNode->add(newNode);
 		std::cout << newNode->getName() << " added to " << currentNode->getName() << std::endl;
 		currentNode = newNode;
 	}
-	_processChildren(pXmlNode,currentNode);
+	_processChildren(pXmlNode, currentNode);
 }
 
 GameObject* LoadDodgerScene::_convertGameObject(rapidxml::xml_node<>* pXmlNode, GameObject* pgameObjectNode)
@@ -103,21 +103,21 @@ GameObject* LoadDodgerScene::_convertGameObject(rapidxml::xml_node<>* pXmlNode, 
 	//Gears_phong4SG_Diffuse 1
 	gameObject->setMaterial(stoner);
 	for (rapidxml::xml_attribute<>*attrib = pXmlNode->first_attribute();
-		attrib!=NULL;attrib=attrib->next_attribute())
+		attrib != NULL; attrib = attrib->next_attribute())
 	{
 		std::cout << attrib->name() << "=" << attrib->value() << std::endl;
 		std::string attribName = attrib->name();
 		std::string attribValue = attrib->value();
-		
+
 		if (attribName == "name")
 		{
 			gameObject->setName(attribValue);
 
 			//setup a fiunction which takes attrib value and assigns texture depending on it
-			if (attribValue=="GearsWheel")
+			if (attribValue == "GearsWheel")
 			{
 				std::cout << "GearDetected" << endl;
-				gameObject->setBehaviour(new RotatingBehaviour(15, glm::vec3(0,0,1)));
+				gameObject->setBehaviour(new RotatingBehaviour(15, glm::vec3(0, 0, 1)));
 			}
 			if (attribValue == "ElevatorPlatform")
 			{
@@ -132,7 +132,7 @@ GameObject* LoadDodgerScene::_convertGameObject(rapidxml::xml_node<>* pXmlNode, 
 				gameObject->setMaterial(gearsT);
 			}
 		}
-		else if (attribName=="position")
+		else if (attribName == "position")
 		{
 			glm::vec3 position;
 			sscanf(attrib->value(), "(%f,%f,%f)", &position.x, &position.y, &position.z);
@@ -141,21 +141,25 @@ GameObject* LoadDodgerScene::_convertGameObject(rapidxml::xml_node<>* pXmlNode, 
 		else if (attribName == "rotation")
 		{
 			glm::quat rotation;
-			sscanf(attrib->value(),"(%f,%f,%f,%f)",&rotation.x,&rotation.y,&rotation.z,&rotation.w);
-			gameObject->rotate(glm::angle(rotation),glm::axis(rotation));
+			sscanf(attrib->value(), "(%f,%f,%f,%f)", &rotation.x, &rotation.y, &rotation.z, &rotation.w);
+			gameObject->rotate(glm::angle(rotation), glm::axis(rotation));
 		}
-		else if(attribName == "scale")
+		else if (attribName == "scale")
 		{
 			glm::vec3 scale;
 			sscanf(attrib->value(), "(%f,%f,%f)", &scale.x, &scale.y, &scale.z);
 			gameObject->scale(scale);
 		}
-		else if(attribName=="mesh")
+		else if (attribName == "mesh")
 		{
 			Mesh* objMesh = Mesh::load(config::MGE_MODEL_PATH + attribValue);
 			gameObject->setMesh(objMesh);
+			if (gameObject->getName() == "ElevatorPlatform")
+			{
+				gameObject->setBoxCollider(new BoxCollider(200.0f, 1.0f, gameObject->getWorldPosition()));
+				gameObject->setBehaviour(new UpMovementBehaviour());
+			}
 		}
-
 	}
 	_world->add(gameObject);
 	return gameObject;

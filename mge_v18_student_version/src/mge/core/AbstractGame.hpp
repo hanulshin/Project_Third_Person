@@ -49,7 +49,8 @@ class AbstractGame
         virtual void _render();
         //process any sfml window events (see SystemEventDispatcher/Listener)
         virtual void _processEvents();
-
+		//brute force way to check for collisions. override to implement your own algorithm to check for collisions
+		virtual void _processCollisions();
 		sf::RenderWindow* _window;  //sfml window to render into
 		Renderer* _renderer;        //the renderer class to render the world
 		World* _world;              //the root game object that represents our scene

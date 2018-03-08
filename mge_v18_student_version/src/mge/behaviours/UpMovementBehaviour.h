@@ -12,4 +12,5 @@ public:
 
 	virtual void update(float pStep);
 	virtual void start();
+	virtual AbstractBehaviour* copy();
 };
