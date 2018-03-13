@@ -14,12 +14,10 @@ public:
 	virtual void start();
 	virtual void update(float dt);
 	virtual AbstractBehaviour* copy();
-	void fire();
 private:
 	glm::vec2 velocity;
 	int damage;
 	float time;
-	bool frozen;
 };
 
 #endif // BULLETBEHAVIOUR_HPP

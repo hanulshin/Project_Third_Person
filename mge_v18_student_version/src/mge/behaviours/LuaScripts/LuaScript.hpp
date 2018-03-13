@@ -5,16 +5,16 @@
 #include <string>
 #include <map>
 #include "mge/behaviours/AbstractBehaviour.hpp"
+#include "SFML\Window\Keyboard.hpp"
 
 using namespace std;
 
 class LuaScript : public AbstractBehaviour
 {
 public:
-	LuaScript(string fileName);
+	LuaScript(string fileName, string tag);
 	virtual ~LuaScript();
 
-	
 	virtual void start();
 	virtual void luaStart() = 0;
 
@@ -23,11 +23,10 @@ public:
 protected:
 	lua_State * state;
 
-	void openFile(string fileName);
+	void openFile(string fileName, bool runStart = true);
 	void settupFunction(string funcName);
 
 	void callLuaUpdate(string pName, float pStep);
-
 	void callFunction(int args = 0, int results = 0);
 
 	void pushInt(int num);
@@ -45,14 +44,33 @@ protected:
 
 	void registerFunction(string name, lua_CFunction func);
 private:
+	void callInput();
 	std::string _file;
-
-	static map<string, GameObject*> quickFind;
+	std::string _tag;
 
 	//For Lua
+
 	static int spawnObject(lua_State* state);
-	static int action(lua_State* state);
-	static int getAction(std::string action);
+	static int blueprint(lua_State * state);
+	static int clone(lua_State * state);
+	static int addColor(lua_State * state);
+	static int loadTexture(lua_State * state);
+	static int loadMesh(lua_State * state);
+	static int move(lua_State * state);
+	static int rotate(lua_State * state);
+	static int scale(lua_State * state);
+	static int addChild(lua_State * state);
+	static int addToWorld(lua_State * state);
+	static int kill(lua_State * state);
+
+	static int addLuaScript(lua_State * state);
+	static int addBullet(lua_State * state);
+	static int addSpin(lua_State * state);
+
+	static int setPosition(lua_State * state);
+	static int getPosition(lua_State * state);
+	static int getGlobalPosition(lua_State * state);
+	static int actorExists(lua_State * state);
 };
 
 

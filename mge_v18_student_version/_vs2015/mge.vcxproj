@@ -172,6 +172,8 @@
     <ClInclude Include="..\src\mge\behaviours\AbstractBehaviour.hpp" />
     <ClInclude Include="..\src\mge\behaviours\BulletBehaviour.hpp" />
     <ClInclude Include="..\src\mge\behaviours\CameraMovementBehaviour.h" />
+    <ClInclude Include="..\src\mge\behaviours\LuaScripts\EnemyAI.hpp" />
+    <ClInclude Include="..\src\mge\behaviours\LuaScripts\EnemySpawner.hpp" />
     <ClInclude Include="..\src\mge\behaviours\PlayerBehaviour.hpp" />
     <ClInclude Include="..\src\mge\behaviours\LuaScripts\LuaPlayer.hpp" />
     <ClInclude Include="..\src\mge\behaviours\LuaScripts\LuaScript.hpp" />
@@ -183,6 +185,7 @@
     <ClInclude Include="..\src\mge\core\GameObject.hpp" />
     <ClInclude Include="..\src\mge\core\Light.hpp" />
     <ClInclude Include="..\src\mge\core\Mesh.hpp" />
+    <ClInclude Include="..\src\mge\core\Prefab.hpp" />
     <ClInclude Include="..\src\mge\core\Renderer.hpp" />
     <ClInclude Include="..\src\mge\core\ShaderProgram.hpp" />
     <ClInclude Include="..\src\mge\core\Texture.hpp" />
@@ -201,6 +204,8 @@
     <ClCompile Include="..\src\mge\behaviours\AbstractBehaviour.cpp" />
     <ClCompile Include="..\src\mge\behaviours\BulletBehaviour.cpp" />
     <ClCompile Include="..\src\mge\behaviours\CameraMovementBehaviour.cpp" />
+    <ClCompile Include="..\src\mge\behaviours\LuaScripts\EnemyAI.cpp" />
+    <ClCompile Include="..\src\mge\behaviours\LuaScripts\EnemySpawner.cpp" />
     <ClCompile Include="..\src\mge\behaviours\PlayerBehaviour.cpp" />
     <ClCompile Include="..\src\mge\behaviours\LuaScripts\LuaPlayer.cpp" />
     <ClCompile Include="..\src\mge\behaviours\LuaScripts\LuaScript.cpp" />
@@ -211,6 +216,7 @@
     <ClCompile Include="..\src\mge\core\GameObject.cpp" />
     <ClCompile Include="..\src\mge\core\Light.cpp" />
     <ClCompile Include="..\src\mge\core\Mesh.cpp" />
+    <ClCompile Include="..\src\mge\core\Prefab.cpp" />
     <ClCompile Include="..\src\mge\core\Renderer.cpp" />
     <ClCompile Include="..\src\mge\core\ShaderProgram.cpp" />
     <ClCompile Include="..\src\mge\core\Texture.cpp" />

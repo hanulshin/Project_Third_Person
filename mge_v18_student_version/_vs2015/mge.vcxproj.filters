@@ -27,6 +27,9 @@
     <ClCompile Include="..\src\mge\behaviours\UpMovementBehaviour.cpp" />
     <ClCompile Include="custom\BoxCollider.cpp" />
     <ClCompile Include="..\src\mge\behaviours\BulletBehaviour.cpp" />
+    <ClCompile Include="..\src\mge\behaviours\LuaScripts\EnemySpawner.cpp" />
+    <ClCompile Include="..\src\mge\behaviours\LuaScripts\EnemyAI.cpp" />
+    <ClCompile Include="..\src\mge\core\Prefab.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\glm.hpp" />
@@ -56,6 +59,9 @@
     <ClInclude Include="..\src\mge\behaviours\UpMovementBehaviour.h" />
     <ClInclude Include="custom\BoxCollider.h" />
     <ClInclude Include="..\src\mge\behaviours\BulletBehaviour.hpp" />
+    <ClInclude Include="..\src\mge\behaviours\LuaScripts\EnemySpawner.hpp" />
+    <ClInclude Include="..\src\mge\behaviours\LuaScripts\EnemyAI.hpp" />
+    <ClInclude Include="..\src\mge\core\Prefab.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\src\mge\scene.xml" />

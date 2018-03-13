@@ -1,21 +1,36 @@
-function vec2(px, py)
-	return {x = px, y = py}
+
+
+
+function vec( px, py )
+	return { x = px, y = py }
 end
 
-World = "world"
+function aimVec( degrees )
+	local rad = degrees / 180 * math.pi
+	local v = { x = 0, y = 1 }
+	local av = { x, y }
+	av.x = v.x * math.cos(rad) - v.y * math.sin(rad)
+	av.y = v.x * math.sin(rad) + v.y * math.cos(rad)
+	return av;
+end
 
+boolNum = { [true] = 1, [false] = 0 }
 speed = 5
 gravity = 10
 jump = 10
 
 facing = 1
 
+bulletsFired = 0
+
 weapons = {}
 equiped = ""
 cooldown = 0
 
-movement = vec2(0, 0)
-aim = vec2(0, 0)
+owner = ""
+bulletName = "bullet"
+
+movement = vec(0, 0)
 
 function vecScale(v, scalar)
 	if(v.x == nil) then
@@ -29,13 +44,15 @@ function vecScale(v, scalar)
 	return v
 end
 
-function newWeapon( pName, pDamage, pFireRate, pRange, pSpeed )
+function newWeapon( pName, pDamage, pFireRate, pRange, pSpeed, pAccuracy, pCluster )
 	w = { 
 		name = pName, 
 		damage = pDamage, 
 		fireRate = pFireRate, 
 		range = pRange, 
-		speed = pSpeed 
+		speed = pSpeed,
+		accuracy = pAccuracy,
+		cluster = pCluster
 	}
 
 	if(w.speed <= 0) then
@@ -44,45 +61,55 @@ function newWeapon( pName, pDamage, pFireRate, pRange, pSpeed )
 	return w
 end
 
-function start()
-	weapons["pistol"] = newWeapon("pistol", 1, 1, 10, 5)
-	equip("pistol")
+function start(pOwner)
+	owner = pOwner
+	-- Name, Damage, FireRate, Range, Speed, Accuracy, Cluster[2]
+	weapons["pistol"] =  newWeapon("pistol" , 5, 0.80, 30, 20, 95, 1 )
+	weapons["flame"] =   newWeapon("flame"  , 1, 0.06, 10, 10, 80, {1, 3} )
+	weapons["shotgun"] = newWeapon("shotgun", 3, 1.40, 25, 20, 60, {2, 4} )
+	weapons["minigun"] = newWeapon("minigun", 2, 0.12, 30, 20, 85, 1 )
+	weapons["barrel"] =  newWeapon("barrel" , 4, 1.20, 20, 30, 75, 2 )
+
+	equip("flame")
+
+	local red = "red"
+	local cube = "cube_flat"
+	addColor(red, 1, 0, 0, 1)
+	loadMesh(cube, "obj")
+	blueprint(bulletName, cube, red)
+	scale("_"..bulletName, 0.3, 0.3, 0.3)
 end
 
-function move( x, y, j)
-	aim:calculate(x, y)
-	movement.x = x * speed;
-end
+function input( )
 
-function aim:calculate(x, y)
-	if(x ~= 0)then
-		facing = x;
+	movement.x = (boolNum[getKey("right")] - boolNum[getKey("left")]) * speed
+
+	if getKey("z") then
+		shoot(0, 1)
 	end
-	self.x = x;
-	self.y = y;
-	if(self.x == 0 and self.y == 0) then
-		self.x = facing
-	end
-	length = math.sqrt(math.pow(self.x, 2) + math.pow(self.y, 2))
-	self = vecScale(self, 1 / length)
 end
 
 function shoot(pX, pY)
 	if(cooldown > 0) then
-		return
+		return 
 	end
 	if(weapons[equiped] == nil) then
 		print("Error: ["..equiped.."] doesn't exist!")
 		return;
 	end
-	cooldown = weapons[equiped].fireRate;
-	bulletDelta = vecScale(aim, weapons[equiped].speed)
-	bsp = weapons[equiped].range / weapons[equiped].speed
+	cooldown = weapons[equiped].fireRate
 
-	--print(pX..", "..pY)
-	--print(bulletDelta.x..", "..bulletDelta.y)
+	local c = weapons[equiped].cluster
+	local sh
+	if(type(c) == "table") then
+		sh = math.random(c[1], c[2])
+	else
+		sh = c
+	end
 
-	fire(weapons[equiped].name ,pX, pY, bulletDelta.x, bulletDelta.y, weapons[equiped].damage, weapons[equiped].speed, bsp)
+	for i=1, sh do
+		fireBullet()
+	end
 end
 
 function equip( weapon )
@@ -94,14 +121,28 @@ function equip( weapon )
 end
 
 function step( dt )
+	input()
 	if(cooldown > 0) then
 		cooldown = cooldown - dt;
 	end
-	m = vec2(movement.x, movement.y)
+	local m = vec(movement.x, movement.y)
 	m = vecScale(m, dt)
-	action("player", "move", m.x, m.y, 0)
+	move(owner, m.x, m.y, 0)
 end
 
-function lastStep( dt )
+function fireBullet()
+	local bulletNumber = "bullet("..bulletsFired..")"
+	bulletsFired = bulletsFired + 1
+	clone("_bullet", bulletNumber)
 
+	local aimCone = (100 - weapons[equiped].accuracy) / 2
+	local trajectory = math.random(-aimCone, aimCone)
+	local sp = weapons[equiped].speed
+	local bulletDelta = vecScale(aimVec(trajectory), sp / 0.3)
+	local bulletTime = weapons[equiped].range / sp
+
+	addBullet(bulletNumber, bulletDelta.x, bulletDelta.y, weapons[equiped].damage, bulletTime)
+	pPos = { getPos(owner) }
+	setPos(bulletNumber, pPos[1], pPos[2], pPos[3])
+	addToWorld(bulletNumber)
 end

@@ -1,17 +1,26 @@
-#include "mge\behaviours\LuaScripts\LuaScript.hpp"
 #include <LuaJIT-2.0.5\src\lua.hpp>
 #include <string>
 #include <cmath>
 #include <iostream>
 #include <string>
+#include <map>
+#include "SFML\Window\Keyboard.hpp"
 #include "glm.hpp"
 #include "mge\config.hpp"
 #include "mge\core\AbstractGame.hpp"
 #include "mge\core\GameObject.hpp"
+#include "mge\core\Prefab.hpp"
+#include "mge\materials\AbstractMaterial.hpp"
+#include "mge\materials\ColorMaterial.hpp"
+#include "mge\materials\TextureMaterial.hpp"
+#include "mge\behaviours\BulletBehaviour.hpp"
+#include "mge\behaviours\RotatingBehaviour.hpp"
+#include "mge\behaviours\LuaScripts\LuaScript.hpp"
+#include "mge\behaviours\LuaScripts\LuaPlayer.hpp"
+#include "mge\behaviours\LuaScripts\EnemySpawner.hpp"
+#include "mge\behaviours\LuaScripts\EnemyAI.hpp"
 
 using namespace std;
-
-map<string, GameObject*> LuaScript::quickFind = map<string, GameObject*>();
 
 //LUA functions
 int LuaScript::spawnObject(lua_State* state) {
@@ -24,39 +33,173 @@ int LuaScript::spawnObject(lua_State* state) {
 	return 0;
 }
 
-int LuaScript::action(lua_State* state) 
-{
-	string actorTag = lua_tostring(state, 1);
-	GameObject* actor = GameObject::getActor(actorTag);
-	string action = lua_tostring(state, 2);
-	glm::vec3 delta = glm::vec3();
-	int n = getAction(action);
-	switch (n) {
-	    case 1:
-			delta.x = lua_tonumber(state, 3);
-			delta.y = lua_tonumber(state, 4);
-			delta.z = lua_tonumber(state, 5);
-			actor->translate(delta);
-			break;
-		case 2:
-			actor->add(GameObject::getActor(lua_tostring(state, 3)));
-		default:
-			cout << "Invalid Action [" << action << "].";
-			return 2;
+int LuaScript::blueprint(lua_State * state) {
+	Prefab* prefab = Prefab::instance();
+	string pName = lua_tostring(state, 1);
+	printf("%s", pName.c_str());
+	string pMesh = lua_tostring(state, 2);
+	string pTexture = lua_tostring(state, 3);
+	GameObject* pref = new GameObject(pName);
+	GameObject* prefBody = new GameObject(pName + "Body");
+	pref->add(prefBody);
+	prefBody->setMesh(prefab->getMesh(pMesh));
+	prefBody->setMaterial(prefab->getMaterial(pTexture));
+	pref->setActor("_" + pName);
+
+	return 0;
+}
+
+int LuaScript::move(lua_State * state) {
+	string actor = lua_tostring(state, 1);
+	glm::vec3 delta = glm::vec3(lua_tonumber(state, 2), lua_tonumber(state, 3), lua_tonumber(state, 4));
+	GameObject::getActor(actor)->translate(delta);
+	return 0;
+}
+
+int LuaScript::rotate(lua_State * state) {
+	string actor = lua_tostring(state, 1);
+	glm::vec3 delta = glm::vec3(lua_tonumber(state, 2), lua_tonumber(state, 3), lua_tonumber(state, 4));
+	GameObject::getActor(actor)->rotate(delta.x, glm::vec3(1, 0, 0));
+	GameObject::getActor(actor)->rotate(delta.y, glm::vec3(0, 1, 0));
+	GameObject::getActor(actor)->rotate(delta.z, glm::vec3(0, 0, 1));
+	return 0;
+}
+
+int LuaScript::scale(lua_State * state) {
+	string actor = lua_tostring(state, 1);
+	glm::vec3 delta = glm::vec3(lua_tonumber(state, 2), lua_tonumber(state, 3), lua_tonumber(state, 4));
+	GameObject::getActor(actor)->scale(delta);
+	return 0;
+}
+
+int LuaScript::addChild(lua_State * state) {
+	string parent = lua_tostring(state, 1);
+	string child = lua_tostring(state, 2);
+	GameObject::getActor(parent)->add(GameObject::getActor(child));
+	return 0;
+
+}
+
+int LuaScript::addToWorld(lua_State * state) {
+	GameObject::getActor("world")->add(GameObject::getActor(lua_tostring(state, 1)));
+	return 0;
+}
+
+int LuaScript::clone(lua_State * state) {
+	string original = lua_tostring(state, 1);
+	string copy = lua_tostring(state, 2);
+	GameObject * o = GameObject::getActor(original)->copy(copy);
+	o->setActor(copy);
+	return 0;
+}
+
+int LuaScript::addColor(lua_State * state) {
+	string key = string(lua_tostring(state, 1));
+	glm::vec4 color = glm::vec4(lua_tonumber(state, 2), lua_tonumber(state, 3), lua_tonumber(state, 4), lua_tonumber(state, 5));
+	Prefab::instance()->setColor(key, color);
+	return 0;
+}
+
+int LuaScript::loadTexture(lua_State * state) {
+	string fileName = lua_tostring(state, 1);
+	string fileType = lua_tostring(state, 2);
+	Prefab::instance()->loadTexture(fileName, fileType);
+	return 0;
+}
+
+int LuaScript::loadMesh(lua_State * state) {
+	string fileName = lua_tostring(state, 1);
+	string fileType = lua_tostring(state, 2);
+	Prefab::instance()->loadMesh(fileName, fileType);
+	return 0;
+}
+
+int LuaScript::addLuaScript(lua_State * state) {
+	string actor = lua_tostring(state, 1);
+	string script = lua_tostring(state, 2);
+	string tag = lua_tostring(state, 3);
+	AbstractBehaviour* b;
+	if (script == "player") {
+		b = new LuaPlayer(tag);
+	} 
+	else if (script == "spawner") {
+		b = new EnemySpawner(tag);
+	} 
+	else if (script == "enemy") {
+		b = new EnemyAI(tag, lua_tostring(state, 4));
+	}
+	else {
+		b = nullptr;
+	}
+
+	if (b != nullptr) {
+		GameObject::getActor(actor)->setBehaviour(b);
+	}
+	else {
+		printf("No such script [%s] exists!", script);
 	}
 	return 0;
 }
 
-int LuaScript::getAction(std::string action)
+int LuaScript::addBullet(lua_State * state) {
+	GameObject * actor = GameObject::getActor(lua_tostring(state, 1));
+	glm::vec2 velocity = glm::vec2(lua_tonumber(state, 2), lua_tonumber(state, 3));
+	int damage = lua_tointeger(state, 4);
+	float time = lua_tonumber(state, 5);
+	actor->setBehaviour(new BulletBehaviour(velocity, damage, time));
+	return 0;
+}
+
+int LuaScript::addSpin(lua_State * state) {
+	GameObject * actor = GameObject::getActor(lua_tostring(state, 1));
+	float rpm = lua_tonumber(state, 2);
+	glm::vec3 axis = glm::vec3();
+	axis.x = lua_tonumber(state, 3);
+	axis.y = lua_tonumber(state, 4);
+	axis.z = lua_tonumber(state, 5);
+	actor->setBehaviour(new RotatingBehaviour(rpm, axis));
+	return 0;
+}
+
+int LuaScript::getGlobalPosition(lua_State * state) {
+	GameObject * actor = GameObject::getActor(lua_tostring(state, 1));
+	glm::vec3 pos = actor->getWorldPosition();
+	lua_pushnumber(state, pos.x);
+	lua_pushnumber(state, pos.y);
+	lua_pushnumber(state, pos.z);
+	return 3;
+}
+
+int LuaScript::getPosition(lua_State * state) {
+	GameObject * actor = GameObject::getActor(lua_tostring(state, 1));
+	glm::vec3 pos = actor->getLocalPosition();
+	lua_pushnumber(state, pos.x);
+	lua_pushnumber(state, pos.y);
+	lua_pushnumber(state, pos.z);
+	return 3;
+}
+
+int LuaScript::actorExists(lua_State * state) {
+	lua_pushboolean(state, GameObject::isActor(lua_tostring(state, 1)));
+	return 1;
+}
+
+int LuaScript::setPosition(lua_State * state) {
+	GameObject * actor = GameObject::getActor(lua_tostring(state, 1));
+	glm::vec3 pos = glm::vec3(lua_tonumber(state, 2), lua_tonumber(state, 3), lua_tonumber(state, 4));
+	actor->setLocalPosition(pos);
+	return 0;
+}
+
+int LuaScript::kill(lua_State * state) 
 {
-	if (action == "move") return 1;
-	if (action == "add") return 2;
+	delete(GameObject::getActor(lua_tostring(state, 1)));
 	return 0;
 }
 
 //Class
 
-LuaScript::LuaScript(string fileName) : _file(fileName)
+LuaScript::LuaScript(string fileName, string ptag) : _file(fileName), _tag(ptag)
 {
 
 }
@@ -66,17 +209,49 @@ LuaScript::~LuaScript()
 
 }
 
+void LuaScript::callInput() {
+	using namespace sf;
+	lua_newtable(state);
+	map<string, bool> inputMap;
+
+	callFunction(6);
+}
+
 void LuaScript::start()
 {
 	state = luaL_newstate();
 	luaL_openlibs(state);
-	openFile(_file);
+	openFile(_file, false);
+	if(!GameObject::isActor(_tag)) _owner->setActor(_tag);
+	registerFunction("addColor", addColor);
 	registerFunction("spawn", spawnObject);
-	registerFunction("action", action);
+	registerFunction("blueprint", blueprint);
+	registerFunction("clone", clone);
+	registerFunction("loadMesh", loadMesh);
+	registerFunction("loadTexture", loadTexture);
+	registerFunction("move", move);
+	registerFunction("rotate", rotate);
+	registerFunction("scale", scale);
+	registerFunction("addChild", addChild);
+	registerFunction("addToWorld", addToWorld);
+	registerFunction("kill", kill);
+
+	registerFunction("addLua", addLuaScript);
+	registerFunction("addBullet", addBullet);
+	registerFunction("addSpin", addSpin);
+
+	registerFunction("setPos", setPosition);
+	registerFunction("getPos", getPosition);
+	registerFunction("getGPos", getGlobalPosition);
+	registerFunction("isActor", actorExists);
+
+	settupFunction("start");
+	pushString(_tag);
+	callFunction(1);
 	luaStart();
 }
 
-void LuaScript::openFile(string fileName)
+void LuaScript::openFile(string fileName, bool runStart)
 {
 	_file = fileName;
 	if (luaL_dofile(state, (config::MGE_SCRIPTS_PATH + fileName).c_str()) != 0) {
@@ -84,8 +259,11 @@ void LuaScript::openFile(string fileName)
 		printf("Could not do file: %s\n", error.c_str());
 	}
 
-	settupFunction("start");
-	callFunction();
+	if (runStart) {
+		settupFunction("start");
+		pushString(_owner->getActorTag());
+		callFunction();
+	}
 }
 
 void LuaScript::settupFunction(string funcName)
@@ -171,4 +349,3 @@ int LuaScript::getIndex(int i) {
 void LuaScript::registerFunction(string name, lua_CFunction func) {
 	lua_register(state, name.c_str(), func);
 }
-

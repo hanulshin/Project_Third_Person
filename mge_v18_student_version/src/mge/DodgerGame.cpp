@@ -88,7 +88,7 @@ void DodgerGame::_initializeScene()
 	luaBlock->setMesh(cubeMesh);
 	luaBlock->scale(glm::vec3(0.5f, 0.5f, 0.5f));
 	luaBlock->setMaterial(luaCubeMaterial);
-	luaBlock->setBehaviour(new LuaPlayer());
+	luaBlock->setBehaviour(new LuaPlayer("player"));
 	_world->add(luaBlock);
 }
 

@@ -3,26 +3,23 @@
 
 #include "mge\behaviours\LuaScripts\LuaScript.hpp"
 #include "glm.hpp"
+#include <string>
 
 class LuaPlayer : public LuaScript
 {
 public:
-	LuaPlayer();
+	LuaPlayer(std::string pTag);
 	virtual ~LuaPlayer();
 
 	virtual void luaStart();
 	virtual void update(float pStep);
 	virtual AbstractBehaviour* copy();
 
-protected:
-
 private:
-	void inputDelta(glm::vec3 delta);
-	void shoot(glm::vec2 delta);
-	void equipWeapon(std::string weapon);
-
-	//For Lua
-	static int fireBullet(lua_State * state);
+	static void mapKey(sf::Keyboard::Key key, string luaKey);
+	static map<string, sf::Keyboard::Key> inputMap;
+	void mapInput();
+	static int getKey(lua_State * state);
 };
 
 #endif // LUAMOVE_HPP;

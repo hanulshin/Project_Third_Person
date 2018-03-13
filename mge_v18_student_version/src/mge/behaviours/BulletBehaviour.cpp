@@ -4,8 +4,9 @@
 #include "glm.hpp"
 
 BulletBehaviour::BulletBehaviour(glm::vec2 pVelocity, int pDamage, float pTime) :
-	AbstractBehaviour(), velocity(pVelocity), damage(pDamage), time(pTime), frozen(true)
+	AbstractBehaviour(), velocity(pVelocity), damage(pDamage), time(pTime)
 {
+	//std::cout << velocity.x << ", " << velocity.y << ", " << damage << ", " << time << std::endl;
 }
 
 BulletBehaviour::~BulletBehaviour()
@@ -13,18 +14,15 @@ BulletBehaviour::~BulletBehaviour()
 }
 
 void BulletBehaviour::start() {
-	fire();
+	
 }
 
-void BulletBehaviour::update(float dt) {
-	if (frozen) return;
-	time -= dt;
-	_owner->translate(glm::vec3(velocity * dt, 0));
+void BulletBehaviour::update(float pStep) {
+	glm::vec3 pos = _owner->getLocalPosition();
+	//std::cout << pos.x << ", " << pos.y << ", " << pos.z << std::endl;
+	time -= pStep;
+	_owner->translate(glm::vec3(velocity * pStep, 0));
 	if (time <= 0) delete(_owner);
-}
-
-void BulletBehaviour::fire() {
-	frozen = false;
 }
 
 AbstractBehaviour* BulletBehaviour::copy() {

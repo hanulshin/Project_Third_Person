@@ -174,8 +174,6 @@ glm::mat4 GameObject::getWorldTransform() const
 	else return _parent->getWorldTransform() * _transform;
 }
 
-////////////
-
 void GameObject::translate(glm::vec3 pTranslation)
 {
 	setTransform(glm::translate(_transform, pTranslation));
@@ -224,7 +222,7 @@ GameObject* GameObject::copy(std::string pName, GameObject* o)
 	GameObject* g = new GameObject(copyName, pos);
 	g->setParent(getParent());
 	for (int a = 0; a < getChildCount(); a++) {
-		g->add(getChildAt(a)->copy(false));
+		g->add(getChildAt(a)->copy());
 	}
 	g->setMesh(getMesh());
 	AbstractBehaviour* beh = getBehaviour();
@@ -250,7 +248,7 @@ std::map<std::string, GameObject*> GameObject::actors = std::map<std::string, Ga
 GameObject* GameObject::getActor(std::string tag)
 {
 	GameObject* actor = nullptr;
-	if (tag != "" && isActor(tag)) {
+	if (tag != "" || isActor(tag)) {
 		return actors[tag];
 	}
 	if (actor == nullptr) {
@@ -283,6 +281,8 @@ void GameObject::removeActor()
 		actors.erase(actor_tag);
 	}
 }
+
+std::string GameObject::getActorTag() { return actor_tag; }
 
 void GameObject::setTag(std::string pTag) { tag = pTag; }
 std::string GameObject::getTag() { return tag; }

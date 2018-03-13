@@ -75,6 +75,7 @@ class GameObject
         int getChildCount() const;
         GameObject* getChildAt (int pIndex) const;
 
+		std::string getActorTag();
 		void setActor(std::string tag);
 		void removeActor();
 		static bool isActor(std::string tag);

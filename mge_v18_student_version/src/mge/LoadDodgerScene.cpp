@@ -1,4 +1,5 @@
 #include "LoadDodgerScene.hpp"
+#include "mge/behaviours/LuaScripts/EnemySpawner.hpp"
 
 LoadDodgerScene::LoadDodgerScene() :AbstractGame(), _hud(0)
 {
@@ -24,6 +25,7 @@ void LoadDodgerScene::_initializeScene()
 	Mesh* sphereMesh = Mesh::load(config::MGE_MODEL_PATH + "sphere_smooth.obj");
 
 	AbstractMaterial* red = new ColorMaterial(glm::vec3(1, 0, 0));
+	AbstractMaterial* brown = new ColorMaterial(glm::vec3(0.5f, 0.25f, 0));
 	AbstractMaterial* playerMaterial = new ColorMaterial(glm::vec3(0, 0.5f, 1));
 	AbstractMaterial* runicStoneMaterial = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "runicfloor.png"));
 
@@ -32,19 +34,14 @@ void LoadDodgerScene::_initializeScene()
 	player->scale(glm::vec3(0.8f, 1, 0.8f));
 	player->setMesh(sphereMesh);
 	player->setMaterial(playerMaterial);
-	player->setBehaviour(new LuaPlayer());
-	player->setActor("player");
+	player->setBehaviour(new LuaPlayer("player"));
 	_world->add(player);
 
-	GameObject* bullet = new GameObject("Bullet");
-	bullet->scale(glm::vec3(0.2f, 0.2f, 0.2f));
-	bullet->setMesh(cubeMesh);
-	bullet->setMaterial(red);
-	bullet->setActor("_bullet");
 
 	Camera* camera = new Camera("camera", glm::vec3(0, 10.9, 23.5));
 	camera->rotate(glm::radians(0.0f), glm::vec3(0.0, -1.0, 0.0));
 	//camera->setBehaviour(new CameraMovementBehaviour());
+	//camera->setBehaviour(new EnemySpawner());
 	
 
 	//camera->setBehaviour(new UpMovementBehaviour());
@@ -153,6 +150,16 @@ GameObject* LoadDodgerScene::_convertGameObject(rapidxml::xml_node<>* pXmlNode, 
 		{
 			Mesh* objMesh = Mesh::load(config::MGE_MODEL_PATH + attribValue);
 			gameObject->setMesh(objMesh);
+		}
+		else if (attribName == "actor") {
+			gameObject->setActor(attribValue);
+		}
+		else if (attribName == "behaviour") {
+			if (attribValue == "spawner") {
+				gameObject->setBehaviour(new EnemySpawner(attribValue));
+			} else if (attribValue == "player") {
+				gameObject->setBehaviour(new LuaPlayer(attribValue));
+			}
 		}
 
 	}
