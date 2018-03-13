@@ -13,6 +13,7 @@
 #include "LuaJIT-2.0.5\src\lua.hpp"
 
 using namespace glm;
+	b->rotate(glm::radians(vel.x), glm::vec3(0,0,1));
 //Class
 
 LuaPlayer::LuaPlayer(std::string pTag) : LuaScript("Player.lua", pTag)

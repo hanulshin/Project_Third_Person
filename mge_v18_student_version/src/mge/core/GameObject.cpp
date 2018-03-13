@@ -1,6 +1,7 @@
 #include <iostream>
 #include <map>
 #include <vector>
+#include <algorithm>
 #include "mge/config.hpp"
 #include "GameObject.hpp"
 #include "mge/behaviours/AbstractBehaviour.hpp"
@@ -8,15 +9,31 @@
 
 GameObject::GameObject(const std::string& pName, const glm::vec3& pPosition)
 	: _name(pName), _transform(glm::translate(pPosition)), _parent(nullptr), _children(),
-	_mesh(nullptr), _behaviour(nullptr), _material(nullptr), _world(nullptr), actor_tag(""), tag("default")
+	_mesh(nullptr), _behaviour(nullptr), _material(nullptr), _world(nullptr), _boxCollider(nullptr), actor_tag(""), tag("default")
 
 {
-	_boxCollider = nullptr;
+	id++;
 	_gameObjects.push_back(this);
 }
 
 GameObject::~GameObject()
 {
+	//do not forget to delete behaviour, material, mesh, collider manually if required!
+	_gameObjects.erase(
+		std::remove_if(
+			_gameObjects.begin(),
+			_gameObjects.end(),
+			//here comes the C++11 lambda:
+			[&](GameObject* const& go) {
+			return go->id == this->id && go->getName() == this->getName(); }),
+		_gameObjects.end());
+	std::cout << "erased " << this->_name << std::endl;
+	delete _behaviour;
+	_behaviour = nullptr;
+	std::cout << "_behaviour erased" << std::endl;
+	delete _boxCollider;
+	_boxCollider = nullptr;
+	std::cout << "_boxCollider erased" << std::endl;
 	//detach all children
 	std::cout << "GC running on:" << _name << std::endl;
 
@@ -28,9 +45,13 @@ GameObject::~GameObject()
 	_parent->remove(this);
 	removeActor();
 
-	//do not forget to delete behaviour, material, mesh, collider manually if required!
-	_gameObjects.erase(std::find(_gameObjects.begin(),_gameObjects.end(), this));
-	std::cout << "erased " << this->_name << std::endl;
+
+	//delete _mesh;
+	//_mesh = nullptr;
+	//std::cout << "_mesh erased" << std::endl;
+	//delete _material;
+	//_material = nullptr;
+	//std::cout << "_material erased" << std::endl;
 }
 
 void GameObject::setName(const std::string& pName)
@@ -84,7 +105,7 @@ Mesh * GameObject::getMesh() const
 }
 
 void GameObject::setBehaviour(AbstractBehaviour* pBehaviour)
-{ 
+{
 	_behaviour = pBehaviour;
 	_behaviour->setOwner(this);
 	_behaviour->start();
@@ -98,6 +119,7 @@ AbstractBehaviour* GameObject::getBehaviour() const
 void GameObject::setBoxCollider(BoxCollider* pBoxCollider) {
 	_boxCollider = pBoxCollider;
 	add(_boxCollider);
+	_boxCollider->setName(_name + _boxCollider->getName());
 }
 BoxCollider* GameObject::getBoxCollider() const
 {
@@ -285,7 +307,8 @@ void GameObject::setActor(std::string tag)
 	if (isActor(tag)) {
 		cout << "Actor with tag [" << tag << "] already exists." << endl;
 		return;
-	} else {
+	}
+	else {
 		actors.insert(pair<string, GameObject*>(tag, this));
 		actor_tag = tag;
 	}
@@ -303,3 +326,4 @@ std::string GameObject::getActorTag() { return actor_tag; }
 void GameObject::setTag(std::string pTag) { tag = pTag; }
 std::string GameObject::getTag() { return tag; }
 std::vector<GameObject*> GameObject::_gameObjects;
+int GameObject::id;

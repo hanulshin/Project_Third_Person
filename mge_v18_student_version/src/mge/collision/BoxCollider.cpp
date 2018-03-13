@@ -1,7 +1,7 @@
 #include "BoxCollider.h"
 #include "glm.hpp"
 
-BoxCollider::BoxCollider(float pWidth, float pHeight, glm::vec3 pPos) :GameObject("Collider", pPos) {
+BoxCollider::BoxCollider(float pWidth, float pHeight, glm::vec3 pPos) :GameObject("_collider", pPos) {
 	setLocalPosition(glm::vec3(0, 0, 0));
 	translate(glm::vec3(pWidth, 0, 0));
 	width = pWidth;
@@ -52,8 +52,8 @@ void BoxCollider::OnCollision(GameObject* pOther)
 	{
 		if (_parent->getName() == "Player" && pOther->getName() == "ElevatorPlatform")
 		{
-			std::cout << pOther->getLocalPosition().y << std::endl;
-			_newPos = glm::vec3(0.0f, 1, 0.0f);
+			//std::cout << pOther->getLocalPosition().y << std::endl;
+			_newPos = glm::vec3(0.0f, 2.0f, 0.0f);
 		}
 	}
 }

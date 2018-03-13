@@ -21,7 +21,7 @@ void LoadDodgerScene::_initializeScene()
 {
 
 
-	Mesh* cubeMesh = Mesh::load(config::MGE_MODEL_PATH + "cube_flat.obj");
+	Mesh* cubeMesh = Mesh::load(config::MGE_MODEL_PATH + "Bullet.obj");
 	Mesh* sphereMesh = Mesh::load(config::MGE_MODEL_PATH + "sphere_smooth.obj");
 
 	AbstractMaterial* red = new ColorMaterial(glm::vec3(1, 0, 0));
@@ -40,14 +40,14 @@ void LoadDodgerScene::_initializeScene()
 	_world->add(player);
 
 
-	Camera* camera = new Camera("camera", glm::vec3(0, 10.9, 23.5));
+	Camera* camera = new Camera("camera", glm::vec3(0, 10.9, 20.5));
 	camera->rotate(glm::radians(0.0f), glm::vec3(0.0, -1.0, 0.0));
 	//camera->setBehaviour(new CameraMovementBehaviour());
-	
+	UpMovementBehaviour* upMove = new UpMovementBehaviour(10.9f);
+	//camera->setBehaviour(upMove);
 
-
-	//camera->setBehaviour(new UpMovementBehaviour());
-	player->add(camera);
+	camera->setBehaviour(upMove);
+	_world->add(camera);
 	_world->setMainCamera(camera);
 
 
@@ -128,6 +128,7 @@ GameObject* LoadDodgerScene::_convertGameObject(rapidxml::xml_node<>* pXmlNode, 
 			if (attribValue == "GearsWheel")
 			{
 				gameObject->setMaterial(gearsT);
+				//gameObject->setBehaviour(new UpMovementBehaviour());
 			}
 		}
 		else if (attribName == "position")
@@ -154,8 +155,8 @@ GameObject* LoadDodgerScene::_convertGameObject(rapidxml::xml_node<>* pXmlNode, 
 			gameObject->setMesh(objMesh);
 			if (gameObject->getName() == "ElevatorPlatform")
 			{
-				gameObject->setBoxCollider(new BoxCollider(200.0f, 1.0f, gameObject->getWorldPosition()));
-				gameObject->setBehaviour(new UpMovementBehaviour());
+				gameObject->setBoxCollider(new BoxCollider(200.0f, 2.0f, gameObject->getWorldPosition()));
+				gameObject->setBehaviour(new UpMovementBehaviour(0.0f));
 			}
 		}
 		else if (attribName == "actor") {

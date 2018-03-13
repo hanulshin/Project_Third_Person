@@ -84,7 +84,7 @@ class GameObject
 		static bool isActor(std::string tag);
 		static GameObject* getActor(std::string tag);
 		static std::vector<GameObject*> getAllObjects();
-
+		static int id;
 	protected:
 		std::string _name;
 		glm::mat4 _transform;

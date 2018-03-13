@@ -7,10 +7,13 @@
 class UpMovementBehaviour : public AbstractBehaviour
 {
 public:
-	UpMovementBehaviour();
+	UpMovementBehaviour(float pOffset);
 	virtual ~UpMovementBehaviour();
 
 	virtual void update(float pStep);
 	virtual void start();
 	virtual AbstractBehaviour* copy();
+
+private:
+	float offset;
 };
