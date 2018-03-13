@@ -13,6 +13,7 @@ GameObject::GameObject(const std::string& pName, const glm::vec3& pPosition)
 
 {
 	id++;
+	_boxCollider = nullptr;
 	_gameObjects.push_back(this);
 }
 
@@ -45,13 +46,9 @@ GameObject::~GameObject()
 	_parent->remove(this);
 	removeActor();
 
-
-	//delete _mesh;
-	//_mesh = nullptr;
-	//std::cout << "_mesh erased" << std::endl;
-	//delete _material;
-	//_material = nullptr;
-	//std::cout << "_material erased" << std::endl;
+	//do not forget to delete behaviour, material, mesh, collider manually if required!
+	_gameObjects.erase(std::find(_gameObjects.begin(),_gameObjects.end(), this));
+	std::cout << "erased " << this->_name << std::endl;
 }
 
 void GameObject::setName(const std::string& pName)

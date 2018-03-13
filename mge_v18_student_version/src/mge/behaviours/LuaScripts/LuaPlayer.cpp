@@ -35,19 +35,6 @@ void LuaPlayer::luaStart()
 void LuaPlayer::update(float pStep)
 {
 	callLuaUpdate("step", pStep);
-	//callLuaUpdate("lastStep", pStep);
-
-	//vec3 delta = vec3(0, 0, 0);
-	//glm::vec3 currentPos = _owner->getWorldPosition();
-	////std::cout <<"Player x position: " << currentPos.x << std::endl;
-	//if (currentPos.x + pStep>-7.0f && currentPos.x + pStep<5.0f)
-	//	delta.x = sf::Keyboard::isKeyPressed(sf::Keyboard::Right) - sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
-	//else
-	//	delta.x = glm::normalize(-currentPos.x);
-	//delta.y = sf::Keyboard::isKeyPressed(sf::Keyboard::Up) - sf::Keyboard::isKeyPressed(sf::Keyboard::Down);
-	//delta.z = sf::Keyboard::isKeyPressed(sf::Keyboard::Space);
-	//inputDelta(delta);
-	//if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) shoot(delta);
 }
 
 AbstractBehaviour* LuaPlayer::copy() {
