@@ -25,11 +25,14 @@
     <ClCompile Include="..\src\mge\MGEDemo.cpp" />
     <ClCompile Include="..\src\mge\util\DebugHud.cpp" />
     <ClCompile Include="..\src\mge\behaviours\UpMovementBehaviour.cpp" />
-    <ClCompile Include="custom\BoxCollider.cpp" />
     <ClCompile Include="..\src\mge\behaviours\BulletBehaviour.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="..\src\mge\behaviours\LuaScripts\EnemySpawner.cpp" />
     <ClCompile Include="..\src\mge\behaviours\LuaScripts\EnemyAI.cpp" />
     <ClCompile Include="..\src\mge\core\Prefab.cpp" />
+=======
+    <ClCompile Include="..\src\mge\collision\BoxCollider.cpp" />
+>>>>>>> Development
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\glm.hpp" />
@@ -57,11 +60,14 @@
     <ClInclude Include="..\src\mge\MGEDemo.hpp" />
     <ClInclude Include="..\src\mge\util\DebugHud.hpp" />
     <ClInclude Include="..\src\mge\behaviours\UpMovementBehaviour.h" />
-    <ClInclude Include="custom\BoxCollider.h" />
     <ClInclude Include="..\src\mge\behaviours\BulletBehaviour.hpp" />
+<<<<<<< HEAD
     <ClInclude Include="..\src\mge\behaviours\LuaScripts\EnemySpawner.hpp" />
     <ClInclude Include="..\src\mge\behaviours\LuaScripts\EnemyAI.hpp" />
     <ClInclude Include="..\src\mge\core\Prefab.hpp" />
+=======
+    <ClInclude Include="..\src\mge\collision\BoxCollider.h" />
+>>>>>>> Development
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\src\mge\scene.xml" />

@@ -57,9 +57,12 @@ class GameObject
 		void setBoxCollider(BoxCollider* pBoxCollider);
 		BoxCollider* getBoxCollider() const;
 
-
 		virtual void update(float pStep);
 
+		bool hasCollider();
+
+		virtual void OnCollision(GameObject* pOther);
+		
         //child management, note that add/remove and setParent are closely coupled.
         //a.add(b) has the same effect as b.setParent(a)
         //Adding a gameobject or resetting the parent, recursively passes on the world pointer to all child objects
@@ -80,6 +83,7 @@ class GameObject
 		void removeActor();
 		static bool isActor(std::string tag);
 		static GameObject* getActor(std::string tag);
+		static std::vector<GameObject*> getAllObjects();
 
 	protected:
 		std::string _name;
@@ -87,6 +91,7 @@ class GameObject
 
         GameObject* _parent;
 		std::vector<GameObject*> _children;
+		static std::vector<GameObject*> _gameObjects;
 
         Mesh* _mesh;
 		AbstractBehaviour* _behaviour;

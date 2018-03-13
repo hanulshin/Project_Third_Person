@@ -4,6 +4,7 @@
 #include "AbstractGame.hpp"
 #include "mge/core/Renderer.hpp"
 #include "mge/core/World.hpp"
+#include "mge/collision/BoxCollider.h"
 
 AbstractGame::AbstractGame():_window(NULL),_renderer(NULL),_world(NULL), _fps(0)
 {
@@ -107,6 +108,7 @@ void AbstractGame::run()
 
 		    while (timeSinceLastUpdate > timePerFrame) {
                 timeSinceLastUpdate -= timePerFrame;
+				_processCollisions();
                 _update(timePerFrame.asSeconds());
 		    }
 
@@ -127,6 +129,20 @@ void AbstractGame::run()
 		//empty the event queue
 		_processEvents();
     }
+}
+
+void AbstractGame::_processCollisions()
+{
+	for (size_t i = 0; i < GameObject::getAllObjects().size(); i++)
+	{
+		for (size_t j = 0; j < GameObject::getAllObjects().size(); j++)
+		{
+			if (GameObject::getAllObjects()[i]->getBoxCollider()->IsOverlapping(GameObject::getAllObjects()[j]->getBoxCollider()))
+			{
+				GameObject::getAllObjects()[i]->OnCollision(GameObject::getAllObjects()[j]);
+			}
+		}
+	}
 }
 
 void AbstractGame::_update(float pStep) {
@@ -174,6 +190,7 @@ void AbstractGame::_processEvents()
         _window->close();
 	}
 }
+
 
 
 

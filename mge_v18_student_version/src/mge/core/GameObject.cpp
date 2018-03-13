@@ -4,21 +4,16 @@
 #include "mge/config.hpp"
 #include "GameObject.hpp"
 #include "mge/behaviours/AbstractBehaviour.hpp"
-#include "../_vs2015/custom/BoxCollider.h"
+#include "../collision/BoxCollider.h"
 
 GameObject::GameObject(const std::string& pName, const glm::vec3& pPosition)
 	: _name(pName), _transform(glm::translate(pPosition)), _parent(nullptr), _children(),
 	_mesh(nullptr), _behaviour(nullptr), _material(nullptr), _world(nullptr), actor_tag(""), tag("default")
 
 {
+	_boxCollider = nullptr;
+	_gameObjects.push_back(this);
 }
-//GameObject::GameObject(const BoxCollider& pBoxCollider, const std::string& pName, const glm::vec3& pPosition)
-//	: _name(pName), _transform(glm::translate(pPosition)), _parent(nullptr), _children(),
-//	_mesh(nullptr), _behaviour(nullptr), _material(nullptr), _world(nullptr)
-//
-//{
-//}
-
 
 GameObject::~GameObject()
 {
@@ -34,6 +29,8 @@ GameObject::~GameObject()
 	removeActor();
 
 	//do not forget to delete behaviour, material, mesh, collider manually if required!
+	_gameObjects.erase(std::find(_gameObjects.begin(),_gameObjects.end(), this));
+	std::cout << "erased " << this->_name << std::endl;
 }
 
 void GameObject::setName(const std::string& pName)
@@ -100,6 +97,7 @@ AbstractBehaviour* GameObject::getBehaviour() const
 
 void GameObject::setBoxCollider(BoxCollider* pBoxCollider) {
 	_boxCollider = pBoxCollider;
+	add(_boxCollider);
 }
 BoxCollider* GameObject::getBoxCollider() const
 {
@@ -201,6 +199,18 @@ void GameObject::update(float pStep)
 	}
 }
 
+bool GameObject::hasCollider()
+{
+	return _boxCollider != nullptr;
+}
+
+void GameObject::OnCollision(GameObject * pOther)
+{
+	for (int i = _children.size() - 1; i >= 0; --i) {
+		_children[i]->OnCollision(pOther);
+	}
+}
+
 void GameObject::_setWorldRecursively(World* pWorld) {
 	_world = pWorld;
 
@@ -232,6 +242,7 @@ GameObject* GameObject::copy(std::string pName, GameObject* o)
 	g->setMaterial(getMaterial());
 	g->setTransform(getTransform());
 	GameObject::getActor(config::CURRENT_SCENE);
+	_gameObjects.push_back(this);
 	return g;
 }
 
@@ -255,6 +266,11 @@ GameObject* GameObject::getActor(std::string tag)
 		std::cout << "No Actor with tag [" << tag << "] exists!";
 	}
 	return actor;
+}
+
+std::vector<GameObject*> GameObject::getAllObjects()
+{
+	return _gameObjects;
 }
 
 bool GameObject::isActor(std::string tag)
@@ -286,3 +302,4 @@ std::string GameObject::getActorTag() { return actor_tag; }
 
 void GameObject::setTag(std::string pTag) { tag = pTag; }
 std::string GameObject::getTag() { return tag; }
+std::vector<GameObject*> GameObject::_gameObjects;
