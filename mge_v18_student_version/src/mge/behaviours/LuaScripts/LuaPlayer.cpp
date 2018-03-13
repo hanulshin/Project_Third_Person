@@ -13,7 +13,7 @@
 #include "LuaJIT-2.0.5\src\lua.hpp"
 
 using namespace glm;
-	b->rotate(glm::radians(vel.x), glm::vec3(0,0,1));
+//b->rotate(glm::radians(vel.x), glm::vec3(0,0,1));
 //Class
 
 LuaPlayer::LuaPlayer(std::string pTag) : LuaScript("Player.lua", pTag)
@@ -35,19 +35,19 @@ void LuaPlayer::luaStart()
 void LuaPlayer::update(float pStep)
 {
 	callLuaUpdate("step", pStep);
-	callLuaUpdate("lastStep", pStep);
+	//callLuaUpdate("lastStep", pStep);
 
-	vec3 delta = vec3(0, 0, 0);
-	glm::vec3 currentPos = _owner->getWorldPosition();
-	//std::cout <<"Player x position: " << currentPos.x << std::endl;
-	if (currentPos.x + pStep>-7.0f && currentPos.x + pStep<5.0f)
-		delta.x = Keyboard::isKeyPressed(Keyboard::Right) - Keyboard::isKeyPressed(Keyboard::Left);
-	else
-		delta.x = glm::normalize(-currentPos.x);
-	delta.y = Keyboard::isKeyPressed(Keyboard::Up) - Keyboard::isKeyPressed(Keyboard::Down);
-	delta.z = Keyboard::isKeyPressed(Keyboard::Space);
-	inputDelta(delta);
-	if (Keyboard::isKeyPressed(Keyboard::Z)) shoot(delta);
+	//vec3 delta = vec3(0, 0, 0);
+	//glm::vec3 currentPos = _owner->getWorldPosition();
+	////std::cout <<"Player x position: " << currentPos.x << std::endl;
+	//if (currentPos.x + pStep>-7.0f && currentPos.x + pStep<5.0f)
+	//	delta.x = sf::Keyboard::isKeyPressed(sf::Keyboard::Right) - sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
+	//else
+	//	delta.x = glm::normalize(-currentPos.x);
+	//delta.y = sf::Keyboard::isKeyPressed(sf::Keyboard::Up) - sf::Keyboard::isKeyPressed(sf::Keyboard::Down);
+	//delta.z = sf::Keyboard::isKeyPressed(sf::Keyboard::Space);
+	//inputDelta(delta);
+	//if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) shoot(delta);
 }
 
 AbstractBehaviour* LuaPlayer::copy() {

@@ -34,13 +34,13 @@ void LoadDodgerScene::_initializeScene()
 	player->scale(glm::vec3(0.8f, 1, 0.8f));
 	player->setMesh(sphereMesh);
 	player->setMaterial(playerMaterial);
-	player->setBehaviour(new LuaPlayer());
-	player->setActor("player");
+	player->setBehaviour(new LuaPlayer("player"));
+	//player->setActor("player");
 	player->setBoxCollider(new BoxCollider(2.0f, 2.0f, player->getWorldPosition()));
 	_world->add(player);
 
 
-	Camera* camera = new Camera("camera", glm::vec3(0, 10.9, 20.5));
+	Camera* camera = new Camera("camera", glm::vec3(0, 10, 23.5));
 	camera->rotate(glm::radians(0.0f), glm::vec3(0.0, -1.0, 0.0));
 	//camera->setBehaviour(new CameraMovementBehaviour());
 	UpMovementBehaviour* upMove = new UpMovementBehaviour(10.9f);

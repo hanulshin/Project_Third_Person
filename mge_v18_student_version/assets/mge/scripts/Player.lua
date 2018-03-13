@@ -127,7 +127,9 @@ function step( dt )
 	end
 	local m = vec(movement.x, movement.y)
 	m = vecScale(m, dt)
+	if m.x+dt < -2 or m.x+dt > 2 then m.x = m.x *-1 end
 	move(owner, m.x, m.y, 0)
+	
 end
 
 function fireBullet()

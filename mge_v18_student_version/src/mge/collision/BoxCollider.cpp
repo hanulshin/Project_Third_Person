@@ -1,11 +1,13 @@
 #include "BoxCollider.h"
 #include "glm.hpp"
+#include <algorithm>
 
 BoxCollider::BoxCollider(float pWidth, float pHeight, glm::vec3 pPos) :GameObject("_collider", pPos) {
 	setLocalPosition(glm::vec3(0, 0, 0));
 	translate(glm::vec3(pWidth, 0, 0));
 	width = pWidth;
 	height = pHeight;
+	_boxColliders.push_back(this);
 }
 bool BoxCollider::IsOverlapping(BoxCollider* pOther) {
 	if (pOther == nullptr || this == nullptr || pOther == this)
@@ -50,7 +52,7 @@ void BoxCollider::OnCollision(GameObject* pOther)
 	//std::cout << "help";
 	if (!isTrigger)
 	{
-		if (_parent->getName() == "Player" && pOther->getName() == "ElevatorPlatform")
+		if (getName() == "Player_collider" && pOther->getName() == "ElevatorPlatform_collider")
 		{
 			//std::cout << pOther->getLocalPosition().y << std::endl;
 			_newPos = glm::vec3(0.0f, 2.0f, 0.0f);
@@ -64,7 +66,21 @@ void BoxCollider::update(float pStep)
 	_newPos = glm::vec3();
 }
 
-BoxCollider::~BoxCollider() {};
+std::vector<BoxCollider*> BoxCollider::getAllColliders()
+{
+	return _boxColliders;
+}
+
+BoxCollider::~BoxCollider() {
+	_boxColliders.erase(
+		std::remove_if(
+			_boxColliders.begin(),
+			_boxColliders.end(),
+			//here comes the C++11 lambda:
+			[&](GameObject* const& go) {
+		return go->id == this->id && go->getName() == this->getName(); }),
+		_boxColliders.end());
+};
 
 
 Bounds::Bounds(float pMinX, float pMaxX, float pMinY, float pMaxY)
@@ -79,7 +95,7 @@ Bounds::~Bounds()
 {
 }
 
-
+std::vector<BoxCollider*> BoxCollider::_boxColliders;
 //glm::vec3 pos = getLocalPosition();
 //glm::vec3 otherPos = pOther->getLocalPosition();
 //glm::vec2 diff = glm::vec2(otherPos.x - pos.x, otherPos.y - pos.y);

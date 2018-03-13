@@ -24,7 +24,9 @@ public:
 	void OnCollision(GameObject* pOther);
 	void update(float pStep);
 	bool isTrigger = false;
+	static std::vector<BoxCollider*> getAllColliders();
 private:
+	static std::vector<BoxCollider*> _boxColliders;
 	glm::vec3 _newPos;
 };
 

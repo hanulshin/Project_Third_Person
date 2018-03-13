@@ -133,13 +133,13 @@ void AbstractGame::run()
 
 void AbstractGame::_processCollisions()
 {
-	for (size_t i = 0; i < GameObject::getAllObjects().size(); i++)
+	for (size_t i = 0; i < BoxCollider::getAllColliders().size(); i++)
 	{
-		for (size_t j = 0; j < GameObject::getAllObjects().size(); j++)
+		for (size_t j = 0; j < BoxCollider::getAllColliders().size(); j++)
 		{
-			if (GameObject::getAllObjects()[i]->getBoxCollider()->IsOverlapping(GameObject::getAllObjects()[j]->getBoxCollider()))
+			if (BoxCollider::getAllColliders()[i]->IsOverlapping(BoxCollider::getAllColliders()[j]))
 			{
-				GameObject::getAllObjects()[i]->OnCollision(GameObject::getAllObjects()[j]);
+				BoxCollider::getAllColliders()[i]->OnCollision(BoxCollider::getAllColliders()[j]);
 			}
 		}
 	}
