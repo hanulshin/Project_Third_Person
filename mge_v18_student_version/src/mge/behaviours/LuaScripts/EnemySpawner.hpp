@@ -7,7 +7,8 @@ public:
 	EnemySpawner(std::string tag);
 	~EnemySpawner();
 	virtual AbstractBehaviour* copy();
-	virtual void luaStart();
+	virtual void earlyStart();
+	virtual void lateStart();
 	virtual void update(float pStep);
 private:
 };

@@ -5,6 +5,7 @@
 #include "mge/core/Renderer.hpp"
 #include "mge/core/World.hpp"
 #include "mge/collision/BoxCollider.h"
+#include "mge/behaviours/LuaScripts/Settup.hpp"
 
 AbstractGame::AbstractGame():_window(NULL),_renderer(NULL),_world(NULL), _fps(0)
 {
@@ -35,9 +36,9 @@ void AbstractGame::initialize() {
 void AbstractGame::_initializeWindow() {
 	std::cout << "Initializing window..." << std::endl;
 	int resWidth = 800;
-	resWidth = 1366;
+	//resWidth = 1366;
 	int resHeight = 600;
-	resHeight = 768;
+	//resHeight = 768;
 	_window = new sf::RenderWindow( sf::VideoMode(resWidth, resHeight), "My Game!", sf::Style::Default, sf::ContextSettings(24,8,0,3,3));
 	//_window->setVerticalSyncEnabled(true);
     std::cout << "Window initialized." << std::endl << std::endl;
@@ -81,11 +82,10 @@ void AbstractGame::_initializeRenderer() {
 }
 
 void AbstractGame::_initializeWorld() {
-	using namespace config;
     //setup the world
 	std::cout << "Initializing world..." << std::endl;
 	_world = new World();
-	_world->setActor(CURRENT_SCENE);
+	_world->setBehaviour(new Settup("world"));
     std::cout << "World initialized." << std::endl << std::endl;
 }
 
@@ -137,8 +137,10 @@ void AbstractGame::run()
 
 void AbstractGame::_processCollisions()
 {
+	//for (size_t i = BoxCollider::getAllColliders().size() - 1; i >= 0; i--)
 	for (size_t i = 0; i < BoxCollider::getAllColliders().size(); i++)
 	{
+		//for (size_t j = BoxCollider::getAllColliders().size() - 1; j >= 0; j--)
 		for (size_t j = 0; j < BoxCollider::getAllColliders().size(); j++)
 		{
 			if (BoxCollider::getAllColliders()[i]->IsOverlapping(BoxCollider::getAllColliders()[j]))

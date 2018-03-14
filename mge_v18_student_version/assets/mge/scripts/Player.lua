@@ -1,5 +1,5 @@
 
-
+boolNum = { [true] = 1, [false] = 0 }
 
 function vec( px, py )
 	return { x = px, y = py }
@@ -14,7 +14,7 @@ function aimVec( degrees )
 	return av;
 end
 
-boolNum = { [true] = 1, [false] = 0 }
+health = 5
 speed = 5
 gravity = 10
 jump = 10
@@ -44,10 +44,11 @@ function vecScale(v, scalar)
 	return v
 end
 
-function newWeapon( pName, pDamage, pFireRate, pRange, pSpeed, pAccuracy, pCluster )
+function newWeapon( pName, pDamage, pKnockback, pFireRate, pRange, pSpeed, pAccuracy, pCluster )
 	w = { 
 		name = pName, 
 		damage = pDamage, 
+		Knockback = pKnockback,
 		fireRate = pFireRate, 
 		range = pRange, 
 		speed = pSpeed,
@@ -63,20 +64,16 @@ end
 
 function start(pOwner)
 	owner = pOwner
-	-- Name, Damage, FireRate, Range, Speed, Accuracy, Cluster[2]
-	weapons["pistol"] =  newWeapon("pistol" , 5, 0.80, 30, 20, 95, 1 )
-	weapons["flame"] =   newWeapon("flame"  , 1, 0.06, 10, 10, 80, {1, 3} )
-	weapons["shotgun"] = newWeapon("shotgun", 3, 1.40, 25, 20, 60, {2, 4} )
-	weapons["minigun"] = newWeapon("minigun", 2, 0.12, 30, 20, 85, 1 )
-	weapons["barrel"] =  newWeapon("barrel" , 4, 1.20, 20, 30, 75, 2 )
+	-- Name, Damage, Knockback FireRate, Range, Speed, Accuracy, Cluster[2]
+	weapons["pistol"] =  newWeapon("pistol" , 5, 0.50, 0.80, 30, 20, 95, 1 )
+	weapons["flame"] =   newWeapon("flame"  , 1, 0.01, 0.06, 10, 10, 80, {1, 3} )
+	weapons["shotgun"] = newWeapon("shotgun", 3, 0.75, 1.40, 25, 20, 60, {2, 4} )
+	weapons["minigun"] = newWeapon("minigun", 2, 0.20, 0.12, 30, 20, 85, 1 )
+	weapons["barrel"] =  newWeapon("barrel" , 4, 1.20, 1.20, 20, 30, 75, 2 )
 
-	equip("pistol")
+	equip("minigun")
 
-	local red = "red"
-	local cube = "cube_flat"
-	addColor(red, 1, 0, 0, 1)
-	loadMesh(cube, "obj")
-	blueprint(bulletName, cube, red)
+	blueprint(bulletName, "cube", "red")
 	scale("_"..bulletName, 0.3, 0.3, 0.3)
 end
 
@@ -129,8 +126,19 @@ function step( dt )
 	m = vecScale(m, dt)
 	if m.x+dt < -2 or m.x+dt > 2 then m.x = m.x *-1 end
 	move(owner, m.x, m.y, 0)
-	
+
+	local hit = { onEnemyHit(owner) }
+	if hit[1] then
+		local hitter = hit[2] --not sure if needed;
+		print(hitter);
+		health = health - hit[3]
+		if health <= 0 then
+			print("You Died")
+		end
+	end
 end
+
+
 
 function fireBullet()
 	local bulletNumber = "bullet("..bulletsFired..")"
@@ -143,8 +151,9 @@ function fireBullet()
 	local bulletDelta = vecScale(aimVec(trajectory), sp / 0.3)
 	local bulletTime = weapons[equiped].range / sp
 
-	addBullet(bulletNumber, bulletDelta.x, bulletDelta.y, weapons[equiped].damage, bulletTime)
+	addBullet(bulletNumber, bulletDelta.x, bulletDelta.y, weapons[equiped].damage, weapons[equiped].Knockback, bulletTime)
 	pPos = { getPos(owner) }
 	setPos(bulletNumber, pPos[1], pPos[2], pPos[3])
+	addCBox(bulletNumber, 1, 1);
 	addToWorld(bulletNumber)
 end

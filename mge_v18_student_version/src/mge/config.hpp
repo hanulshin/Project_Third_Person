@@ -10,7 +10,4 @@ namespace config {
 	const std::string MGE_MUSIC_PATH("mge/music/");
 	const std::string MGE_SCENE_PATH("mge/scenes/");
 	const std::string MGE_ANIMATIONS_PATH("mge/animations/");
-
-	//Actors
-	const std::string CURRENT_SCENE("world");
 }

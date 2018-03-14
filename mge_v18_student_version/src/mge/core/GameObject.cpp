@@ -260,7 +260,7 @@ GameObject* GameObject::copy(std::string pName, GameObject* o)
 	}
 	g->setMaterial(getMaterial());
 	g->setTransform(getTransform());
-	GameObject::getActor(config::CURRENT_SCENE);
+	GameObject::getActor("world");
 	_gameObjects.push_back(this);
 	return g;
 }

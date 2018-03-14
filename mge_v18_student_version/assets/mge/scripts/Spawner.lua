@@ -3,7 +3,7 @@ owner = "";
 spawnEngine = {
 	types = {},
 	shafts = 7, -- range in which boxes spawn
-	spawnRate = 1.2, --enemies that spawn per second [0 to inf]
+	spawnRate = 2, --enemies that spawn per second [0 to inf]
 	spawnHeight = 30, --enemies spawn above the platform [0 to inf]
 	enemyLimit = 5, --limit of enemies on spawned at the refreshRate seconds time [0 to inf]
 	refreshRate = 0.3, --balance shrinks over time [0 to inf]
@@ -40,15 +40,14 @@ enemiesBalance = 0
 time = 0
 
 function start( pOwner)
-	print(pOwner)
 	owner = pOwner
-	addColor("green", 0, 1, 0, 1)
-	addSpawnType("crate", 1, "cube_flat", "green")
+	addSpawnType("crate", 1, "cube", "green")
 end
 
 counter = 0
 spawnMass = 0
 function step( dt )
+	--print("Spawn")
 	time = time + dt
 	if(enemiesBalance > 0) then
 		enemiesBalance = enemiesBalance - (refreshRate * dt)
@@ -70,16 +69,17 @@ function addSpawnType( type, frquency, mesh, texture )
 end
 
 function createEnemy()
-	local toSpawn = {spawnEngine:spawnObject()}
+	local toSpawn = {spawnEngine:spawnObject()};
 	enemyNumber = enemyNumber + 1;
-	print(enemyNumber)
-	currentEnemy = "enemy("..enemyNumber..")"
-	clone("_"..toSpawn[1], currentEnemy)
-	addToWorld(currentEnemy)
-	local elevator = { getPos("elevator") }
-	local enemyPos = { 0, 0 }
+	--print(enemyNumber);
+	currentEnemy = "enemy("..enemyNumber..")";
+	clone("_"..toSpawn[1], currentEnemy);
+	addToWorld(currentEnemy);
+	local elevator = { getPos("elevator") };
+	local enemyPos = { 0, 0 };
 	enemyPos[1] = toSpawn[2] - (spawnEngine.shafts - 1) * 0.5;
-	enemyPos[2] = elevator[2] + spawnEngine.spawnHeight
-	setPos(currentEnemy, enemyPos[1], enemyPos[2], 0)
-	addLua(currentEnemy, "enemy", currentEnemy, toSpawn[1])
+	enemyPos[2] = elevator[2] + spawnEngine.spawnHeight;
+	setPos(currentEnemy, enemyPos[1], enemyPos[2], 0);
+	addLua(currentEnemy, "enemy", currentEnemy, toSpawn[1]);
+	addBox(currentEnemy, 2, 2, -2, 0, 0);
 end

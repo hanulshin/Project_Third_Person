@@ -9,9 +9,9 @@
 ShaderProgram* ColorMaterial::_shader = NULL;
 
 ColorMaterial::ColorMaterial(glm::vec4 pDiffuseColor) :_diffuseColor(pDiffuseColor) {
-
+	_lazyInitializeShader();
 }
-ColorMaterial::ColorMaterial(glm::vec3 pDiffuseColor):_diffuseColor (glm::vec4(pDiffuseColor, 1))
+ColorMaterial::ColorMaterial(glm::vec3 pDiffuseColor) :_diffuseColor (glm::vec4(pDiffuseColor, 1))
 {
     //every time we create an instance of colormaterial we check if the corresponding shader has already been loaded
     _lazyInitializeShader();

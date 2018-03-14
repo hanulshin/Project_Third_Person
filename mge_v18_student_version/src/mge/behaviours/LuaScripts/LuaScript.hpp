@@ -16,7 +16,8 @@ public:
 	virtual ~LuaScript();
 
 	virtual void start();
-	virtual void luaStart() = 0;
+	virtual void earlyStart() = 0; //Called before the start in lua
+	virtual void lateStart() = 0; //Called after the start in lua
 
 	std::string getFile() { return _file; }
 
@@ -35,10 +36,11 @@ protected:
 	void pushString(string str);
 	void pushObject(void* obj);
 
-	int getInt(int i = -1);
-	float getNumber(int i = -1);
-	bool getBool(int i = -1);
-	string getString(int i = -1);
+
+	int toInt(int i = -1);
+	float toNumber(int i = -1);
+	bool toBool(int i = -1);
+	string toString(int i = -1);
 	void remove(int i = -1);
 	int getIndex(int i);
 
@@ -53,9 +55,6 @@ private:
 	static int spawnObject(lua_State* state);
 	static int blueprint(lua_State * state);
 	static int clone(lua_State * state);
-	static int addColor(lua_State * state);
-	static int loadTexture(lua_State * state);
-	static int loadMesh(lua_State * state);
 	static int move(lua_State * state);
 	static int rotate(lua_State * state);
 	static int scale(lua_State * state);
@@ -66,11 +65,17 @@ private:
 	static int addLuaScript(lua_State * state);
 	static int addBullet(lua_State * state);
 	static int addSpin(lua_State * state);
+	static int addBox(lua_State * state);
+	static int addCBox(lua_State * state);
 
 	static int setPosition(lua_State * state);
 	static int getPosition(lua_State * state);
 	static int getGlobalPosition(lua_State * state);
 	static int actorExists(lua_State * state);
+
+	static int onCollide(lua_State * state);
+	static int onBulletHit(lua_State * state);
+	static int onEnemyHit(lua_State * state);
 };
 
 

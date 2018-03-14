@@ -72,10 +72,15 @@ LuaPlayer::~LuaPlayer()
 
 }
 
-void LuaPlayer::luaStart()
+void LuaPlayer::earlyStart()
 {
 	registerFunction("getKey", getKey);
 	mapInput();
+}
+
+void LuaPlayer::lateStart()
+{
+
 }
 
 void LuaPlayer::update(float pStep)
@@ -155,8 +160,8 @@ void LuaPlayer::Animate(AnimationStates & animeState, float pStep)
 
 
 	AbstractMaterial* playerMaterialAnimationHARD = currentAnimation.getFrame(m_currentFrame);
-	std::cout << playerMaterialAnimationHARD << endl;
-	std::cout << _owner->getMaterial() << endl;
+	//std::cout << playerMaterialAnimationHARD << endl;
+	//std::cout << _owner->getMaterial() << endl;
 	_owner->setMaterial(playerMaterialAnimationHARD);
 }
 

@@ -13,6 +13,7 @@
 #include "mge\materials\AbstractMaterial.hpp"
 #include "mge\materials\ColorMaterial.hpp"
 #include "mge\materials\TextureMaterial.hpp"
+#include "mge\collision\BoxCollider.h"
 #include "mge\behaviours\BulletBehaviour.hpp"
 #include "mge\behaviours\RotatingBehaviour.hpp"
 #include "mge\behaviours\LuaScripts\LuaScript.hpp"
@@ -32,7 +33,6 @@ int LuaScript::spawnObject(lua_State* state) {
 
 	return 0;
 }
-
 int LuaScript::blueprint(lua_State * state) {
 	Prefab* prefab = Prefab::instance();
 	string pName = lua_tostring(state, 1);
@@ -48,14 +48,13 @@ int LuaScript::blueprint(lua_State * state) {
 
 	return 0;
 }
-
 int LuaScript::move(lua_State * state) {
-	string actor = lua_tostring(state, 1);
+	GameObject* actor = GameObject::getActor(lua_tostring(state, 1));
+	if (actor == nullptr) return 0;
 	glm::vec3 delta = glm::vec3(lua_tonumber(state, 2), lua_tonumber(state, 3), lua_tonumber(state, 4));
-	GameObject::getActor(actor)->translate(delta);
+	actor->translate(delta);
 	return 0;
 }
-
 int LuaScript::rotate(lua_State * state) {
 	string actor = lua_tostring(state, 1);
 	glm::vec3 delta = glm::vec3(lua_tonumber(state, 2), lua_tonumber(state, 3), lua_tonumber(state, 4));
@@ -64,14 +63,12 @@ int LuaScript::rotate(lua_State * state) {
 	GameObject::getActor(actor)->rotate(delta.z, glm::vec3(0, 0, 1));
 	return 0;
 }
-
 int LuaScript::scale(lua_State * state) {
 	string actor = lua_tostring(state, 1);
 	glm::vec3 delta = glm::vec3(lua_tonumber(state, 2), lua_tonumber(state, 3), lua_tonumber(state, 4));
 	GameObject::getActor(actor)->scale(delta);
 	return 0;
 }
-
 int LuaScript::addChild(lua_State * state) {
 	string parent = lua_tostring(state, 1);
 	string child = lua_tostring(state, 2);
@@ -79,12 +76,10 @@ int LuaScript::addChild(lua_State * state) {
 	return 0;
 
 }
-
 int LuaScript::addToWorld(lua_State * state) {
 	GameObject::getActor("world")->add(GameObject::getActor(lua_tostring(state, 1)));
 	return 0;
 }
-
 int LuaScript::clone(lua_State * state) {
 	string original = lua_tostring(state, 1);
 	string copy = lua_tostring(state, 2);
@@ -92,28 +87,6 @@ int LuaScript::clone(lua_State * state) {
 	o->setActor(copy);
 	return 0;
 }
-
-int LuaScript::addColor(lua_State * state) {
-	string key = string(lua_tostring(state, 1));
-	glm::vec4 color = glm::vec4(lua_tonumber(state, 2), lua_tonumber(state, 3), lua_tonumber(state, 4), lua_tonumber(state, 5));
-	Prefab::instance()->setColor(key, color);
-	return 0;
-}
-
-int LuaScript::loadTexture(lua_State * state) {
-	string fileName = lua_tostring(state, 1);
-	string fileType = lua_tostring(state, 2);
-	Prefab::instance()->loadTexture(fileName, fileType);
-	return 0;
-}
-
-int LuaScript::loadMesh(lua_State * state) {
-	string fileName = lua_tostring(state, 1);
-	string fileType = lua_tostring(state, 2);
-	Prefab::instance()->loadMesh(fileName, fileType);
-	return 0;
-}
-
 int LuaScript::addLuaScript(lua_State * state) {
 	string actor = lua_tostring(state, 1);
 	string script = lua_tostring(state, 2);
@@ -140,16 +113,15 @@ int LuaScript::addLuaScript(lua_State * state) {
 	}
 	return 0;
 }
-
 int LuaScript::addBullet(lua_State * state) {
 	GameObject * actor = GameObject::getActor(lua_tostring(state, 1));
 	glm::vec2 velocity = glm::vec2(lua_tonumber(state, 2), lua_tonumber(state, 3));
 	int damage = lua_tointeger(state, 4);
-	float time = lua_tonumber(state, 5);
-	actor->setBehaviour(new BulletBehaviour(velocity, damage, time));
+	float knockback = lua_tonumber(state, 5);
+	float time = lua_tonumber(state, 6);
+	actor->setBehaviour(new BulletBehaviour(velocity, damage, knockback, time));
 	return 0;
 }
-
 int LuaScript::addSpin(lua_State * state) {
 	GameObject * actor = GameObject::getActor(lua_tostring(state, 1));
 	float rpm = lua_tonumber(state, 2);
@@ -160,7 +132,25 @@ int LuaScript::addSpin(lua_State * state) {
 	actor->setBehaviour(new RotatingBehaviour(rpm, axis));
 	return 0;
 }
-
+int LuaScript::addBox(lua_State* state) {
+	GameObject * actor = GameObject::getActor(lua_tostring(state, 1));
+	glm::vec3 pos = glm::vec3();
+	float width = lua_tonumber(state, 2);
+	float height = lua_tonumber(state, 3);
+	pos.x = lua_tonumber(state, 4);
+	pos.y = lua_tonumber(state, 5);
+	pos.z = lua_tonumber(state, 6);
+	actor->setBoxCollider(new BoxCollider(width, height, pos));
+	return 0;
+}
+int LuaScript::addCBox(lua_State* state) {
+	GameObject * actor = GameObject::getActor(lua_tostring(state, 1));
+	glm::vec3 pos = glm::vec3(0,0,0);
+	float width = lua_tonumber(state, 2);
+	float height = lua_tonumber(state, 3);
+	actor->setBoxCollider(new BoxCollider(width, height, pos));
+	return 0;
+}
 int LuaScript::getGlobalPosition(lua_State * state) {
 	GameObject * actor = GameObject::getActor(lua_tostring(state, 1));
 	glm::vec3 pos = actor->getWorldPosition();
@@ -169,7 +159,6 @@ int LuaScript::getGlobalPosition(lua_State * state) {
 	lua_pushnumber(state, pos.z);
 	return 3;
 }
-
 int LuaScript::getPosition(lua_State * state) {
 	GameObject * actor = GameObject::getActor(lua_tostring(state, 1));
 	glm::vec3 pos = actor->getLocalPosition();
@@ -178,23 +167,73 @@ int LuaScript::getPosition(lua_State * state) {
 	lua_pushnumber(state, pos.z);
 	return 3;
 }
-
 int LuaScript::actorExists(lua_State * state) {
 	lua_pushboolean(state, GameObject::isActor(lua_tostring(state, 1)));
 	return 1;
 }
-
 int LuaScript::setPosition(lua_State * state) {
 	GameObject * actor = GameObject::getActor(lua_tostring(state, 1));
 	glm::vec3 pos = glm::vec3(lua_tonumber(state, 2), lua_tonumber(state, 3), lua_tonumber(state, 4));
 	actor->setLocalPosition(pos);
 	return 0;
 }
-
 int LuaScript::kill(lua_State * state) 
 {
 	delete(GameObject::getActor(lua_tostring(state, 1)));
 	return 0;
+}
+int LuaScript::onCollide(lua_State * state) 
+{
+	BoxCollider * one = GameObject::getActor(lua_tostring(state, 1))->getBoxCollider();
+	BoxCollider * other = GameObject::getActor(lua_tostring(state, 2))->getBoxCollider();
+
+	lua_pushboolean(state, one->IsOverlapping(other));
+	return 1;
+}
+int LuaScript::onBulletHit(lua_State * state) {
+	GameObject * one = GameObject::getActor(lua_tostring(state, 1));
+	if (one == nullptr || !one->hasCollider()) {
+		lua_pushboolean(state, false);
+		return 1;
+	}
+	std::vector<BulletBehaviour*>* bullets = BulletBehaviour::getBullets();
+	for (int a = bullets->size() - 1; a >= 0; a--) {
+		BulletBehaviour* b = bullets->at(a);
+		GameObject* bullet = b->getOwner();
+		if (!bullet->hasCollider()) continue;
+		if (one->getBoxCollider()->IsOverlapping(bullet->getBoxCollider())) {
+			lua_pushboolean(state, true);
+			lua_pushinteger(state, b->getDamage());
+			lua_pushnumber(state, b->getKnockBack());
+			delete(bullet);
+			return 3;
+		}
+	}
+	lua_pushboolean(state, false);
+	return 1;
+}
+int LuaScript::onEnemyHit(lua_State * state) {
+	GameObject * one = GameObject::getActor(lua_tostring(state, 1));
+
+	if (one == nullptr || !one->hasCollider()) {
+		lua_pushboolean(state, false);
+		return 1;
+	}
+	std::vector<EnemyAI*>* enemies = EnemyAI::getEnemies();
+	for (int a = enemies->size() - 1; a >= 0; a--) {
+		EnemyAI* e = enemies->at(a);
+		GameObject* enemy = e->getOwner();
+		if (!enemy->hasCollider()) continue;
+		if (one->getBoxCollider()->IsOverlapping(enemy->getBoxCollider())) {
+			lua_pushboolean(state, true);
+			lua_pushstring(state, enemy->getActorTag().c_str());
+			lua_pushinteger(state, e->getDamage());
+			e->HitPlayer();
+			return 3;
+		}
+	}
+	lua_pushboolean(state, false);
+	return 1;
 }
 
 //Class
@@ -223,12 +262,9 @@ void LuaScript::start()
 	luaL_openlibs(state);
 	openFile(_file, false);
 	if(!GameObject::isActor(_tag)) _owner->setActor(_tag);
-	registerFunction("addColor", addColor);
 	registerFunction("spawn", spawnObject);
 	registerFunction("blueprint", blueprint);
 	registerFunction("clone", clone);
-	registerFunction("loadMesh", loadMesh);
-	registerFunction("loadTexture", loadTexture);
 	registerFunction("move", move);
 	registerFunction("rotate", rotate);
 	registerFunction("scale", scale);
@@ -239,16 +275,23 @@ void LuaScript::start()
 	registerFunction("addLua", addLuaScript);
 	registerFunction("addBullet", addBullet);
 	registerFunction("addSpin", addSpin);
+	registerFunction("addBox", addBox);
+	registerFunction("addCBox", addCBox);
 
 	registerFunction("setPos", setPosition);
 	registerFunction("getPos", getPosition);
 	registerFunction("getGPos", getGlobalPosition);
 	registerFunction("isActor", actorExists);
 
+	registerFunction("onEnemyHit", onEnemyHit);
+	registerFunction("onBulletHit", onBulletHit);
+	registerFunction("onCollide", onCollide);
+
+	earlyStart();
 	settupFunction("start");
 	pushString(_tag);
 	callFunction(1);
-	luaStart();
+	lateStart();
 }
 
 void LuaScript::openFile(string fileName, bool runStart)
@@ -309,28 +352,28 @@ void LuaScript::pushObject(void* obj) {
 }
 
 
-int LuaScript::getInt(int i) {
+int LuaScript::toInt(int i) {
 	int a = getIndex(i);
 	int I = lua_tointeger(state, a);
 	remove(a);
 	return I;
 }
 
-bool LuaScript::getBool(int i) {
+bool LuaScript::toBool(int i) {
 	int a = getIndex(i);
 	bool b = lua_toboolean(state, a);
 	remove(a);
 	return b;
 }
 
-float LuaScript::getNumber(int i) {
+float LuaScript::toNumber(int i) {
 	int a = getIndex(i);
 	float f = (float)lua_tonumber(state, a);
 	remove(a);
 	return f;
 }
 
-string LuaScript::getString(int i) {
+string LuaScript::toString(int i) {
 	int a = getIndex(i);
 	string s = lua_tostring(state, a);
 	remove(a);

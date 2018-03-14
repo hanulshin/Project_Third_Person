@@ -9,7 +9,7 @@
   <GameObject name="GearsWheel" position="(-10.1, -0.7, 6.5)" rotation="(0.0, -0.7, 0.0, 0.7)" scale="(1.0, 1.0, 1.0)" actor="" behaviour="">
     <GameObject name="GearsWheel" position="(0.0, 0.0, 0.0)" rotation="(0.0, 0.0, 0.0, 1.0)" scale="(1.0, 1.0, 1.0)" actor="" behaviour="" mesh="GearsWheel.obj" />
   </GameObject>
-  <GameObject name="ElevatorPlatform" position="(-1.0, 0.9, 7.0)" rotation="(0.0, -0.7, 0.0, 0.7)" scale="(1.0, 1.0, 1.0)" actor="elevator" behaviour="">
+  <GameObject name="ElevatorPlatform" position="(-1.0, 0.9, 7.0)" rotation="(0.0, -0.7, 0.0, 0.7)" scale="(1.0, 1.0, 1.0)" actor="elevator" behaviour="elevator">
     <GameObject name="ElevatorPlatform" position="(-5.2, -1.6, 0.0)" rotation="(0.0, 0.0, 0.0, 1.0)" scale="(1.0, 1.0, 1.0)" actor="spawner" behaviour="spawner" mesh="ElevatorPlatform.obj" />
   </GameObject>
   <GameObject name="Directional Light" position="(0.0, 3.0, 0.0)" rotation="(-0.4, 0.2, 0.1, 0.9)" scale="(1.0, 1.0, 1.0)" actor="" behaviour="" />

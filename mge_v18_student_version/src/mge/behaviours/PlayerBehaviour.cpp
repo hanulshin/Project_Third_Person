@@ -16,7 +16,9 @@ AbstractBehaviour* PlayerBehaviour::copy() {
 }
 
 void PlayerBehaviour::start()
-{}
+{
+
+}
 
 void PlayerBehaviour::update( float pStep )
 {

@@ -1,6 +1,7 @@
 #include "LoadDodgerScene.hpp"
 #include "mge/behaviours/LuaScripts/EnemySpawner.hpp"
 #include "collision\BoxCollider.h"
+#include "mge\core\Prefab.hpp"
 
 LoadDodgerScene::LoadDodgerScene() :AbstractGame(), _hud(0)
 {
@@ -23,14 +24,16 @@ void LoadDodgerScene::_initializeScene()
 	//music.openFromFile(config::MGE_MUSIC_PATH + "OffLimits.wav");
 	//music.play();
 
-	Mesh* cubeMesh = Mesh::load(config::MGE_MODEL_PATH + "Bullet.obj");
-	Mesh* sphereMesh = Mesh::load(config::MGE_MODEL_PATH + "Player_7.obj");
+	Prefab* prefab = Prefab::instance();
 
-	AbstractMaterial* red = new ColorMaterial(glm::vec3(1, 0, 0));
-	AbstractMaterial* brown = new ColorMaterial(glm::vec3(0.5f, 0.25f, 0));
-	AbstractMaterial* playerMaterial = new ColorMaterial(glm::vec3(0, 0.5f, 1));
-	AbstractMaterial* runicStoneMaterial = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "runicfloor.png"));
+	//Mesh* cubeMesh = Mesh::load(config::MGE_MODEL_PATH + "Bullet.obj");
+	Mesh* cubeMesh = prefab->getMesh("cube");
+	Mesh* playerMesh = prefab->getMesh("player");
 
+	AbstractMaterial* red = prefab->getMaterial("red");
+	AbstractMaterial* brown = prefab->getMaterial("brown");
+	AbstractMaterial* playerMaterial = prefab->getMaterial("sky");
+	AbstractMaterial* runicStoneMaterial = prefab->getMaterial("stone");
 
 	Camera* camera = new Camera("camera", glm::vec3(0, 10.9, 20.5));
 	camera->rotate(glm::radians(0.0f), glm::vec3(0.0, -1.0, 0.0));
@@ -58,7 +61,7 @@ void LoadDodgerScene::_initializeScene()
 
 	GameObject* player = new GameObject("Player", glm::vec3(0, 1, 0));
 	player->scale(glm::vec3(0.8f, 1, 0.8f));
-	player->setMesh(sphereMesh);
+	player->setMesh(playerMesh);
 	player->setMaterial(playerMaterial);
 	player->setBehaviour(new LuaPlayer("player"));
 	//player->setActor("player");
@@ -93,12 +96,13 @@ void LoadDodgerScene::_processSingle(rapidxml::xml_node<>* pXmlNode, GameObject*
 GameObject* LoadDodgerScene::_convertGameObject(rapidxml::xml_node<>* pXmlNode, GameObject* pgameObjectNode)
 {
 	GameObject* gameObject = new GameObject("temp");
+	Prefab* prefab = Prefab::instance();
 	//use material library set up by the artists
-	AbstractMaterial* whitematerial = new ColorMaterial(glm::vec3(1, 1, 1));
-	AbstractMaterial* stoner = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "runicfloor.png"));
-	AbstractMaterial* elevatorPlatform = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "Elevator_PipeBarrierSG1_Diffuse (1).png"));
-	AbstractMaterial* shaftT = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "Shaft_phong2SG_Diffuse 1.png"));
-	AbstractMaterial* gearsT = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "Gears_phong4SG_Diffuse 1.png"));
+	AbstractMaterial* whitematerial = prefab->getMaterial("white");
+	AbstractMaterial* stoner = prefab->getMaterial("stone");
+	AbstractMaterial* elevatorPlatform = prefab->getMaterial("platform");
+	AbstractMaterial* shaftT = prefab->getMaterial("shaft");
+	AbstractMaterial* gearsT = prefab->getMaterial("gears");
 	//Gears_phong4SG_Diffuse 1
 	gameObject->setMaterial(stoner);
 	for (rapidxml::xml_attribute<>*attrib = pXmlNode->first_attribute();
@@ -157,7 +161,7 @@ GameObject* LoadDodgerScene::_convertGameObject(rapidxml::xml_node<>* pXmlNode, 
 			if (gameObject->getName() == "ElevatorPlatform")
 			{
 				gameObject->setBoxCollider(new BoxCollider(200.0f, 2.0f, gameObject->getWorldPosition()));
-				gameObject->setBehaviour(new UpMovementBehaviour(0.0f));
+				//gameObject->setBehaviour(new UpMovementBehaviour(0.0f));
 			}
 		}
 		else if (attribName == "actor") {
@@ -168,6 +172,10 @@ GameObject* LoadDodgerScene::_convertGameObject(rapidxml::xml_node<>* pXmlNode, 
 				gameObject->setBehaviour(new EnemySpawner(attribValue));
 			} else if (attribValue == "player") {
 				gameObject->setBehaviour(new LuaPlayer(attribValue));
+			}
+			else
+			if (attribValue == "elevator") {
+				gameObject->setBehaviour(new UpMovementBehaviour(0.0f));
 			}
 		}
 

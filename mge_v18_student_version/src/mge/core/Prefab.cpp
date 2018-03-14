@@ -19,33 +19,39 @@ Prefab::~Prefab() {
 
 }
 
-void Prefab::loadMesh(string pFile, string pFileType) {
-	if (_meshes.count(pFile.c_str()) == 0) {
+bool Prefab::loadMesh(string pName, string pFile, string pFileType) {
+	if (_meshes.count(pName.c_str()) == 0) {
 		Mesh* mesh = Mesh::load(config::MGE_MODEL_PATH + pFile + "." + pFileType);
-		_meshes.insert(pair<string, Mesh*>(pFile, mesh));
+		_meshes.insert(pair<string, Mesh*>(pName, mesh));
+		return true;
 	}
 	else {
-		printf("Mesh [%s] already exists!\n", pFile.c_str());
+		printf("Mesh [%s] already exists!\n", pName.c_str());
+		return false;
 	}
 }
 
-void Prefab::loadTexture(string pFile, string pFileType) {
-	if (_materials.count(pFile.c_str()) == 0) {
+bool Prefab::loadTexture(string pName, string pFile, string pFileType) {
+	if (_materials.count(pName.c_str()) == 0) {
 		AbstractMaterial* texture = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + pFile + "." + pFileType));
-		_materials.insert(pair<string, AbstractMaterial*>(pFile, texture));
+		_materials.insert(pair<string, AbstractMaterial*>(pName, texture));
+		return true;
 	}
 	else {
-		printf("Texture [%s] already exists!", pFile.c_str());
+		printf("Texture [%s] already exists!", pName.c_str());
+		return false;
 	}
 }
 
-void Prefab::setColor(string pName, glm::vec4 pColor) {
+bool Prefab::setColor(string pName, glm::vec4 pColor) {
 	if (_materials.count(pName.c_str()) == 0) {
 		AbstractMaterial* color = new ColorMaterial(pColor);
 		_materials.insert(pair<string, AbstractMaterial*>(pName, color));
+		return true;
 	}
 	else {
 		printf("Color [%s] already exists!\n", pName.c_str());
+		return false;
 	}
 }
 

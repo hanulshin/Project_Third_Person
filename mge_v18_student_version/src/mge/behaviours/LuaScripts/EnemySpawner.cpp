@@ -17,7 +17,12 @@ AbstractBehaviour* EnemySpawner::copy() {
 	return new EnemySpawner(_owner->getActorTag() + "c");
 }
 
-void EnemySpawner::luaStart() {
+void EnemySpawner::earlyStart() {
+
+}
+
+void EnemySpawner::lateStart()
+{
 
 }
 
