@@ -35,6 +35,10 @@
 #include "behaviours\CameraMovementBehaviour.h"
 #include "behaviours\UpMovementBehaviour.h"
 
+#include <SFML/Audio.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Image.hpp>
+
 class DebugHud;
 
 /**

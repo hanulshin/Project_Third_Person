@@ -47,7 +47,7 @@ GameObject::~GameObject()
 	removeActor();
 
 	//do not forget to delete behaviour, material, mesh, collider manually if required!
-	_gameObjects.erase(std::find(_gameObjects.begin(),_gameObjects.end(), this));
+	//_gameObjects.erase(std::find(_gameObjects.begin(),_gameObjects.end(), this));
 	std::cout << "erased " << this->_name << std::endl;
 }
 

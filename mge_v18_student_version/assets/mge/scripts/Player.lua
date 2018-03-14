@@ -70,7 +70,7 @@ function start(pOwner)
 	weapons["minigun"] = newWeapon("minigun", 2, 0.12, 30, 20, 85, 1 )
 	weapons["barrel"] =  newWeapon("barrel" , 4, 1.20, 20, 30, 75, 2 )
 
-	equip("flame")
+	equip("pistol")
 
 	local red = "red"
 	local cube = "cube_flat"

@@ -5,6 +5,11 @@
 #include "glm.hpp"
 #include <string>
 
+enum AnimationStates
+{
+	IDLE, MOVING_LEFT, MOVING_RIGHT, SHOOTING_IDLE, SHOOTING_LEFT, SHOOTING_RIGHT
+};
+
 class LuaPlayer : public LuaScript
 {
 public:
@@ -19,7 +24,8 @@ private:
 	static void mapKey(sf::Keyboard::Key key, string luaKey);
 	static map<string, sf::Keyboard::Key> inputMap;
 	void mapInput();
-	static int getKey(lua_State * state);
+	static int getKey(lua_State * state); 
+	void Animate(AnimationStates& animeState, float pStep);
 };
 
 #endif // LUAMOVE_HPP;
