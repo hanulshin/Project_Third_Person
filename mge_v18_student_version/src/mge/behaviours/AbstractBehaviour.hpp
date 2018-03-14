@@ -19,9 +19,12 @@ class AbstractBehaviour
 
         //for internal administration, do not use directly
         virtual void setOwner (GameObject* pGameObject);
+		GameObject* getOwner();
 
         //behaviour should be able to update itself every step and MUST be implemented
+		virtual void start() = 0;
 		virtual void update(float pStep) = 0;
+		virtual AbstractBehaviour* copy() = 0;
 
     protected:
 

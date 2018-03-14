@@ -1,7 +1,9 @@
 #include <iostream>
 
 #include "mge/core/AbstractGame.hpp"
+#include "mge/DodgerGame.hpp"
 #include "mge/MGEDemo.hpp"
+#include "mge/LoadDodgerScene.hpp"
 
 /**
  * Main entry point for the Micro Engine.
@@ -22,7 +24,9 @@ int main()
 {
     std::cout << "Starting Game" << std::endl;
 
-    AbstractGame* game = new MGEDemo();
+    //AbstractGame* game = new MGEDemo();
+	//AbstractGame* game = new DodgerGame();
+	AbstractGame* game = new LoadDodgerScene();
     game->initialize();
     game->run();
 

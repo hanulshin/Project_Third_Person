@@ -1,10 +1,11 @@
 #ifndef GAMEOBJECT_HPP
 #define GAMEOBJECT_HPP
 
+#include <map>
 #include <vector>
 #include "glm.hpp"
 
-class AbstractCollider;
+class BoxCollider;
 class AbstractBehaviour;
 class AbstractMaterial;
 class World;
@@ -16,8 +17,10 @@ class Mesh;
 class GameObject
 {
 	public:
-		GameObject(const std::string& pName = nullptr, const glm::vec3& pPosition = glm::vec3( 0.0f, 0.0f, 0.0f ));
+		GameObject(const std::string& pName = nullptr, const glm::vec3& pPosition = glm::vec3(0.0f, 0.0f, 0.0f));
+		//GameObject(const BoxCollider&, const std::string& pName = nullptr, const glm::vec3& pPosition = glm::vec3( 0.0f, 0.0f, 0.0f ));
 		virtual ~GameObject();
+		GameObject* copy(std::string name = "", GameObject* o = nullptr);
 
         void setName (const std::string& pName);
         std::string getName() const;
@@ -51,8 +54,15 @@ class GameObject
 		void setBehaviour(AbstractBehaviour* pBehaviour);
 		AbstractBehaviour* getBehaviour() const;
 
+		void setBoxCollider(BoxCollider* pBoxCollider);
+		BoxCollider* getBoxCollider() const;
+
 		virtual void update(float pStep);
 
+		bool hasCollider();
+
+		virtual void OnCollision(GameObject* pOther);
+		
         //child management, note that add/remove and setParent are closely coupled.
         //a.add(b) has the same effect as b.setParent(a)
         //Adding a gameobject or resetting the parent, recursively passes on the world pointer to all child objects
@@ -68,17 +78,27 @@ class GameObject
         int getChildCount() const;
         GameObject* getChildAt (int pIndex) const;
 
+		std::string getActorTag();
+		void setActor(std::string tag);
+		void removeActor();
+		static bool isActor(std::string tag);
+		static GameObject* getActor(std::string tag);
+		static std::vector<GameObject*> getAllObjects();
+		static int id;
 	protected:
 		std::string _name;
 		glm::mat4 _transform;
 
         GameObject* _parent;
 		std::vector<GameObject*> _children;
+		static std::vector<GameObject*> _gameObjects;
 
         Mesh* _mesh;
 		AbstractBehaviour* _behaviour;
 		AbstractMaterial* _material;
 		World* _world;
+		BoxCollider* _boxCollider;
+
 
         //update children list administration
         void _innerAdd (GameObject* pChild);
@@ -87,7 +107,13 @@ class GameObject
 		//used to pass on pointer to the world to a gameobject
 		virtual void _setWorldRecursively (World* pWorld);
 
+		void setTag(std::string tag);
+		std::string getTag();
     private:
+		std::string tag;
+		std::string actor_tag;
+		static std::map<std::string, GameObject*> actors;
+
         GameObject (const GameObject&);
 		GameObject& operator= (const GameObject&);
 };

@@ -1,0 +1,29 @@
+<root>
+  <GameObject name="Main Camera" position="(-3.6, 10.9, 29.1)" rotation="(0.0, -1.0, 0.0, 0.0)" scale="(1.0, 1.0, 1.0)" actor="" behaviour="" />
+  <GameObject name="Hearts" position="(3.8, 0.0, 1.4)" rotation="(0.0, -0.7, 0.0, 0.7)" scale="(1.0, 1.0, 1.0)" actor="" behaviour="">
+    <GameObject name="HeartPickup:Elevator4_HeartPickup:Hearts_Hearts" position="(0.0, 0.0, 0.0)" rotation="(0.0, 0.0, 0.0, 1.0)" scale="(1.0, 1.0, 1.0)" actor="" behaviour="" mesh="HeartPickup:Elevator4_HeartPickup:Hearts_Hearts.obj" />
+  </GameObject>
+  <GameObject name="ShaftWall" position="(-1.3, -2.1, -0.8)" rotation="(0.0, -0.7, 0.0, 0.7)" scale="(1.0, 1.0, 1.0)" actor="" behaviour="">
+    <GameObject name="ShaftWall" position="(2.5, 0.0, 0.0)" rotation="(0.0, 0.0, 0.0, 1.0)" scale="(1.0, 1.0, 1.0)" actor="" behaviour="" mesh="ShaftWall.obj" />
+  </GameObject>
+  <GameObject name="GearsWheel" position="(-10.1, -0.7, 6.5)" rotation="(0.0, -0.7, 0.0, 0.7)" scale="(1.0, 1.0, 1.0)" actor="" behaviour="">
+    <GameObject name="GearsWheel" position="(0.0, 0.0, 0.0)" rotation="(0.0, 0.0, 0.0, 1.0)" scale="(1.0, 1.0, 1.0)" actor="" behaviour="" mesh="GearsWheel.obj" />
+  </GameObject>
+  <GameObject name="ElevatorPlatform" position="(-1.0, 0.9, 7.0)" rotation="(0.0, -0.7, 0.0, 0.7)" scale="(1.0, 1.0, 1.0)" actor="elevator" behaviour="elevator">
+    <GameObject name="ElevatorPlatform" position="(-5.2, -1.6, 0.0)" rotation="(0.0, 0.0, 0.0, 1.0)" scale="(1.0, 1.0, 1.0)" actor="spawner" behaviour="spawner" mesh="ElevatorPlatform.obj" />
+  </GameObject>
+  <GameObject name="Directional Light" position="(0.0, 3.0, 0.0)" rotation="(-0.4, 0.2, 0.1, 0.9)" scale="(1.0, 1.0, 1.0)" actor="" behaviour="" />
+  <GameObject name="GearsWheel (1)" position="(6.9, -0.7, 6.6)" rotation="(0.0, -0.7, 0.0, 0.7)" scale="(1.0, 1.0, 1.0)" actor="" behaviour="">
+    <GameObject name="GearsWheel" position="(0.0, 0.0, 0.0)" rotation="(0.0, 0.0, 0.0, 1.0)" scale="(1.0, 1.0, 1.0)" actor="" behaviour="" mesh="GearsWheel.obj" />
+  </GameObject>
+  <GameObject name="ShaftWall (1)" position="(-1.3, 10.9, -0.8)" rotation="(0.0, -0.7, 0.0, 0.7)" scale="(1.0, 1.0, 1.0)" actor="" behaviour="">
+    <GameObject name="ShaftWall" position="(2.5, 0.0, 0.0)" rotation="(0.0, 0.0, 0.0, 1.0)" scale="(1.0, 1.0, 1.0)" actor="" behaviour="" mesh="ShaftWall.obj" />
+  </GameObject>
+  <GameObject name="Cube" position="(-1.6, 0.0, 7.0)" rotation="(0.0, 0.0, 0.0, 1.0)" scale="(1.0, 1.0, 1.0)" actor="" behaviour="" mesh="Cube.obj" />
+  <GameObject name="ShaftWall (2)" position="(-1.3, 23.8, -0.8)" rotation="(0.0, -0.7, 0.0, 0.7)" scale="(1.0, 1.0, 1.0)" actor="" behaviour="">
+    <GameObject name="ShaftWall" position="(2.5, 0.0, 0.0)" rotation="(0.0, 0.0, 0.0, 1.0)" scale="(1.0, 1.0, 1.0)" actor="" behaviour="" mesh="ShaftWall.obj" />
+  </GameObject>
+  <GameObject name="ShaftWall (3)" position="(-1.3, 36.8, -0.8)" rotation="(0.0, -0.7, 0.0, 0.7)" scale="(1.0, 1.0, 1.0)" actor="" behaviour="">
+    <GameObject name="ShaftWall" position="(2.5, 0.0, 0.0)" rotation="(0.0, 0.0, 0.0, 1.0)" scale="(1.0, 1.0, 1.0)" actor="" behaviour="" mesh="ShaftWall.obj" />
+  </GameObject>
+</root>

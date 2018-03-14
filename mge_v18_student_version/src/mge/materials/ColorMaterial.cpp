@@ -8,7 +8,10 @@
 
 ShaderProgram* ColorMaterial::_shader = NULL;
 
-ColorMaterial::ColorMaterial(glm::vec3 pDiffuseColor):_diffuseColor (pDiffuseColor)
+ColorMaterial::ColorMaterial(glm::vec4 pDiffuseColor) :_diffuseColor(pDiffuseColor) {
+	_lazyInitializeShader();
+}
+ColorMaterial::ColorMaterial(glm::vec3 pDiffuseColor) :_diffuseColor (glm::vec4(pDiffuseColor, 1))
 {
     //every time we create an instance of colormaterial we check if the corresponding shader has already been loaded
     _lazyInitializeShader();
@@ -29,7 +32,7 @@ ColorMaterial::~ColorMaterial()
     //dtor
 }
 
-void ColorMaterial::setDiffuseColor(glm::vec3 pDiffuseColor) {
+void ColorMaterial::setDiffuseColor(glm::vec4 pDiffuseColor) {
     _diffuseColor = pDiffuseColor;
 }
 
@@ -37,7 +40,7 @@ void ColorMaterial::render(World* pWorld, Mesh* pMesh, const glm::mat4& pModelMa
     _shader->use();
 
     //set the material color
-    glUniform3fv (_shader->getUniformLocation("diffuseColor"), 1, glm::value_ptr(_diffuseColor));
+    glUniform4fv (_shader->getUniformLocation("diffuseColor"), 1, glm::value_ptr(_diffuseColor));
 
     //pass in all MVP matrices separately
     glUniformMatrix4fv ( _shader->getUniformLocation("projectionMatrix"),   1, GL_FALSE, glm::value_ptr(pProjectionMatrix));

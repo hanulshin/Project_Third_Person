@@ -5,9 +5,9 @@
 #include "World.hpp"
 #include "mge/materials/AbstractMaterial.hpp"
 
-Renderer::Renderer():debug(false)
+Renderer::Renderer() :debug(false)
 {
-    //make sure we test the depthbuffer
+	//make sure we test the depthbuffer
 	glEnable(GL_DEPTH_TEST);
 
 	//tell opengl which vertex winding is considered to be front facing
@@ -19,9 +19,9 @@ Renderer::Renderer():debug(false)
 
 	//set the default blend mode aka dark magic:
 	//https://www.opengl.org/sdk/docs/man/html/glBlendFunc.xhtml
-    //https://www.opengl.org/wiki/Blending
-    //http://www.informit.com/articles/article.aspx?p=1616796&seqNum=5
-    //http://www.andersriggelsen.dk/glblendfunc.php
+	//https://www.opengl.org/wiki/Blending
+	//http://www.informit.com/articles/article.aspx?p=1616796&seqNum=5
+	//http://www.andersriggelsen.dk/glblendfunc.php
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -46,8 +46,10 @@ void Renderer::render(World* pWorld, GameObject* pGameObject, AbstractMaterial* 
 }
 
 void Renderer::render(World* pWorld, GameObject* pGameObject, AbstractMaterial* pMaterial, const glm::mat4& pModelMatrix, const glm::mat4& pViewMatrix, const glm::mat4& pProjectionMatrix, bool pRecursive) {
-	renderSelf(pWorld, pGameObject, pMaterial == nullptr?pGameObject->getMaterial():pMaterial, pModelMatrix, pViewMatrix, pProjectionMatrix);
-	if (pRecursive) renderChildren(pWorld, pGameObject, pMaterial, pModelMatrix, pViewMatrix, pProjectionMatrix, pRecursive);
+	renderSelf(pWorld, pGameObject, pMaterial == nullptr ? pGameObject->getMaterial() : pMaterial, pModelMatrix, pViewMatrix, pProjectionMatrix);
+	if (pRecursive) {
+		renderChildren(pWorld, pGameObject, pMaterial, pModelMatrix, pViewMatrix, pProjectionMatrix, pRecursive);
+	}
 }
 
 void Renderer::renderSelf(World* pWorld, GameObject* pGameObject, AbstractMaterial* pMaterial, const glm::mat4& pModelMatrix, const glm::mat4& pViewMatrix, const glm::mat4& pProjectionMatrix) {
@@ -58,7 +60,6 @@ void Renderer::renderSelf(World* pWorld, GameObject* pGameObject, AbstractMateri
 void Renderer::renderChildren(World* pWorld, GameObject* pGameObject, AbstractMaterial* pMaterial, const glm::mat4& pModelMatrix, const glm::mat4& pViewMatrix, const glm::mat4& pProjectionMatrix, bool pRecursive) {
 	int childCount = pGameObject->getChildCount();
 	if (childCount < 1) return;
-
 	//note that with a loop like this, deleting children during rendering is not a good idea :)
 	GameObject* child = 0;
 	for (int i = 0; i < childCount; i++) {

@@ -1,8 +1,12 @@
 #include <iostream>
+#include "mge/config.hpp"
 
 #include "AbstractGame.hpp"
 #include "mge/core/Renderer.hpp"
 #include "mge/core/World.hpp"
+#include "mge/collision/BoxCollider.h"
+#include "Texture.hpp"
+#include "mge/behaviours/LuaScripts/Settup.hpp"
 
 AbstractGame::AbstractGame():_window(NULL),_renderer(NULL),_world(NULL), _fps(0)
 {
@@ -20,6 +24,7 @@ AbstractGame::~AbstractGame()
 void AbstractGame::initialize() {
     std::cout << "Initializing engine..." << std::endl << std::endl;
     _initializeWindow();
+	_initializeLoadingScreen();
     _printVersionInfo();
     _initializeGlew();
     _initializeRenderer();
@@ -32,9 +37,21 @@ void AbstractGame::initialize() {
 
 void AbstractGame::_initializeWindow() {
 	std::cout << "Initializing window..." << std::endl;
-	_window = new sf::RenderWindow( sf::VideoMode(800,600), "My Game!", sf::Style::Default, sf::ContextSettings(24,8,0,3,3));
+	int resWidth = 800;
+	//resWidth = 1366;
+	int resHeight = 600;
+	//resHeight = 768;
+	_window = new sf::RenderWindow( sf::VideoMode(resWidth, resHeight), "My Game!", sf::Style::Default, sf::ContextSettings(24,8,0,3,3));
 	//_window->setVerticalSyncEnabled(true);
     std::cout << "Window initialized." << std::endl << std::endl;
+}
+
+void AbstractGame::_initializeLoadingScreen() {
+	sf::Texture tex;
+	tex.loadFromFile(config::MGE_TEXTURE_PATH + "bricks.jpg");
+	_window->draw(sf::Sprite(tex));
+	_window->display();
+	_window->clear();
 }
 
 void AbstractGame::_printVersionInfo() {
@@ -78,6 +95,7 @@ void AbstractGame::_initializeWorld() {
     //setup the world
 	std::cout << "Initializing world..." << std::endl;
 	_world = new World();
+	_world->setBehaviour(new Settup("world"));
     std::cout << "World initialized." << std::endl << std::endl;
 }
 
@@ -104,6 +122,7 @@ void AbstractGame::run()
 
 		    while (timeSinceLastUpdate > timePerFrame) {
                 timeSinceLastUpdate -= timePerFrame;
+				_processCollisions();
                 _update(timePerFrame.asSeconds());
 		    }
 
@@ -118,12 +137,26 @@ void AbstractGame::run()
                 timeSinceLastFPSCalculation -= 1;
                 frameCount = 0;
             }
-
 		}
-
 		//empty the event queue
 		_processEvents();
     }
+}
+
+void AbstractGame::_processCollisions()
+{
+	//for (size_t i = BoxCollider::getAllColliders().size() - 1; i >= 0; i--)
+	for (size_t i = 0; i < BoxCollider::getAllColliders().size(); i++)
+	{
+		//for (size_t j = BoxCollider::getAllColliders().size() - 1; j >= 0; j--)
+		for (size_t j = 0; j < BoxCollider::getAllColliders().size(); j++)
+		{
+			if (BoxCollider::getAllColliders()[i]->IsOverlapping(BoxCollider::getAllColliders()[j]))
+			{
+				BoxCollider::getAllColliders()[i]->OnCollision(BoxCollider::getAllColliders()[j]);
+			}
+		}
+	}
 }
 
 void AbstractGame::_update(float pStep) {
@@ -171,6 +204,7 @@ void AbstractGame::_processEvents()
         _window->close();
 	}
 }
+
 
 
 
