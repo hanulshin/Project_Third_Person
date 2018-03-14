@@ -19,10 +19,12 @@ void LoadDodgerScene::initialize()
 
 void LoadDodgerScene::_initializeScene()
 {
-
+	//sf::Music music;
+	//music.openFromFile(config::MGE_MUSIC_PATH + "OffLimits.wav");
+	//music.play();
 
 	Mesh* cubeMesh = Mesh::load(config::MGE_MODEL_PATH + "Bullet.obj");
-	Mesh* sphereMesh = Mesh::load(config::MGE_MODEL_PATH + "sphere_smooth.obj");
+	Mesh* sphereMesh = Mesh::load(config::MGE_MODEL_PATH + "Player_7.obj");
 
 	AbstractMaterial* red = new ColorMaterial(glm::vec3(1, 0, 0));
 	AbstractMaterial* brown = new ColorMaterial(glm::vec3(0.5f, 0.25f, 0));
@@ -30,17 +32,7 @@ void LoadDodgerScene::_initializeScene()
 	AbstractMaterial* runicStoneMaterial = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "runicfloor.png"));
 
 
-	GameObject* player = new GameObject("Player", glm::vec3(0, 1, 0));
-	player->scale(glm::vec3(0.8f, 1, 0.8f));
-	player->setMesh(sphereMesh);
-	player->setMaterial(playerMaterial);
-	player->setBehaviour(new LuaPlayer("player"));
-	//player->setActor("player");
-	player->setBoxCollider(new BoxCollider(2.0f, 2.0f, player->getWorldPosition()));
-	_world->add(player);
-
-
-	Camera* camera = new Camera("camera", glm::vec3(0, 10, 23.5));
+	Camera* camera = new Camera("camera", glm::vec3(0, 10.9, 20.5));
 	camera->rotate(glm::radians(0.0f), glm::vec3(0.0, -1.0, 0.0));
 	//camera->setBehaviour(new CameraMovementBehaviour());
 	UpMovementBehaviour* upMove = new UpMovementBehaviour(10.9f);
@@ -63,6 +55,15 @@ void LoadDodgerScene::_initializeScene()
 	//find the root and send it to process
 	rapidxml::xml_node<> * root_node = doc.first_node("root");
 	_processChildren(root_node, _world);
+
+	GameObject* player = new GameObject("Player", glm::vec3(0, 1, 0));
+	player->scale(glm::vec3(0.8f, 1, 0.8f));
+	player->setMesh(sphereMesh);
+	player->setMaterial(playerMaterial);
+	player->setBehaviour(new LuaPlayer("player"));
+	//player->setActor("player");
+	player->setBoxCollider(new BoxCollider(2.0f, 2.0f, player->getWorldPosition()));
+	_world->add(player);
 
 }
 

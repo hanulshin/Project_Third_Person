@@ -3,16 +3,22 @@
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\mge\behaviours\AbstractBehaviour.cpp" />
+    <ClCompile Include="..\src\mge\behaviours\BulletBehaviour.cpp" />
     <ClCompile Include="..\src\mge\behaviours\CameraMovementBehaviour.cpp" />
+    <ClCompile Include="..\src\mge\behaviours\LuaScripts\EnemyAI.cpp" />
+    <ClCompile Include="..\src\mge\behaviours\LuaScripts\EnemySpawner.cpp" />
     <ClCompile Include="..\src\mge\behaviours\PlayerBehaviour.cpp" />
     <ClCompile Include="..\src\mge\behaviours\LuaScripts\LuaPlayer.cpp" />
     <ClCompile Include="..\src\mge\behaviours\LuaScripts\LuaScript.cpp" />
     <ClCompile Include="..\src\mge\behaviours\RotatingBehaviour.cpp" />
+    <ClCompile Include="..\src\mge\behaviours\UpMovementBehaviour.cpp" />
+    <ClCompile Include="..\src\mge\collision\BoxCollider.cpp" />
     <ClCompile Include="..\src\mge\core\AbstractGame.cpp" />
     <ClCompile Include="..\src\mge\core\Camera.cpp" />
     <ClCompile Include="..\src\mge\core\GameObject.cpp" />
     <ClCompile Include="..\src\mge\core\Light.cpp" />
     <ClCompile Include="..\src\mge\core\Mesh.cpp" />
+    <ClCompile Include="..\src\mge\core\Prefab.cpp" />
     <ClCompile Include="..\src\mge\core\Renderer.cpp" />
     <ClCompile Include="..\src\mge\core\ShaderProgram.cpp" />
     <ClCompile Include="..\src\mge\core\Texture.cpp" />
@@ -24,30 +30,28 @@
     <ClCompile Include="..\src\mge\materials\TextureMaterial.cpp" />
     <ClCompile Include="..\src\mge\MGEDemo.cpp" />
     <ClCompile Include="..\src\mge\util\DebugHud.cpp" />
-    <ClCompile Include="..\src\mge\behaviours\UpMovementBehaviour.cpp" />
-    <ClCompile Include="..\src\mge\behaviours\BulletBehaviour.cpp" />
-<<<<<<< HEAD
-    <ClCompile Include="..\src\mge\behaviours\LuaScripts\EnemySpawner.cpp" />
-    <ClCompile Include="..\src\mge\behaviours\LuaScripts\EnemyAI.cpp" />
-    <ClCompile Include="..\src\mge\core\Prefab.cpp" />
-=======
-    <ClCompile Include="..\src\mge\collision\BoxCollider.cpp" />
->>>>>>> Development
+    <ClCompile Include="..\src\mge\core\Animation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\glm.hpp" />
     <ClInclude Include="..\src\mge\behaviours\AbstractBehaviour.hpp" />
+    <ClInclude Include="..\src\mge\behaviours\BulletBehaviour.hpp" />
     <ClInclude Include="..\src\mge\behaviours\CameraMovementBehaviour.h" />
+    <ClInclude Include="..\src\mge\behaviours\LuaScripts\EnemyAI.hpp" />
+    <ClInclude Include="..\src\mge\behaviours\LuaScripts\EnemySpawner.hpp" />
     <ClInclude Include="..\src\mge\behaviours\PlayerBehaviour.hpp" />
     <ClInclude Include="..\src\mge\behaviours\LuaScripts\LuaPlayer.hpp" />
     <ClInclude Include="..\src\mge\behaviours\LuaScripts\LuaScript.hpp" />
     <ClInclude Include="..\src\mge\behaviours\RotatingBehaviour.hpp" />
+    <ClInclude Include="..\src\mge\behaviours\UpMovementBehaviour.h" />
+    <ClInclude Include="..\src\mge\collision\BoxCollider.h" />
     <ClInclude Include="..\src\mge\config.hpp" />
     <ClInclude Include="..\src\mge\core\AbstractGame.hpp" />
     <ClInclude Include="..\src\mge\core\Camera.hpp" />
     <ClInclude Include="..\src\mge\core\GameObject.hpp" />
     <ClInclude Include="..\src\mge\core\Light.hpp" />
     <ClInclude Include="..\src\mge\core\Mesh.hpp" />
+    <ClInclude Include="..\src\mge\core\Prefab.hpp" />
     <ClInclude Include="..\src\mge\core\Renderer.hpp" />
     <ClInclude Include="..\src\mge\core\ShaderProgram.hpp" />
     <ClInclude Include="..\src\mge\core\Texture.hpp" />
@@ -59,15 +63,7 @@
     <ClInclude Include="..\src\mge\materials\TextureMaterial.hpp" />
     <ClInclude Include="..\src\mge\MGEDemo.hpp" />
     <ClInclude Include="..\src\mge\util\DebugHud.hpp" />
-    <ClInclude Include="..\src\mge\behaviours\UpMovementBehaviour.h" />
-    <ClInclude Include="..\src\mge\behaviours\BulletBehaviour.hpp" />
-<<<<<<< HEAD
-    <ClInclude Include="..\src\mge\behaviours\LuaScripts\EnemySpawner.hpp" />
-    <ClInclude Include="..\src\mge\behaviours\LuaScripts\EnemyAI.hpp" />
-    <ClInclude Include="..\src\mge\core\Prefab.hpp" />
-=======
-    <ClInclude Include="..\src\mge\collision\BoxCollider.h" />
->>>>>>> Development
+    <ClInclude Include="..\src\mge\core\Animation.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\src\mge\scene.xml" />

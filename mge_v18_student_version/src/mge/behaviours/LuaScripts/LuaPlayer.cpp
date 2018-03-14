@@ -11,14 +11,60 @@
 #include "mge\core\World.hpp"
 #include <string>
 #include "LuaJIT-2.0.5\src\lua.hpp"
+#include <SFML/Audio.hpp>
+#include "mge/core/Texture.hpp"
+#include "mge/materials/AbstractMaterial.hpp"
+#include "mge/materials/TextureMaterial.hpp"
+#include "SFML/Graphics.hpp"
+#include "mge/core/Animation.hpp"
 
 using namespace glm;
 //b->rotate(glm::radians(vel.x), glm::vec3(0,0,1));
 //Class
 
+sf::Music music;
+sf::Music shot;
+bool isMusic = true;
+AbstractMaterial* runicStoneMaterial;
+sf::Texture texture;
+
+Animation shootingUpAnimation;
+Animation movingLeftAnimation;
+Animation movingRightAnimation;
+
+
+Animation currentAnimation = shootingUpAnimation;
+AnimationStates animationState = IDLE;
+AnimationStates currentStateSent;
+std::size_t m_currentFrame = 0;
+
 LuaPlayer::LuaPlayer(std::string pTag) : LuaScript("Player.lua", pTag)
 {
+	texture.loadFromFile(config::MGE_ANIMATIONS_PATH + "Shooting UP.1.png");
+	sf::Sprite sprite(texture, sf::IntRect(0, 0, 200, 280));
 
+	for (int i = 1; i < 21; i++)
+	{
+		std::string animationframe = std::to_string(i);
+		TextureMaterial* playerMaterialAnimation = new TextureMaterial(Texture::load(config::MGE_ANIMATIONS_PATH + "Shoot/" + "Shooting UP." + animationframe + ".png"));
+		shootingUpAnimation.addFrame(playerMaterialAnimation);
+		//delete playerMaterialAnimation;
+	}
+
+	for (int i = 1; i < 21; i++)
+	{
+		std::string animationframe = std::to_string(i);
+		TextureMaterial* playerMaterialAnimation = new TextureMaterial(Texture::load(config::MGE_ANIMATIONS_PATH + "MoveL/" + "Run L (" + animationframe + ").png"));
+		movingLeftAnimation.addFrame(playerMaterialAnimation);
+		//delete playerMaterialAnimation;
+	}
+	for (int i = 1; i < 21; i++)
+	{
+		std::string animationframe = std::to_string(i);
+		TextureMaterial* playerMaterialAnimation = new TextureMaterial(Texture::load(config::MGE_ANIMATIONS_PATH + "MoveR/" + "Run (" + animationframe + ").png"));
+		movingRightAnimation.addFrame(playerMaterialAnimation);
+		//delete playerMaterialAnimation;
+	}
 }
 
 LuaPlayer::~LuaPlayer()
@@ -35,6 +81,83 @@ void LuaPlayer::luaStart()
 void LuaPlayer::update(float pStep)
 {
 	callLuaUpdate("step", pStep);
+	/**
+	if (isMusic)
+	{
+		music.openFromFile(config::MGE_MUSIC_PATH + "Background.wav");
+		//music.play();
+		isMusic = false;
+	}
+	/**/
+	
+	vec3 delta = vec3(0, 0, 0);
+	animationState = IDLE;
+
+	delta.x = sf::Keyboard::isKeyPressed(sf::Keyboard::Right) - sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
+	if (delta.x>0)
+	{
+		animationState = MOVING_RIGHT;
+	}
+	else if (delta.x<0)
+	{
+		animationState = MOVING_LEFT;
+	}
+	
+
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
+	{
+		if (animationState == MOVING_LEFT)
+		{
+			animationState = SHOOTING_LEFT;
+		}
+		else if (animationState == MOVING_LEFT)
+		{
+			animationState = SHOOTING_RIGHT;
+		}
+		else if (animationState == IDLE)
+		{
+			animationState = SHOOTING_IDLE;
+		}
+	}
+	Animate(animationState, pStep);
+}
+
+float animationSpeed = 30.0f;
+float animationUpdateTime = 1.0f / animationSpeed;
+float timeSinceLastFrameSwap = 0.0f;
+void LuaPlayer::Animate(AnimationStates & animeState, float pStep)
+{
+	switch (animeState)
+	{
+	case IDLE: currentAnimation = shootingUpAnimation; break;
+	case MOVING_LEFT: currentAnimation = movingLeftAnimation; break;
+	case MOVING_RIGHT: currentAnimation = movingRightAnimation; break;
+	case SHOOTING_IDLE: break;
+	case SHOOTING_LEFT: break;
+	case SHOOTING_RIGHT: break;
+	}
+	if (m_currentFrame + 1 < currentAnimation.getSize())
+	{
+		timeSinceLastFrameSwap += pStep;
+		if (timeSinceLastFrameSwap > animationUpdateTime)
+		{
+			m_currentFrame++;
+			timeSinceLastFrameSwap = 0.0f;
+		}
+	}
+	else
+	{
+		// animation has ended
+		m_currentFrame = 0; // reset to start
+		timeSinceLastFrameSwap = 0.0f;
+	}
+
+
+	AbstractMaterial* playerMaterialAnimationHARD = currentAnimation.getFrame(m_currentFrame);
+	std::cout << playerMaterialAnimationHARD << endl;
+	std::cout << _owner->getMaterial() << endl;
+	_owner->setMaterial(playerMaterialAnimationHARD);
 }
 
 AbstractBehaviour* LuaPlayer::copy() {
