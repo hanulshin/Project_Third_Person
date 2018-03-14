@@ -1,22 +1,21 @@
-#include "mge\behaviours\LuaScripts\LuaPlayer.hpp"
-#include "mge\behaviours\BulletBehaviour.hpp"
 #include <map>
 #include <string>
 #include <iostream>
-#include "mge\config.hpp"
-#include "SFML\Window\Keyboard.hpp"
+#include <SFML/Audio.hpp>
 #include "glm.hpp"
+#include "mge\config.hpp"
+#include "mge\core\World.hpp"
+#include "mge/core/Texture.hpp"
+#include "mge/core/Animation.hpp"
 #include "mge\core\GameObject.hpp"
 #include "mge\core\AbstractGame.hpp"
-#include "mge\core\World.hpp"
-#include <string>
-#include "LuaJIT-2.0.5\src\lua.hpp"
-#include <SFML/Audio.hpp>
-#include "mge/core/Texture.hpp"
-#include "mge/materials/AbstractMaterial.hpp"
 #include "mge/materials/TextureMaterial.hpp"
+#include "mge/materials/AbstractMaterial.hpp"
+#include "mge\behaviours\BulletBehaviour.hpp"
+#include "mge\behaviours\LuaScripts\LuaPlayer.hpp"
 #include "SFML/Graphics.hpp"
-#include "mge/core/Animation.hpp"
+#include "SFML\Window\Keyboard.hpp"
+#include "LuaJIT-2.0.5\src\lua.hpp"
 
 using namespace glm;
 //b->rotate(glm::radians(vel.x), glm::vec3(0,0,1));
@@ -155,8 +154,8 @@ void LuaPlayer::Animate(AnimationStates & animeState, float pStep)
 
 
 	AbstractMaterial* playerMaterialAnimationHARD = currentAnimation.getFrame(m_currentFrame);
-	std::cout << playerMaterialAnimationHARD << endl;
-	std::cout << _owner->getMaterial() << endl;
+	//std::cout << playerMaterialAnimationHARD << endl;
+	//std::cout << _owner->getMaterial() << endl;
 	_owner->setMaterial(playerMaterialAnimationHARD);
 }
 

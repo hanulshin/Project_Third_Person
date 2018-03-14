@@ -6,7 +6,11 @@ LoadDodgerScene::LoadDodgerScene() :AbstractGame(), _hud(0)
 {
 }
 
-
+AbstractMaterial* whitematerial;
+AbstractMaterial* stoner;
+AbstractMaterial* elevatorPlatform;
+AbstractMaterial* shaftT;
+AbstractMaterial* gearsT;
 
 void LoadDodgerScene::initialize()
 {
@@ -32,13 +36,18 @@ void LoadDodgerScene::_initializeScene()
 	AbstractMaterial* runicStoneMaterial = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "runicfloor.png"));
 
 
-	Camera* camera = new Camera("camera", glm::vec3(0, 10.9, 20.5));
+	whitematerial = new ColorMaterial(glm::vec3(1, 1, 1));
+	stoner = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "runicfloor.png"));
+	elevatorPlatform = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "Elevator_PipeBarrierSG1_Diffuse (1).png"));
+	shaftT = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "Shaft_phong2SG_Diffuse 1.png"));
+	gearsT = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "Gears_phong4SG_Diffuse 1.png"));
+
+	Camera* camera = new Camera("camera", glm::vec3(0, 10.9, 30.5));
 	camera->rotate(glm::radians(0.0f), glm::vec3(0.0, -1.0, 0.0));
 	//camera->setBehaviour(new CameraMovementBehaviour());
-	UpMovementBehaviour* upMove = new UpMovementBehaviour(10.9f);
 	//camera->setBehaviour(upMove);
 
-	camera->setBehaviour(upMove);
+	camera->setBehaviour(new UpMovementBehaviour(10.9f, 7.0f));
 	_world->add(camera);
 	_world->setMainCamera(camera);
 
@@ -56,7 +65,7 @@ void LoadDodgerScene::_initializeScene()
 	rapidxml::xml_node<> * root_node = doc.first_node("root");
 	_processChildren(root_node, _world);
 
-	GameObject* player = new GameObject("Player", glm::vec3(0, 1, 0));
+	GameObject* player = new GameObject("Player", glm::vec3(0, 0, 6));
 	player->scale(glm::vec3(0.8f, 1, 0.8f));
 	player->setMesh(sphereMesh);
 	player->setMaterial(playerMaterial);
@@ -94,11 +103,7 @@ GameObject* LoadDodgerScene::_convertGameObject(rapidxml::xml_node<>* pXmlNode, 
 {
 	GameObject* gameObject = new GameObject("temp");
 	//use material library set up by the artists
-	AbstractMaterial* whitematerial = new ColorMaterial(glm::vec3(1, 1, 1));
-	AbstractMaterial* stoner = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "runicfloor.png"));
-	AbstractMaterial* elevatorPlatform = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "Elevator_PipeBarrierSG1_Diffuse (1).png"));
-	AbstractMaterial* shaftT = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "Shaft_phong2SG_Diffuse 1.png"));
-	AbstractMaterial* gearsT = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "Gears_phong4SG_Diffuse 1.png"));
+
 	//Gears_phong4SG_Diffuse 1
 	gameObject->setMaterial(stoner);
 	for (rapidxml::xml_attribute<>*attrib = pXmlNode->first_attribute();
@@ -156,8 +161,8 @@ GameObject* LoadDodgerScene::_convertGameObject(rapidxml::xml_node<>* pXmlNode, 
 			gameObject->setMesh(objMesh);
 			if (gameObject->getName() == "ElevatorPlatform")
 			{
-				gameObject->setBoxCollider(new BoxCollider(200.0f, 2.0f, gameObject->getWorldPosition()));
-				gameObject->setBehaviour(new UpMovementBehaviour(0.0f));
+				gameObject->setBoxCollider(new BoxCollider(200.0f, 1.0f, gameObject->getWorldPosition()));
+				gameObject->setBehaviour(new UpMovementBehaviour(gameObject->getLocalPosition().y, 6.0f));
 			}
 		}
 		else if (attribName == "actor") {
@@ -166,7 +171,8 @@ GameObject* LoadDodgerScene::_convertGameObject(rapidxml::xml_node<>* pXmlNode, 
 		else if (attribName == "behaviour") {
 			if (attribValue == "spawner") {
 				gameObject->setBehaviour(new EnemySpawner(attribValue));
-			} else if (attribValue == "player") {
+			}
+			else if (attribValue == "player") {
 				gameObject->setBehaviour(new LuaPlayer(attribValue));
 			}
 		}

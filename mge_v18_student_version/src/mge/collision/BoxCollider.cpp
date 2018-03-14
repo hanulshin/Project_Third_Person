@@ -8,6 +8,7 @@ BoxCollider::BoxCollider(float pWidth, float pHeight, glm::vec3 pPos) :GameObjec
 	width = pWidth;
 	height = pHeight;
 	_boxColliders.push_back(this);
+	_playerIsCollidingWithRamp = false;
 }
 bool BoxCollider::IsOverlapping(BoxCollider* pOther) {
 	if (pOther == nullptr || this == nullptr || pOther == this)
@@ -56,14 +57,24 @@ void BoxCollider::OnCollision(GameObject* pOther)
 		{
 			//std::cout << pOther->getLocalPosition().y << std::endl;
 			_newPos = glm::vec3(0.0f, 2.0f, 0.0f);
+			_playerIsCollidingWithRamp = true;
 		}
 	}
 }
 
 void BoxCollider::update(float pStep)
 {
-	_parent->translate(_newPos * pStep);
-	_newPos = glm::vec3();
+	if (_playerIsCollidingWithRamp)
+	{
+		std::cout << "colliding!" << std::endl;
+		_parent->translate(_newPos * pStep);
+		//_newPos = glm::vec3();
+	}
+	else if (getName() == "Player_collider" && _parent->getLocalPosition().y - _newPos.y >= -1.5f)
+	{
+		_parent->translate(glm::vec3(0,-5.0f * pStep,0));
+	}
+	_playerIsCollidingWithRamp = false;
 }
 
 std::vector<BoxCollider*> BoxCollider::getAllColliders()
@@ -72,14 +83,16 @@ std::vector<BoxCollider*> BoxCollider::getAllColliders()
 }
 
 BoxCollider::~BoxCollider() {
-	_boxColliders.erase(
-		std::remove_if(
-			_boxColliders.begin(),
-			_boxColliders.end(),
-			//here comes the C++11 lambda:
-			[&](GameObject* const& go) {
-		return go->id == this->id && go->getName() == this->getName(); }),
-		_boxColliders.end());
+	_boxColliders.erase(std::remove(_boxColliders.begin(), _boxColliders.end(), this), _boxColliders.end());
+
+	//_boxColliders.erase(
+	//	std::remove_if(
+	//		_boxColliders.begin(),
+	//		_boxColliders.end(),
+	//		//here comes the C++11 lambda:
+	//		[&](GameObject* const& go) {
+	//	return go->id == this->id && go->getName() == this->getName(); }),
+	//	_boxColliders.end());
 };
 
 

@@ -5,6 +5,7 @@
 #include "mge/core/Renderer.hpp"
 #include "mge/core/World.hpp"
 #include "mge/collision/BoxCollider.h"
+#include "Texture.hpp"
 
 AbstractGame::AbstractGame():_window(NULL),_renderer(NULL),_world(NULL), _fps(0)
 {
@@ -22,6 +23,7 @@ AbstractGame::~AbstractGame()
 void AbstractGame::initialize() {
     std::cout << "Initializing engine..." << std::endl << std::endl;
     _initializeWindow();
+	_initializeLoadingScreen();
     _printVersionInfo();
     _initializeGlew();
     _initializeRenderer();
@@ -41,6 +43,14 @@ void AbstractGame::_initializeWindow() {
 	_window = new sf::RenderWindow( sf::VideoMode(resWidth, resHeight), "My Game!", sf::Style::Default, sf::ContextSettings(24,8,0,3,3));
 	//_window->setVerticalSyncEnabled(true);
     std::cout << "Window initialized." << std::endl << std::endl;
+}
+
+void AbstractGame::_initializeLoadingScreen() {
+	sf::Texture tex;
+	tex.loadFromFile(config::MGE_TEXTURE_PATH + "bricks.jpg");
+	_window->draw(sf::Sprite(tex));
+	_window->display();
+	_window->clear();
 }
 
 void AbstractGame::_printVersionInfo() {
@@ -127,9 +137,7 @@ void AbstractGame::run()
                 timeSinceLastFPSCalculation -= 1;
                 frameCount = 0;
             }
-
 		}
-
 		//empty the event queue
 		_processEvents();
     }
