@@ -20,14 +20,15 @@ GameObject::GameObject(const std::string& pName, const glm::vec3& pPosition)
 GameObject::~GameObject()
 {
 	//do not forget to delete behaviour, material, mesh, collider manually if required!
-	_gameObjects.erase(
-		std::remove_if(
-			_gameObjects.begin(),
-			_gameObjects.end(),
-			//here comes the C++11 lambda:
-			[&](GameObject* const& go) {
-			return go->id == this->id && go->getName() == this->getName(); }),
-		_gameObjects.end());
+	_gameObjects.erase(std::remove(_gameObjects.begin(), _gameObjects.end(), this), _gameObjects.end());
+	//_gameObjects.erase(
+	//	std::remove_if(
+	//		_gameObjects.begin(),
+	//		_gameObjects.end(),
+	//		//here comes the C++11 lambda:
+	//		[&](GameObject* const& go) {
+	//		return go->id == this->id && go->getName() == this->getName(); }),
+	//	_gameObjects.end());
 	std::cout << "erased " << this->_name << std::endl;
 	delete _behaviour;
 	_behaviour = nullptr;

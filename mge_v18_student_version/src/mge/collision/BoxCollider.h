@@ -28,6 +28,7 @@ public:
 private:
 	static std::vector<BoxCollider*> _boxColliders;
 	glm::vec3 _newPos;
+	bool _playerIsCollidingWithRamp;
 };
 
 #endif // !BOXCOLLIDER_H
