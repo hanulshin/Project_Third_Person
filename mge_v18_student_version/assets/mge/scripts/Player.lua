@@ -16,7 +16,7 @@ end
 
 health = 5
 speed = 5
-gravity = 10
+gravity = 120
 jump = 10
 
 facing = 1
@@ -64,14 +64,14 @@ end
 
 function start(pOwner)
 	owner = pOwner
-	-- Name, Damage, Knockback FireRate, Range, Speed, Accuracy, Cluster[2]
-	weapons["pistol"] =  newWeapon("pistol" , 5, 0.50, 0.80, 30, 20, 95, 1 )
+	-- Name, Damage, Knockback, FireRate, Range, Speed, Accuracy, Cluster[2]
+	weapons["pistol"] =  newWeapon("pistol" , 5, 0.50, 0.60, 30, 20, 95, 1 )
 	weapons["flame"] =   newWeapon("flame"  , 1, 0.01, 0.06, 10, 10, 80, {1, 3} )
 	weapons["shotgun"] = newWeapon("shotgun", 3, 0.75, 1.40, 25, 20, 60, {2, 4} )
 	weapons["minigun"] = newWeapon("minigun", 2, 0.20, 0.12, 30, 20, 85, 1 )
 	weapons["barrel"] =  newWeapon("barrel" , 4, 1.20, 1.20, 20, 30, 75, 2 )
 
-	equip("minigun")
+	equip("pistol")
 
 	blueprint(bulletName, "cube", "red")
 	scale("_"..bulletName, 0.3, 0.3, 0.3)
@@ -79,11 +79,16 @@ end
 
 function input( )
 
-	movement.x = (boolNum[getKey("right")] - boolNum[getKey("left")]) * speed
+	movement.x = (boolNum[getKey("right")] - boolNum[getKey("left")])
 
 	if getKey("z") then
-		shoot(0, 1)
+		local delta = vec(movement.x, 1)
+		deltaLength = math.sqrt(math.pow(delta.x, 2) + math.pow(delta.y, 2))
+		delta = vecScale(delta, 1 / deltaLength)
+		shoot(delta.x, delta.y)
 	end
+
+	movement.x = movement.x * speed
 end
 
 function shoot(pX, pY)
@@ -125,7 +130,7 @@ function step( dt )
 	local m = vec(movement.x, movement.y)
 	m = vecScale(m, dt)
 	if m.x+dt < -2 or m.x+dt > 2 then m.x = m.x *-1 end
-	move(owner, m.x, m.y, 0)
+	move(owner, m.x, m.y - (gravity * dt), 0)
 
 	local hit = { onEnemyHit(owner) }
 	if hit[1] then
@@ -135,6 +140,20 @@ function step( dt )
 		if health <= 0 then
 			print("You Died")
 		end
+	end
+	local pPos = {getPos(owner)}
+	local ePos = {getPos("elevator")}
+	if pPos[1] > 5 then
+		setPos(owner, 5, pPos[2], pPos[3])
+	end
+
+	if pPos[1] < -5 then
+		setPos(owner, -5, pPos[2], pPos[3])
+	end
+
+	if pPos[2] < ePos[2] + 1 then
+		local delta = ePos[2] + 1 - pPos[2]
+		move(owner, 0, delta)
 	end
 end
 

@@ -30,7 +30,9 @@ sf::Texture texture;
 Animation shootingUpAnimation;
 Animation movingLeftAnimation;
 Animation movingRightAnimation;
-
+Animation shooting45RightAnimation;
+Animation shooting45LeftAnimation;
+Animation idle;
 
 Animation currentAnimation = shootingUpAnimation;
 AnimationStates animationState = IDLE;
@@ -62,6 +64,27 @@ LuaPlayer::LuaPlayer(std::string pTag) : LuaScript("Player.lua", pTag)
 		std::string animationframe = std::to_string(i);
 		TextureMaterial* playerMaterialAnimation = new TextureMaterial(Texture::load(config::MGE_ANIMATIONS_PATH + "MoveR/" + "Run (" + animationframe + ").png"));
 		movingRightAnimation.addFrame(playerMaterialAnimation);
+		//delete playerMaterialAnimation;
+	}
+	for (int i = 1; i < 21; i++)
+	{
+		std::string animationframe = std::to_string(i);
+		TextureMaterial* playerMaterialAnimation = new TextureMaterial(Texture::load(config::MGE_ANIMATIONS_PATH + "RunShoot45DegR/" + "Run Shoot 45 Deg R  (" + animationframe + ").png"));
+		shooting45RightAnimation.addFrame(playerMaterialAnimation);
+		//delete playerMaterialAnimation;
+	}
+	for (int i = 1; i < 21; i++)
+	{
+		std::string animationframe = std::to_string(i);
+		TextureMaterial* playerMaterialAnimation = new TextureMaterial(Texture::load(config::MGE_ANIMATIONS_PATH + "RunShoot45DegL/" + "Run Shoot 45 L (" + animationframe + ").png"));
+		shooting45LeftAnimation.addFrame(playerMaterialAnimation);
+		//delete playerMaterialAnimation;
+	}
+	for (int i = 1; i < 21; i++)
+	{
+		std::string animationframe = std::to_string(i);
+		TextureMaterial* playerMaterialAnimation = new TextureMaterial(Texture::load(config::MGE_ANIMATIONS_PATH + "Idle/" + "Idle (" + animationframe + ").png"));
+		idle.addFrame(playerMaterialAnimation);
 		//delete playerMaterialAnimation;
 	}
 }
@@ -115,7 +138,7 @@ void LuaPlayer::update(float pStep)
 		{
 			animationState = SHOOTING_LEFT;
 		}
-		else if (animationState == MOVING_LEFT)
+		else if (animationState == MOVING_RIGHT)
 		{
 			animationState = SHOOTING_RIGHT;
 		}
@@ -134,12 +157,12 @@ void LuaPlayer::Animate(AnimationStates & animeState, float pStep)
 {
 	switch (animeState)
 	{
-	case IDLE: currentAnimation = shootingUpAnimation; break;
+	case IDLE: currentAnimation = idle; break;
 	case MOVING_LEFT: currentAnimation = movingLeftAnimation; break;
 	case MOVING_RIGHT: currentAnimation = movingRightAnimation; break;
-	case SHOOTING_IDLE: break;
-	case SHOOTING_LEFT: break;
-	case SHOOTING_RIGHT: break;
+	case SHOOTING_IDLE: currentAnimation = shootingUpAnimation; break;
+	case SHOOTING_LEFT: currentAnimation = shooting45LeftAnimation; break;
+	case SHOOTING_RIGHT: currentAnimation = shooting45RightAnimation; break;
 	}
 	if (m_currentFrame + 1 < currentAnimation.getSize())
 	{

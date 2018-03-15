@@ -4,7 +4,7 @@
 
 BoxCollider::BoxCollider(float pWidth, float pHeight, glm::vec3 pPos) :GameObject("_collider", pPos) {
 	setLocalPosition(glm::vec3(0, 0, 0));
-	translate(glm::vec3(pWidth, 0, 0));
+	//translate(glm::vec3(pWidth, 0, 0));
 	width = pWidth;
 	height = pHeight;
 	_boxColliders.push_back(this);
@@ -66,7 +66,7 @@ void BoxCollider::update(float pStep)
 {
 	if (_playerIsCollidingWithRamp)
 	{
-		std::cout << "colliding!" << std::endl;
+		//std::cout << "colliding!" << std::endl;
 		_parent->translate(_newPos * pStep);
 		//_newPos = glm::vec3();
 	}

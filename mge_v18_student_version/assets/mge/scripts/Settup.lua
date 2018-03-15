@@ -14,6 +14,7 @@ function start( pOwner )
 	addColor("brown", 0.5, 0.25, 0, 1)
 	addColor("white", 1, 1, 1, 1)
 	addColor("sky", 0, 0.5, 1, 1)
+	addColor("orange", 1, 0.5, 0, 1)
 	print(colors.." colors loaded!")
 
 	addPng("stone", "runicfloor")

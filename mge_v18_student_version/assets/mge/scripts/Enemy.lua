@@ -28,11 +28,12 @@ function start( pOwner )
 	owner = pOwner
 	--print(getPos(pOwner))
 	addEnemy("crate", 5, 1, 6, fallAndDie, die)
+	addEnemy("hardCrate", 3, 2, 15, fallAndDie, die)
+	addEnemy("fastCrate", 10, 1, 3, fallAndDie, die)
 	--print("start:"..enemyTypes[1]);
 end
 
 function step( dt )
-
 	move(owner, 0, -enemyTypes[ai].gravity * dt, 0)
 	if(enemyTypes[ai] ~= nil)then
 		enemyTypes[ai].aifunc()
@@ -44,11 +45,11 @@ function step( dt )
 	if hit[1] then
 		dealDamage(hit[2])
 		knockback = hit[3];
+		if knockback > 0 then
+			knockback = knockback - dt;
+		end
+		move(owner, 0, knockback)
 	end
-	if knockback > 0 then
-		knockback = knockback - dt;
-	end
-	move(owner, 0, hit[3])
 end
 
 function onHitPlayer()

@@ -2,7 +2,7 @@ owner = "";
 
 spawnEngine = {
 	types = {},
-	shafts = 7, -- range in which boxes spawn
+	shafts = 10, -- range in which boxes spawn
 	spawnRate = 2, --enemies that spawn per second [0 to inf]
 	spawnHeight = 30, --enemies spawn above the platform [0 to inf]
 	enemyLimit = 5, --limit of enemies on spawned at the refreshRate seconds time [0 to inf]
@@ -19,7 +19,7 @@ function spawnEngine:spawnObject()
 	for i = 1, #self.types do
 		if(t > self.types[i][2]) then
 			index = index + 1
-			t = t - types[i][2]
+			t = t - self.types[i][2]
 		else 
 			break 
 		end
@@ -33,6 +33,7 @@ function spawnEngine:typeSum()
 	for i = 1, #self.types do
 		s = s + self.types[i][2]
 	end
+	print(s)
 	return s
 end
 
@@ -42,6 +43,8 @@ time = 0
 function start( pOwner)
 	owner = pOwner
 	addSpawnType("crate", 1, "cube", "green")
+	addSpawnType("hardCrate", 0.55, "cube", "sky")
+	addSpawnType("fastCrate", 0.45, "cube", "orange")
 end
 
 counter = 0
@@ -63,9 +66,9 @@ function step( dt )
 	end
 end
 
-function addSpawnType( type, frquency, mesh, texture )
-	spawnEngine.types[#spawnEngine.types + 1] = {"crate", frquency}
-	blueprint(type, mesh, texture)
+function addSpawnType( ptype, frquency, mesh, texture )
+	spawnEngine.types[#spawnEngine.types + 1] = {ptype, frquency}
+	blueprint(ptype, mesh, texture)
 end
 
 function createEnemy()

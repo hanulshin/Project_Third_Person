@@ -13,6 +13,22 @@ AbstractMaterial* elevatorPlatform;
 AbstractMaterial* shaftT;
 AbstractMaterial* gearsT;
 
+//load all the materials here
+AbstractMaterial* box_pickup_Mat;
+AbstractMaterial* bullet_Mat;
+AbstractMaterial* clean_wall_mat;
+AbstractMaterial* gears_mat;
+AbstractMaterial* hangar_mat;
+AbstractMaterial* heart_mat;
+AbstractMaterial* shaft_section_1_mat;
+AbstractMaterial* shaft_section_2_mat;
+AbstractMaterial* shaft_section_3_mat;
+AbstractMaterial* shaft_section_4_mat;
+AbstractMaterial* shaft_section_5_mat;
+AbstractMaterial* shaft_tutorial_mat;
+AbstractMaterial* van_mat;
+
+
 void LoadDodgerScene::initialize()
 {
 	//setup the core part
@@ -41,16 +57,30 @@ void LoadDodgerScene::_initializeScene()
 
 	whitematerial = new ColorMaterial(glm::vec3(1, 1, 1));
 	stoner = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "runicfloor.png"));
-	elevatorPlatform = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "Elevator_PipeBarrierSG1_Diffuse (1).png"));
+	elevatorPlatform = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH +"FinalTex/" + "Elevator.png"));
 	shaftT = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "Shaft_phong2SG_Diffuse 1.png"));
 	gearsT = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "Gears_phong4SG_Diffuse 1.png"));
+
+	box_pickup_Mat = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "FinalTex/" + "box_Pickup.png"));
+	bullet_Mat = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "FinalTex/" + "bullet.png"));
+	clean_wall_mat = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "FinalTex/" + "Clean Wall.png"));
+	gears_mat = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "FinalTex/" + "Gears.png"));
+	hangar_mat = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "FinalTex/" + "Hangar.png"));
+	heart_mat = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "FinalTex/" + "Heart.png"));
+	shaft_section_1_mat = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "FinalTex/" + "Section 01.png"));
+	shaft_section_2_mat = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "FinalTex/" + "Section 02.png"));
+	shaft_section_3_mat = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "FinalTex/" + "Section 03.png"));
+	shaft_section_4_mat = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "FinalTex/" + "Section 04.png"));
+	shaft_section_5_mat = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "FinalTex/" + "Section 05.png"));
+	shaft_tutorial_mat = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "FinalTex/" + "Tutorial Wall.png"));
+	van_mat = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "FinalTex/" + "Van.png"));
 
 	Camera* camera = new Camera("camera", glm::vec3(0, 10.9, 30.5));
 	camera->rotate(glm::radians(0.0f), glm::vec3(0.0, -1.0, 0.0));
 	//camera->setBehaviour(new CameraMovementBehaviour());
 	//camera->setBehaviour(upMove);
 
-	camera->setBehaviour(new UpMovementBehaviour(10.9f, 7.0f));
+	camera->setBehaviour(new UpMovementBehaviour(50.0f, 10.9f, 7.0f));
 	_world->add(camera);
 	_world->setMainCamera(camera);
 
@@ -126,19 +156,122 @@ GameObject* LoadDodgerScene::_convertGameObject(rapidxml::xml_node<>* pXmlNode, 
 			{
 				std::cout << "GearDetected" << endl;
 				gameObject->setBehaviour(new RotatingBehaviour(15, glm::vec3(0, 0, 1)));
+				gameObject->setMaterial(gears_mat);
 			}
+			else
 			if (attribValue == "ElevatorPlatform")
 			{
 				gameObject->setMaterial(elevatorPlatform);
 			}
-			if (attribValue == "ShaftWall")
+			else
+			if (attribValue == "box_Pickup")
 			{
-				gameObject->setMaterial(shaftT);
+				gameObject->setMaterial(box_pickup_Mat);
 			}
+			else
+			if (attribValue == "Van")
+			{
+				gameObject->setMaterial(van_mat);
+			}
+			else
+			if (attribValue == "Hangar")
+			{
+				gameObject->setMaterial(hangar_mat);
+			}
+			else
+			//if (attribValue == "ShaftWall")
+			//{
+			//	gameObject->setMaterial(shaftT);
+			//}
 			if (attribValue == "GearsWheel")
 			{
 				gameObject->setMaterial(gearsT);
 				//gameObject->setBehaviour(new UpMovementBehaviour());
+			}
+			else
+			if (attribValue == "ShaftWallSection01")
+			{
+				gameObject->setMaterial(shaft_tutorial_mat);
+			}
+			else
+			if (attribValue == "ShaftWallSection02")
+			{
+				gameObject->setMaterial(clean_wall_mat);
+			}
+			else
+			if (attribValue == "ShaftWallSection03")
+			{
+				gameObject->setMaterial(shaft_section_1_mat);
+			}
+			else
+			if (attribValue == "ShaftWallSection04")
+			{
+				gameObject->setMaterial(clean_wall_mat);
+			}
+			else
+			if (attribValue == "ShaftWallSection05")
+			{
+				gameObject->setMaterial(clean_wall_mat);
+			}
+			else
+			if (attribValue == "ShaftWallSection06")
+			{
+				gameObject->setMaterial(shaft_section_2_mat);
+			}
+			else
+			if (attribValue == "ShaftWallSection07")
+			{
+				gameObject->setMaterial(clean_wall_mat);
+			}
+			else
+			if (attribValue == "ShaftWallSection08")
+			{
+				gameObject->setMaterial(clean_wall_mat);
+			}
+			else
+			if (attribValue == "ShaftWallSection09")
+			{
+				gameObject->setMaterial(shaft_section_3_mat);
+			}
+			else
+			if (attribValue == "ShaftWallSection10")
+			{
+				gameObject->setMaterial(clean_wall_mat);
+			}
+			else
+			if (attribValue == "ShaftWallSection11")
+			{
+				gameObject->setMaterial(clean_wall_mat);
+			}
+			else
+			if (attribValue == "ShaftWallSection12")
+			{
+				gameObject->setMaterial(shaft_section_4_mat);
+			}
+			else
+			if (attribValue == "ShaftWallSection13")
+			{
+				gameObject->setMaterial(clean_wall_mat);
+			}
+			else
+			if (attribValue == "ShaftWallSection14")
+			{
+				gameObject->setMaterial(clean_wall_mat);
+			}
+			else
+			if (attribValue == "ShaftWallSection15")
+			{
+				gameObject->setMaterial(shaft_section_5_mat);
+			}
+			else
+			if (attribValue == "ShaftWallSection16")
+			{
+				gameObject->setMaterial(clean_wall_mat);
+			}
+			else
+			if (attribValue == "ShaftWallSection17")
+			{
+				gameObject->setMaterial(clean_wall_mat);
 			}
 		}
 		else if (attribName == "position")
@@ -166,7 +299,7 @@ GameObject* LoadDodgerScene::_convertGameObject(rapidxml::xml_node<>* pXmlNode, 
 			if (gameObject->getName() == "ElevatorPlatform")
 			{
 				gameObject->setBoxCollider(new BoxCollider(200.0f, 1.0f, gameObject->getWorldPosition()));
-				gameObject->setBehaviour(new UpMovementBehaviour(gameObject->getLocalPosition().y, 6.0f));
+				//gameObject->setBehaviour(new UpMovementBehaviour(50.0f, gameObject->getLocalPosition().y, 6.0f));
 			}
 		}
 		else if (attribName == "actor") {
@@ -181,7 +314,7 @@ GameObject* LoadDodgerScene::_convertGameObject(rapidxml::xml_node<>* pXmlNode, 
 			}
 			else
 			if (attribValue == "elevator") {
-				gameObject->setBehaviour(new UpMovementBehaviour(0.0f));
+				gameObject->setBehaviour(new UpMovementBehaviour(50.0f, gameObject->getLocalPosition().y, 7.0f));
 			}
 		}
 

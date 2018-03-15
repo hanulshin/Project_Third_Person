@@ -2,8 +2,9 @@
 #include "mge/core/GameObject.hpp"
 #include "SFML\Window\Keyboard.hpp"
 
-UpMovementBehaviour::UpMovementBehaviour(float pOffset, float pResetSpeed)
+UpMovementBehaviour::UpMovementBehaviour(float pSpeed, float pOffset, float pResetSpeed)
 {
+	_upSpeed = pSpeed;
 	_offset = pOffset;
 	_resetSpeed = pResetSpeed;
 	_isResetting = false;
@@ -23,7 +24,7 @@ void UpMovementBehaviour::update(float pStep)
 	}
 	if (_startMoving)
 	{
-		MoveUp(2.0f, pStep, _owner);
+		MoveUp(_upSpeed, pStep, _owner);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 	{
@@ -48,9 +49,9 @@ AbstractBehaviour * UpMovementBehaviour::copy()
 
 void UpMovementBehaviour::MoveUp(float pSpeed, float pStep, GameObject * pObjectToMoveUp)
 {
-	if (pObjectToMoveUp->getLocalPosition().y < 49.0f + _offset)
+	if (pObjectToMoveUp->getLocalPosition().y < (13 * 17) + _offset)
 	{
-		pObjectToMoveUp->translate(pStep*glm::vec3(0.0f, pSpeed, 0.0f));
+		pObjectToMoveUp->translate(pStep*glm::vec3(0.0f, pSpeed * pStep * 10, 0.0f));
 	}
 }
 
@@ -60,7 +61,7 @@ void UpMovementBehaviour::ResetPosition(float pStep, GameObject* pObjectToReset)
 	glm::vec3 pos = pObjectToReset->getLocalPosition();
 	if (pos.y > _offset)
 	{
-		pObjectToReset->translate(glm::vec3(0, -_resetSpeed * pStep, 0));
+		pObjectToReset->translate(glm::vec3(0, -_resetSpeed * pStep * 20.f, 0));
 	}
 	else
 	{

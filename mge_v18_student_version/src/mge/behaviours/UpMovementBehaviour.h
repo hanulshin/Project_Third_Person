@@ -7,7 +7,7 @@
 class UpMovementBehaviour : public AbstractBehaviour
 {
 public:
-	UpMovementBehaviour(float pOffset, float pResetSpeed);
+	UpMovementBehaviour(float pSpeed, float pOffset, float pResetSpeed);
 	virtual ~UpMovementBehaviour();
 
 	virtual void update(float pStep);
@@ -16,6 +16,7 @@ public:
 	void MoveUp(float pSpeed, float pStep, GameObject* pObjectToMoveUp);
 	void ResetPosition(float pStep, GameObject* pObjectToReset);
 private:
+	float _upSpeed;
 	float _resetSpeed;
 	float _offset;
 	bool _isResetting;
