@@ -13,6 +13,7 @@
 #include "mge/materials/AbstractMaterial.hpp"
 #include "mge\behaviours\BulletBehaviour.hpp"
 #include "mge\behaviours\LuaScripts\LuaPlayer.hpp"
+#include "mge/behaviours/UpMovementBehaviour.h"
 #include "SFML/Graphics.hpp"
 #include "SFML\Window\Keyboard.hpp"
 #include "LuaJIT-2.0.5\src\lua.hpp"
@@ -97,6 +98,7 @@ LuaPlayer::~LuaPlayer()
 void LuaPlayer::earlyStart()
 {
 	registerFunction("getKey", getKey);
+	registerFunction("reset", UpMovementBehaviour::resetElevator);
 	mapInput();
 }
 
@@ -107,6 +109,8 @@ void LuaPlayer::lateStart()
 
 void LuaPlayer::update(float pStep)
 {
+	//std::cout << getHealth() << std::endl;
+
 	callLuaUpdate("step", pStep);
 	/**
 	if (isMusic)
@@ -205,6 +209,13 @@ void LuaPlayer::mapInput() {
 	mapKey(Keyboard::Left, "left");
 	mapKey(Keyboard::Space, "space");
 	mapKey(Keyboard::Z, "z");
+	mapKey(Keyboard::R, "r");
+}
+
+int LuaPlayer::getHealth() {
+	settupFunction("getHealth");
+	callFunction(0, 1);
+	return toInt();
 }
 
 int LuaPlayer::getKey(lua_State * state) {

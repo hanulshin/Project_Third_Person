@@ -235,6 +235,11 @@ int LuaScript::onEnemyHit(lua_State * state) {
 	lua_pushboolean(state, false);
 	return 1;
 }
+int LuaScript::setActive(lua_State * state) {
+	GameObject* actor = GameObject::getActor(lua_tostring(state, 1));
+	actor->getBehaviour()->setActive(lua_toboolean(state, 2));
+	return 0;
+}
 
 //Class
 
@@ -286,6 +291,7 @@ void LuaScript::start()
 	registerFunction("onEnemyHit", onEnemyHit);
 	registerFunction("onBulletHit", onBulletHit);
 	registerFunction("onCollide", onCollide);
+	registerFunction("setActive", setActive);
 
 	earlyStart();
 	settupFunction("start");

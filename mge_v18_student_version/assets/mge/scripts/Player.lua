@@ -14,7 +14,8 @@ function aimVec( degrees )
 	return av;
 end
 
-health = 5
+maxHealth = 5;
+health = maxHealth;
 speed = 5
 gravity = 120
 jump = 10
@@ -73,13 +74,22 @@ function start(pOwner)
 
 	equip("pistol")
 
-	blueprint(bulletName, "cube", "red")
+	blueprint(bulletName, "bullet", "yellow")
 	scale("_"..bulletName, 0.3, 0.3, 0.3)
+end
+
+function getHealth()
+	return health;
 end
 
 function input( )
 
 	movement.x = (boolNum[getKey("right")] - boolNum[getKey("left")])
+
+	if getKey("r") then
+		reset()
+		health = maxHealth
+	end
 
 	if getKey("z") then
 		local delta = vec(movement.x, 1)
@@ -138,7 +148,8 @@ function step( dt )
 		print(hitter);
 		health = health - hit[3]
 		if health <= 0 then
-			print("You Died")
+			reset()
+			health = maxHealth
 		end
 	end
 	local pPos = {getPos(owner)}

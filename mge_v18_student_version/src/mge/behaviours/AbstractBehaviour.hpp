@@ -26,11 +26,14 @@ class AbstractBehaviour
 		virtual void update(float pStep) = 0;
 		virtual AbstractBehaviour* copy() = 0;
 
+		void setActive(bool b) { _active = b; }
+		bool isActive() { return _active; }
     protected:
 
 		GameObject* _owner;
 
     private:
+		bool _active;
 
         //disallow copy and assignment
         AbstractBehaviour(const AbstractBehaviour&);

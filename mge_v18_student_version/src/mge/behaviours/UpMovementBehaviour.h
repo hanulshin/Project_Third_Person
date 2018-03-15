@@ -1,5 +1,6 @@
 #pragma once
 #include "mge/behaviours/AbstractBehaviour.hpp"
+#include "mge/behaviours/LuaScripts/EnemySpawner.hpp"
 
 /**
 * Simply moves the object upwards with a fixed speed.
@@ -15,6 +16,9 @@ public:
 	virtual AbstractBehaviour* copy();
 	void MoveUp(float pSpeed, float pStep, GameObject* pObjectToMoveUp);
 	void ResetPosition(float pStep, GameObject* pObjectToReset);
+	void Reset(bool b = true);
+
+	static int resetElevator(lua_State * state);
 private:
 	float _upSpeed;
 	float _resetSpeed;

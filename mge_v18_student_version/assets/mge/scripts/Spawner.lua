@@ -42,9 +42,9 @@ time = 0
 
 function start( pOwner)
 	owner = pOwner
-	addSpawnType("crate", 1, "cube", "green")
-	addSpawnType("hardCrate", 0.55, "cube", "sky")
-	addSpawnType("fastCrate", 0.45, "cube", "orange")
+	addSpawnType("crate", 1, "box", "box")
+	--addSpawnType("hardCrate", 0.55, "box", "sky")
+	--addSpawnType("fastCrate", 0.45, "box", "orange")
 end
 
 counter = 0
@@ -84,5 +84,5 @@ function createEnemy()
 	enemyPos[2] = elevator[2] + spawnEngine.spawnHeight;
 	setPos(currentEnemy, enemyPos[1], enemyPos[2], 0);
 	addLua(currentEnemy, "enemy", currentEnemy, toSpawn[1]);
-	addBox(currentEnemy, 2, 2, -2, 0, 0);
+	addCBox(currentEnemy, 2, 2);
 end

@@ -26,10 +26,10 @@ void UpMovementBehaviour::update(float pStep)
 	{
 		MoveUp(_upSpeed, pStep, _owner);
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-	{
-		_isResetting = true;
-	}
+	//if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+	//{
+	//	Reset();
+	//}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
 	{
 		_startMoving = true;
@@ -66,7 +66,20 @@ void UpMovementBehaviour::ResetPosition(float pStep, GameObject* pObjectToReset)
 	else
 	{
 		pObjectToReset->setLocalPosition(glm::vec3(pos.x, _offset, pos.z));
-		_isResetting = false;
+		Reset(false);
 		_startMoving = false;
 	}
+}
+
+void UpMovementBehaviour::Reset(bool b) {
+	_isResetting = b;
+	GameObject::getActor("spawner")->getBehaviour()->setActive(!b);
+}
+
+int UpMovementBehaviour::resetElevator(lua_State * state) {
+	UpMovementBehaviour* up = dynamic_cast<UpMovementBehaviour*>(GameObject::getActor("elevator")->getBehaviour());
+	UpMovementBehaviour* cam = dynamic_cast<UpMovementBehaviour*>(GameObject::getActor("camera")->getBehaviour());
+	up->Reset();
+	cam->Reset();
+	return 0;
 }

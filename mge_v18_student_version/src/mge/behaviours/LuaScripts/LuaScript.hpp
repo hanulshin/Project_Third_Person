@@ -72,6 +72,7 @@ private:
 	static int getPosition(lua_State * state);
 	static int getGlobalPosition(lua_State * state);
 	static int actorExists(lua_State * state);
+	static int setActive(lua_State * state);
 
 	static int onCollide(lua_State * state);
 	static int onBulletHit(lua_State * state);

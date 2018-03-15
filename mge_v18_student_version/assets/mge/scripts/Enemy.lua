@@ -28,8 +28,8 @@ function start( pOwner )
 	owner = pOwner
 	--print(getPos(pOwner))
 	addEnemy("crate", 5, 1, 6, fallAndDie, die)
-	addEnemy("hardCrate", 3, 2, 15, fallAndDie, die)
-	addEnemy("fastCrate", 10, 1, 3, fallAndDie, die)
+	--addEnemy("hardCrate", 3, 2, 15, fallAndDie, die)
+	--addEnemy("fastCrate", 10, 1, 3, fallAndDie, die)
 	--print("start:"..enemyTypes[1]);
 end
 

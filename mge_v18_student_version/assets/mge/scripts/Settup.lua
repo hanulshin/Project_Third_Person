@@ -5,6 +5,8 @@ textures = 0;
 bNum = { [true] = 1, [false] = 0}
 
 function start( pOwner )
+	addMesh("bullet", "Bullet")
+	addMesh("box", "box_Pickup")
 	addMesh("cube", "cube_flat")
 	addMesh("player", "Player_7")
 	print(meshes.." meshes loaded!")
@@ -15,8 +17,12 @@ function start( pOwner )
 	addColor("white", 1, 1, 1, 1)
 	addColor("sky", 0, 0.5, 1, 1)
 	addColor("orange", 1, 0.5, 0, 1)
+	addColor("yellow", 1, 1, 0, 1)
 	print(colors.." colors loaded!")
 
+	final = "FinalTex/"
+	addPng("bullet", final.."BulletTexture")
+	addPng("box", final.."box_Pickup")
 	addPng("stone", "runicfloor")
 	addPng("platform", "Elevator_PipeBarrierSG1_Diffuse (1)")
 	addPng("shaft", "Shaft_phong2SG_Diffuse 1")

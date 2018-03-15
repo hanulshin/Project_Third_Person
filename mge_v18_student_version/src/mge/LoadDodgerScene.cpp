@@ -62,7 +62,7 @@ void LoadDodgerScene::_initializeScene()
 	gearsT = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "Gears_phong4SG_Diffuse 1.png"));
 
 	box_pickup_Mat = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "FinalTex/" + "box_Pickup.png"));
-	bullet_Mat = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "FinalTex/" + "bullet.png"));
+	bullet_Mat = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "FinalTex/" + "BulletTexture.png"));
 	clean_wall_mat = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "FinalTex/" + "Clean Wall.png"));
 	gears_mat = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "FinalTex/" + "Gears.png"));
 	hangar_mat = new TextureMaterial(Texture::load(config::MGE_TEXTURE_PATH + "FinalTex/" + "Hangar.png"));
@@ -81,6 +81,7 @@ void LoadDodgerScene::_initializeScene()
 	//camera->setBehaviour(upMove);
 
 	camera->setBehaviour(new UpMovementBehaviour(50.0f, 10.9f, 7.0f));
+	camera->setActor("camera");
 	_world->add(camera);
 	_world->setMainCamera(camera);
 

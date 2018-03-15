@@ -210,7 +210,7 @@ void GameObject::rotate(float pAngle, glm::vec3 pAxis)
 void GameObject::update(float pStep)
 {
 	//make sure behaviour is updated after worldtransform is set
-	if (_behaviour) {
+	if (_behaviour && _behaviour->isActive()) {
 		_behaviour->update(pStep);
 	}
 

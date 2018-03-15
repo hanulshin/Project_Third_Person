@@ -21,6 +21,7 @@ public:
 	virtual void update(float pStep);
 	virtual AbstractBehaviour* copy();
 
+	int getHealth();
 private:
 	static void mapKey(sf::Keyboard::Key key, string luaKey);
 	static map<string, sf::Keyboard::Key> inputMap;

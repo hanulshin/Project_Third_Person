@@ -1,3 +1,11 @@
-﻿  EnemyAI.cpp
+﻿  UpMovementBehaviour.cpp
+  LuaPlayer.cpp
+c:\users\alex\desktop\programing\projects\projectcpp\project_third_person\mge_v18_student_version\src\mge\behaviours\luascripts\luaplayer.cpp(127): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  LuaScript.cpp
+  LoadDodgerScene.cpp
+  DodgerGame.cpp
+  main.cpp
   mge.vcxproj -> C:\Users\Alex\Desktop\Programing\Projects\ProjectCpp\Project_Third_Person\mge_v18_student_version\_vs2015\debug_dynamic_exe/mge.exe
   mge.vcxproj -> debug_dynamic_exe/mge.pdb (Partial PDB)
